@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "Obj.h"
 
-CObj::CObj() : m_fSpeed(0.f)
+CObj::CObj() : m_fSpeed(0.f), m_bDead(false), m_iDrawid(0)
 {
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
+	m_framekey = 0;
 }
 
 CObj::~CObj()
