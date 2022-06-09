@@ -17,7 +17,12 @@ void CMonster::Initialize(void)
 
 int CMonster::Update(void)
 {
-	return 0;
+	if (m_bDead)
+		return OBJ_DEAD;
+
+	Update_Rect();
+
+	return OBJ_NOEVENT;
 }
 
 void CMonster::Late_Update(void)
