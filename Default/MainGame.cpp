@@ -5,6 +5,7 @@
 #include "ObjMgr.h"
 #include "ScrollMgr.h"
 #include "KeyMgr.h"
+#include "LineMgr.h"
 CMainGame::CMainGame():m_dwTime(GetTickCount()),m_iFPS(0)
 {
 }
@@ -48,7 +49,7 @@ void CMainGame::Render(void)
 
 	HDC backHDC = CBmpMgr::Get_Instance()->Find_Image(L"Back");
 
-	CSceneMgr::Get_Instance()->Render(backHDC);
+	CSceneMgr::Get_Instance()->Render(m_hDC);
 
 	BitBlt(m_hDC,
 		0,
@@ -69,5 +70,6 @@ void CMainGame::Release(void)
 	CObjMgr::Get_Instance()->Destroy_Instance();
 	CScrollMgr::Get_Instance()->Destroy_Instance();
 	CKeyMgr::Get_Instance()->Destroy_Instance();
+	CLineMgr::Get_Instance()->Destroy_Instance();
 	ReleaseDC(g_hWnd, m_hDC);
 }

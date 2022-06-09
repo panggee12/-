@@ -22,8 +22,6 @@ void CButtons::Initialize(void)
 
 int CButtons::Update(void)
 {
-	if (m_bDead)
-		return OBJ_DEAD;
 
 	Update_Rect();
 

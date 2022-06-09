@@ -5,6 +5,7 @@
 #include "AbstractFactory.h"
 #include "Player.h"
 #include "ObjMgr.h"
+#include "LineMgr.h"
 CStage::CStage()
 {
 }
@@ -26,6 +27,7 @@ void CStage::Initialize(void)
 int CStage::Update(void)
 {
 	CObjMgr::Get_Instance()->Update();
+	CLineMgr::Get_Instance()->Update();
 	return 0;
 }
 
@@ -49,6 +51,7 @@ void CStage::Render(HDC hDC)
 		SRCCOPY);
 
 	CObjMgr::Get_Instance()->Render(hDC);
+	CLineMgr::Get_Instance()->Render(hDC);
 }
 
 void CStage::Release(void)

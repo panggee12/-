@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "BmpMgr.h"
+#include "KeyMgr.h"
 CPlayer::CPlayer()
 {
 }
@@ -25,6 +26,7 @@ int CPlayer::Update(void)
 		return OBJ_DEAD;
 
 	Key_Input();
+	Jumping();
 	Update_Rect();
 
 	return OBJ_NOEVENT;
@@ -69,4 +71,7 @@ void CPlayer::Key_Input(void)
 
 	if (GetAsyncKeyState(VK_DOWN))
 		m_tInfo.fY += m_fSpeed;
+
+	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE))
+		m_bJump = true;
 }

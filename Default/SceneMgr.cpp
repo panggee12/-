@@ -61,8 +61,7 @@ void CSceneMgr::Render(HDC hDC)
 }
 
 void CSceneMgr::Release()
-{
-	
+{	
 	Safe_Delete<CScene*>(m_pScene);
 }
 

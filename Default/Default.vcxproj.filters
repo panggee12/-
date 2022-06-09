@@ -106,6 +106,12 @@
     <Filter Include="98. Design\AbstractFactory">
       <UniqueIdentifier>{e3c63111-da06-45e2-a5e4-ae194bf055ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="98. Design\LineMgr\Line">
+      <UniqueIdentifier>{4f541158-7e1d-4aa6-8007-c7c847b41b93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\08. Block">
+      <UniqueIdentifier>{bf28f4ef-9704-4dae-9c42-874cd0c3218c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -222,6 +228,12 @@
     <ClInclude Include="AbstractFactory.h">
       <Filter>98. Design\AbstractFactory</Filter>
     </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>98. Design\LineMgr\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>01. Obj\08. Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -310,6 +322,12 @@
     </ClCompile>
     <ClCompile Include="Buttons.cpp">
       <Filter>01. Obj\07. Button</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>98. Design\LineMgr\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>01. Obj\08. Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
