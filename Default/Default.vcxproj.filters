@@ -40,12 +40,6 @@
     <Filter Include="01. Obj\04. Item">
       <UniqueIdentifier>{20519bf0-c7ef-4342-b50d-60e578208ca7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\05. Mouse">
-      <UniqueIdentifier>{66c78710-0329-4096-a1ff-ec7f5809d404}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01. Obj\06. UI">
-      <UniqueIdentifier>{ae60c1d5-6b01-41cd-8564-25e8c7c30806}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. Scene">
       <UniqueIdentifier>{9d642ae5-6c49-47c5-9df7-9c00d14b347e}</UniqueIdentifier>
     </Filter>
@@ -100,17 +94,23 @@
     <Filter Include="02. Scene\00. Logo">
       <UniqueIdentifier>{f066859d-5270-40c7-b051-7bf6359188d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\07. Button">
-      <UniqueIdentifier>{1100c22d-362f-4965-8f90-71516f66cbf7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98. Design\AbstractFactory">
       <UniqueIdentifier>{e3c63111-da06-45e2-a5e4-ae194bf055ff}</UniqueIdentifier>
     </Filter>
     <Filter Include="98. Design\LineMgr\Line">
       <UniqueIdentifier>{4f541158-7e1d-4aa6-8007-c7c847b41b93}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01. Obj\08. Block">
+    <Filter Include="01. Obj\05. Block">
       <UniqueIdentifier>{bf28f4ef-9704-4dae-9c42-874cd0c3218c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\06. Button">
+      <UniqueIdentifier>{1100c22d-362f-4965-8f90-71516f66cbf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\07. UI">
+      <UniqueIdentifier>{ae60c1d5-6b01-41cd-8564-25e8c7c30806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\08. Mouse">
+      <UniqueIdentifier>{66c78710-0329-4096-a1ff-ec7f5809d404}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -172,10 +172,10 @@
       <Filter>01. Obj\04. Item</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
-      <Filter>01. Obj\05. Mouse</Filter>
+      <Filter>01. Obj\08. Mouse</Filter>
     </ClInclude>
     <ClInclude Include="Ui.h">
-      <Filter>01. Obj\06. UI</Filter>
+      <Filter>01. Obj\07. UI</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>02. Scene</Filter>
@@ -223,7 +223,7 @@
       <Filter>98. Design\ScrollMgr</Filter>
     </ClInclude>
     <ClInclude Include="Buttons.h">
-      <Filter>01. Obj\07. Button</Filter>
+      <Filter>01. Obj\06. Button</Filter>
     </ClInclude>
     <ClInclude Include="AbstractFactory.h">
       <Filter>98. Design\AbstractFactory</Filter>
@@ -232,7 +232,7 @@
       <Filter>98. Design\LineMgr\Line</Filter>
     </ClInclude>
     <ClInclude Include="Block.h">
-      <Filter>01. Obj\08. Block</Filter>
+      <Filter>01. Obj\05. Block</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -270,10 +270,10 @@
       <Filter>01. Obj\04. Item</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
-      <Filter>01. Obj\05. Mouse</Filter>
+      <Filter>01. Obj\08. Mouse</Filter>
     </ClCompile>
     <ClCompile Include="Ui.cpp">
-      <Filter>01. Obj\06. UI</Filter>
+      <Filter>01. Obj\07. UI</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>02. Scene</Filter>
@@ -321,13 +321,13 @@
       <Filter>98. Design\ScrollMgr</Filter>
     </ClCompile>
     <ClCompile Include="Buttons.cpp">
-      <Filter>01. Obj\07. Button</Filter>
+      <Filter>01. Obj\06. Button</Filter>
     </ClCompile>
     <ClCompile Include="Line.cpp">
       <Filter>98. Design\LineMgr\Line</Filter>
     </ClCompile>
     <ClCompile Include="Block.cpp">
-      <Filter>01. Obj\08. Block</Filter>
+      <Filter>01. Obj\05. Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@
 #include "Logo.h"
 #include "Lobby.h"
 #include "Stage.h"
-
+#include "Stage2.h"
 class CSceneMgr
 {
 public:
@@ -36,6 +36,7 @@ public:
 	void Release();
 
 	void Scene_Change(STAGEID _ID);
+	STAGEID Get_SceneID() { return m_preScene; }
 private:
 	STAGEID m_preScene;
 	STAGEID m_cureScene;

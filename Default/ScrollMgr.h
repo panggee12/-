@@ -1,15 +1,18 @@
 #pragma once
+#include "Include.h"
 class CScrollMgr
 {
 public:
 	CScrollMgr();
 	~CScrollMgr();
 
-	void Set_ScrollX(float _X) { m_fScrollX += _X; }
-	void Set_ScrollY(float _Y) { m_fScrollY += _Y; }
+	void Set_ScrollX(float _X) { m_iScrollX += _X; }
+	void Set_ScrollY(float _Y) { m_iScrollY += _Y; }
 
-	float  Get_ScrollX() { return m_fScrollX; }
-	float  Get_ScrollY() { return m_fScrollY; }
+	int  Get_ScrollX() { return m_iScrollX; }
+	int  Get_ScrollY() { return m_iScrollY; }
+
+	void Scroll_Lock();
 public:
 	static		CScrollMgr*		Get_Instance(void)
 	{
@@ -30,7 +33,7 @@ public:
 private:
 	static CScrollMgr* m_pInstance;
 
-	float m_fScrollX;
-	float m_fScrollY;
+	int m_iScrollX;
+	int m_iScrollY;
 };
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ObjMgr.h"
-
+#include "CollisionMgr.h"
+#include "LineMgr.h"
 CObjMgr* CObjMgr::m_pInstance = nullptr;
 CObjMgr::CObjMgr()
 {
@@ -46,7 +47,7 @@ int CObjMgr::Update()
 				++iter;
 		}
 	}
-
+	
 	return 0;
 }
 
@@ -62,6 +63,7 @@ void CObjMgr::Late_Update()
 				break;
 		}
 	}
+	CCollisionMgr::Collision_Rect(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BLOCK]);
 
 }
 

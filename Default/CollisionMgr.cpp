@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CollisionMgr.h"
-
-
+#include "KeyMgr.h"
+#include "SceneMgr.h"
 CCollisionMgr::CCollisionMgr()
 {
 }
@@ -21,14 +21,24 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 			float fY = 0.f;
 			if (Collision_Check(Dest, Sour, fX, fY))
 			{
+				if (CKeyMgr::Get_Instance()->Key_Down(VK_UP))
+				{
+					if (CSceneMgr::Get_Instance()->Get_SceneID() == STAGE_1)
+					{
+						CSceneMgr::Get_Instance()->Scene_Change(STAGE_2);
+						return true;
+					}
+				}
 				if (fX > fY) //»óÇÏ Ãæµ¹
 				{
 					if (Dest->Get_Info().fY < Sour->Get_Info().fY)// Dest°¡ ¶³¾îÁö´Â ±âÁØ Sour À§·Î ¶³¾îÁü
 					{
+						//Dest->Set_PosY(-fY);
 						return true;
 					}
 					else //Dest°¡ ¾Æ·¡¿¡¼­ À§·Î
 					{
+						//Dest->Set_PosY(fY);
 						return true;
 					}
 				}
@@ -36,10 +46,12 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 				{
 					if (Dest->Get_Info().fX < Sour->Get_Info().fX) //Dest°¡ Sour¿ÞÂÊÀ¸·Î ºÎµúÈû
 					{
+						//Dest->Set_PosX(-fX);
 						return true;
 					}
 					else
 					{
+						//Dest->Set_PosX(fX);
 						return true;
 					}
 

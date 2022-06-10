@@ -8,6 +8,10 @@
 #include "LineMgr.h"
 CStage::CStage()
 {
+	m_tStage = STAGE_1;
+	CLineMgr::Get_Instance()->Load_File(m_tStage);
+	//CLineMgr::Get_Instance()->Load_File_Portal(m_tStage);
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(690, 400,PORTAL1));
 }
 
 
@@ -56,4 +60,5 @@ void CStage::Render(HDC hDC)
 
 void CStage::Release(void)
 {
+	CObjMgr::Get_Instance()->Delete_Obj(OBJ_BLOCK);
 }

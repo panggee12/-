@@ -18,6 +18,8 @@ public:
 	void Render(HDC hDC);
 	void Release();
 
+	list<CObj*>*	Get_Block() { return &m_ObjList[OBJ_BLOCK]; }
+	CObj*			Get_Player() { return m_ObjList[OBJ_PLAYER].front(); }
 public:
 	static CObjMgr* Get_Instance()
 	{

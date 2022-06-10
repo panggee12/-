@@ -19,9 +19,10 @@ void CMainGame::Initialize(void)
 {
 	m_hDC = GetDC(g_hWnd);
 
-	CSceneMgr::Get_Instance()->Scene_Change(STAGE_LOGO);
+	CSceneMgr::Get_Instance()->Scene_Change(STAGE_2);
 
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Back/Back.bmp", L"Back");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image_Maple/Back.bmp", L"Back");
+	
 }
 
 void CMainGame::Update(void)
@@ -36,9 +37,11 @@ void CMainGame::Late_Update(void)
 
 void CMainGame::Render(void)
 {
+	int iScrollX = CScrollMgr::Get_Instance()->Get_ScrollX();
+	int iScrollY = CScrollMgr::Get_Instance()->Get_ScrollY();
 	++m_iFPS;
 
-	if (m_dwTime + 1000 < GetTickCount())
+	if (m_dwTime + 500 < GetTickCount())
 	{
 		swprintf_s(m_szFPS, L"FPS : %d", m_iFPS);
 		SetWindowText(g_hWnd, m_szFPS);
@@ -49,7 +52,7 @@ void CMainGame::Render(void)
 
 	HDC backHDC = CBmpMgr::Get_Instance()->Find_Image(L"Back");
 
-	CSceneMgr::Get_Instance()->Render(m_hDC);
+	CSceneMgr::Get_Instance()->Render(backHDC);
 
 	BitBlt(m_hDC,
 		0,

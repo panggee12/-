@@ -14,10 +14,14 @@ public:
 	void		Render(HDC hDC);
 	void		Release(void);
 
-	bool		Collision_Line(float fX,float fY, float* pY,float* pY1);
-	bool		Collision_Block(float fX, float fY, float* pY, float* pY1);
-	void		Load_File(void);
+	bool		Collision_Line(float fX,float* fY, float* pY);
+	//bool		Collision_Block(float fX, float fY, float* pY, float* pY1);
+	void		Load_File(STAGEID _STAGEID);
 	void		Save_File(void);
+	//void		Load_File_Portal(STAGEID _STAGEID);
+	//void		Save_File_Portal(void);
+
+	//void		Set_Block(list<CBlock*>* _pBlock) { m_BlockList = _pBlock; }
 public:
 	static		CLineMgr*		Get_Instance(void)
 	{
@@ -38,7 +42,7 @@ public:
 private:
 	static		CLineMgr*		m_pInstance;
 	list<CLine*>				m_LineList;
-	list<CBlock*>				m_BlockList;
+	//list<CBlock*>*				m_BlockList;
 	LINEPOINT					m_tLinePoint[END];
 };
 

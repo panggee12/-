@@ -5,6 +5,7 @@
 #include "SceneMgr.h"
 CLogo::CLogo()
 {
+	m_tStage = STAGE_LOGO;
 }
 
 

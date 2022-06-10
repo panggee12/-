@@ -25,3 +25,14 @@ typedef struct LINE
 	LINE() { ZeroMemory(this, sizeof(LINE)); }
 	LINE(LINEPOINT& L, LINEPOINT& R) { LINEL = L; LINER = R; }
 };
+
+typedef struct FRAME
+{
+	int		iFrameStart;
+	int		iFrameEnd;
+	int		iMotion;
+
+	DWORD	dwFrameSpeed;
+	DWORD	dwFrameTime;
+
+};

@@ -36,7 +36,10 @@ void CSceneMgr::Scene_Change(STAGEID _ID)
 			m_pScene = new CStage;
 			
 			break;
+		case STAGE_2:
+			m_pScene = new CStage2;
 
+			break;
 		}
 
 		m_pScene->Initialize();

@@ -6,6 +6,7 @@
 #include "Buttons.h"
 CLobby::CLobby()
 {
+	m_tStage = STAGE_LOBBY;
 }
 
 
