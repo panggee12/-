@@ -51,12 +51,13 @@ void CBlock::Late_Update(void)
 void CBlock::Render(HDC hDC)
 {
 	int iScrollX = CScrollMgr::Get_Instance()->Get_ScrollX();
+	int iScrollY = CScrollMgr::Get_Instance()->Get_ScrollY();
 
 	HDC PORTALHDC = CBmpMgr::Get_Instance()->Find_Image(L"Portal");
 
 	GdiTransparentBlt(hDC,
-		int(m_tRect.left),
-		int(m_tRect.top) - 30,
+		int(m_tRect.left)+iScrollX,
+		int(m_tRect.top) - 30+ iScrollY,
 		int(m_tInfo.fCX),
 		int(m_tInfo.fCY),
 		PORTALHDC,

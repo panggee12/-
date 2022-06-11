@@ -6,6 +6,7 @@
 #include "ScrollMgr.h"
 #include "KeyMgr.h"
 #include "LineMgr.h"
+#include "AbstractFactory.h"
 CMainGame::CMainGame():m_dwTime(GetTickCount()),m_iFPS(0)
 {
 }
@@ -22,7 +23,10 @@ void CMainGame::Initialize(void)
 	CSceneMgr::Get_Instance()->Scene_Change(STAGE_2);
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image_Maple/Back.bmp", L"Back");
-	
+	CObj* m_pMouse = CAbstractFactory<CMouse>::Create();
+	m_pMouse->Set_key(L"MOUSE");
+
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_MOUSE, m_pMouse);
 }
 
 void CMainGame::Update(void)

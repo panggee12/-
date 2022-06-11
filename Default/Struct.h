@@ -1,5 +1,16 @@
 #pragma once
 
+struct Status
+{
+	int			m_iLv;
+	int			m_iHp;
+	int			m_iMaxHp;
+	int			m_iMp;
+	int			m_iMaxMp;
+	int			m_iExp;
+	int			m_iMaxExp;
+};
+
 typedef struct tagInfo
 {
 	float	fX;

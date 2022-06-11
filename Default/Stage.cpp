@@ -6,6 +6,8 @@
 #include "Player.h"
 #include "ObjMgr.h"
 #include "LineMgr.h"
+#include "ScrollMgr.h"
+#include "Ui.h"
 CStage::CStage()
 {
 	m_tStage = STAGE_1;
@@ -17,6 +19,7 @@ CStage::CStage()
 
 CStage::~CStage()
 {
+	Release();
 }
 
 void CStage::Initialize(void)
@@ -26,12 +29,17 @@ void CStage::Initialize(void)
 	CObj* m_pPlayer = CAbstractFactory<CPlayer>::Create();
 	
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER,m_pPlayer);
+
+	CObj* m_pUi = CAbstractFactory<CUi>::Create();
+
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER, m_pUi);
 }
 
 int CStage::Update(void)
 {
 	CObjMgr::Get_Instance()->Update();
 	CLineMgr::Get_Instance()->Update();
+	CScrollMgr::Get_Instance()->Scroll_Lock(800, 600);
 	return 0;
 }
 
@@ -61,4 +69,5 @@ void CStage::Render(HDC hDC)
 void CStage::Release(void)
 {
 	CObjMgr::Get_Instance()->Delete_Obj(OBJ_BLOCK);
+	CLineMgr::Get_Instance()->Destroy_Instance();
 }

@@ -1,11 +1,11 @@
 #pragma once
 #include "Obj.h"
-class CUi :
+class CEffect :
 	public CObj
 {
 public:
-	CUi();
-	virtual ~CUi();
+	CEffect();
+	virtual ~CEffect();
 
 public:
 	virtual void Initialize(void) override;

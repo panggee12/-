@@ -1,5 +1,6 @@
 #pragma once
 #include "Obj.h"
+#include "Mouse.h"
 class CButtons :
 	public CObj
 {

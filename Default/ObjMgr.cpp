@@ -64,7 +64,7 @@ void CObjMgr::Late_Update()
 		}
 	}
 	CCollisionMgr::Collision_Rect(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BLOCK]);
-
+	CCollisionMgr::Collision_Rect(m_ObjList[OBJ_PATTACK], m_ObjList[OBJ_MONSTER]);
 }
 
 void CObjMgr::Render(HDC hDC)

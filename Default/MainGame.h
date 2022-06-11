@@ -3,7 +3,7 @@
 #include "Define.h"
 #include "Player.h"
 #include "Bullet.h"
-
+#include "Mouse.h"
 class CMainGame
 {
 public:					// 持失切, 社瑚切

@@ -17,13 +17,16 @@ public:
 
 	void Move_Change();
 	void OffSet();
+	
 public:
 	enum state {IDLE, WALK, JUMP, SIT, ATTACK1, ATTACK2, ATTACK3, UP, DOWN, STATE_END};
 private:
 	void		Key_Input(void);
+	
 	state		m_PreState;
 	state		m_CureState;
 
 	DWORD		m_dwAttack1;
+	DWORD		m_dwAttackDelay;
 };
 

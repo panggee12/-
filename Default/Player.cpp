@@ -3,8 +3,13 @@
 #include "BmpMgr.h"
 #include "KeyMgr.h"
 #include "ScrollMgr.h"
-CPlayer::CPlayer():m_CureState(IDLE),m_PreState(STATE_END), m_dwAttack1(GetTickCount())
+#include "LineMgr.h"
+#include "ObjMgr.h"
+#include "AbstractFactory.h"
+#include "Pattack.h"
+CPlayer::CPlayer():m_CureState(IDLE),m_PreState(STATE_END), m_dwAttack1(GetTickCount()), m_dwAttackDelay(GetTickCount()-700)
 {
+	m_tStatus = { 1,142,142,142,142,0,100 };
 }
 
 
@@ -15,7 +20,7 @@ CPlayer::~CPlayer()
 
 void CPlayer::Initialize(void)
 {
-	m_tInfo = { 400.f, 300.f, 100.f, 100.f };
+	m_tInfo = { 400.f, 350.f, 100.f, 100.f };
 	m_fSpeed = 5.f;
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Character/Striker/basic_left.bmp", L"PLAYERLEFT");
@@ -39,7 +44,7 @@ int CPlayer::Update(void)
 		return OBJ_DEAD;
 
 	Key_Input();
-	//Jumping();
+	Jumping();
 	OffSet();
 	Move_Change();
 	Move_Frame();
@@ -55,8 +60,10 @@ void CPlayer::Late_Update(void)
 void CPlayer::Render(HDC hDC)
 {
 	HDC PLAYERHDC=CBmpMgr::Get_Instance()->Find_Image(m_framekey);
+
 	int iScrollX = CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = CScrollMgr::Get_Instance()->Get_ScrollY();
+
 	GdiTransparentBlt(hDC,
 		int(m_tRect.left)+ iScrollX,
 		int(m_tRect.top)-30+ iScrollY,
@@ -92,7 +99,6 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX += m_fSpeed;
 			m_framekey = L"PLAYERRIGHT";
 			m_CureState = WALK;
-			
 		}
 	}
 	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
@@ -118,13 +124,13 @@ void CPlayer::Key_Input(void)
 		m_framekey = L"PLAYERRIGHT";
 		m_CureState = UP;
 	}*/
-	/*else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
+	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
 	{
 		m_tInfo.fY += m_fSpeed;
 		m_framekey = L"PLAYERRIGHT";
 		m_CureState = DOWN;
 
-	}*/
+	}
 	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE))
 	{
 		m_bJump = true;
@@ -133,6 +139,14 @@ void CPlayer::Key_Input(void)
 	else if (CKeyMgr::Get_Instance()->Key_Pressing('A'))
 	{
 		m_CureState = ATTACK1;
+		if (m_dwAttackDelay + 700 < GetTickCount())
+		{
+			if (m_framekey == L"PLAYERRIGHT")
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, 100, NORMAL));
+			else
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, 100, NORMAL));
+			m_dwAttackDelay = GetTickCount();
+		}
 	}
 	else
 	{
@@ -250,7 +264,7 @@ void CPlayer::OffSet()
 		CScrollMgr::Get_Instance()->Set_ScrollX(-m_fSpeed);
 
 	if (iScrollYMin > m_tInfo.fY + iScrollY)
-		CScrollMgr::Get_Instance()->Set_ScrollY(-m_fSpeed);
-	else if (iScrollYMax <  m_tInfo.fY + iScrollY)
 		CScrollMgr::Get_Instance()->Set_ScrollY(m_fSpeed);
+	else if (iScrollYMax <  m_tInfo.fY + iScrollY)
+		CScrollMgr::Get_Instance()->Set_ScrollY(-m_fSpeed);
 }

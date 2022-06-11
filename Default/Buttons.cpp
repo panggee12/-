@@ -3,6 +3,7 @@
 #include "BmpMgr.h"
 #include "KeyMgr.h"
 #include "SceneMgr.h"
+#include "ObjMgr.h"
 CButtons::CButtons()
 {
 }
@@ -36,7 +37,7 @@ void CButtons::Late_Update(void)
 	
 	if (PtInRect(&m_tRect, pt))
 	{	
-		if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LBUTTON))
 		{
 			if(!lstrcmp(m_framekey,L"LOGINBT"))
 				CSceneMgr::Get_Instance()->Scene_Change(STAGE_1);

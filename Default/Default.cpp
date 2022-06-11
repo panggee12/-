@@ -58,7 +58,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,				// 메모리에 할당되는 실체, 즉
 	pMainGame->Initialize();
 
 	DWORD		dwTime = GetTickCount();
-
+	srand(unsigned(time(NULL)));
     // 기본 메시지 루프입니다.
     while (true)
     {

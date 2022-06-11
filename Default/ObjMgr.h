@@ -19,7 +19,9 @@ public:
 	void Release();
 
 	list<CObj*>*	Get_Block() { return &m_ObjList[OBJ_BLOCK]; }
+	list<CObj*>*	Get_Monster() { return &m_ObjList[OBJ_MONSTER]; }
 	CObj*			Get_Player() { return m_ObjList[OBJ_PLAYER].front(); }
+	CObj*			Get_Mouse() { return m_ObjList[OBJ_MOUSE].front(); }
 public:
 	static CObjMgr* Get_Instance()
 	{
