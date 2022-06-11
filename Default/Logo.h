@@ -1,11 +1,11 @@
 #pragma once
 #include "Scene.h"
-class CLobby :
+class CLogo :
 	public CScene
 {
 public:
-	CLobby();
-	virtual ~CLobby();
+	CLogo();
+	virtual ~CLogo();
 
 public:
 	virtual void Initialize(void) override;

@@ -1,11 +1,12 @@
 #pragma once
-#include "Scene.h"
-class CLobby :
-	public CScene
+#include "Obj.h"
+#include "Mouse.h"
+class CButtons :
+	public CObj
 {
 public:
-	CLobby();
-	virtual ~CLobby();
+	CButtons();
+	virtual ~CButtons();
 
 public:
 	virtual void Initialize(void) override;

@@ -1,11 +1,11 @@
 #pragma once
-#include "Scene.h"
-class CLobby :
-	public CScene
+#include "Obj.h"
+class CEffect :
+	public CObj
 {
 public:
-	CLobby();
-	virtual ~CLobby();
+	CEffect();
+	virtual ~CEffect();
 
 public:
 	virtual void Initialize(void) override;

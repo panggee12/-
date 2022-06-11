@@ -1,11 +1,12 @@
 #pragma once
-#include "Scene.h"
-class CLobby :
-	public CScene
+#include "Obj.h"
+class CBlock:public CObj
 {
 public:
-	CLobby();
-	virtual ~CLobby();
+	CBlock();
+	CBlock(LINEPOINT& tLeft, LINEPOINT& tRight);
+	CBlock(const LINE& tLine);
+	~CBlock();
 
 public:
 	virtual void Initialize(void) override;
@@ -13,5 +14,9 @@ public:
 	virtual	void Late_Update(void)override;
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
+
+private:
+	LINE		 m_tLine;
+	DWORD		 m_dwPortal;
 };
 
