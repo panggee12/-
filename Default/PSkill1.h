@@ -1,11 +1,11 @@
 #pragma once
 #include "Obj.h"
-class CPattack :
+class CPSkill1 :
 	public CObj
 {
 public:
-	CPattack();
-	virtual ~CPattack();
+	CPSkill1();
+	virtual ~CPSkill1();
 
 public:
 	virtual void Initialize(void) override;
@@ -13,8 +13,5 @@ public:
 	virtual	void Late_Update(void)override;
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
-
-private:
-	
 };
 

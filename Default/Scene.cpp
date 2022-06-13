@@ -2,7 +2,7 @@
 #include "Scene.h"
 
 
-CScene::CScene()
+CScene::CScene():m_dwRespawn(GetTickCount()), m_bFullStage(true)
 {
 }
 

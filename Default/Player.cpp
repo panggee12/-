@@ -7,6 +7,8 @@
 #include "ObjMgr.h"
 #include "AbstractFactory.h"
 #include "Pattack.h"
+#include "PSkill1.h"
+#include "PSkill2.h"
 CPlayer::CPlayer():m_CureState(IDLE),m_PreState(STATE_END), m_dwAttack1(GetTickCount()), m_dwAttackDelay(GetTickCount()-700)
 {
 	m_tStatus = { 1,142,142,142,142,0,100 };
@@ -43,6 +45,8 @@ int CPlayer::Update(void)
 	if (m_bDead)
 		return OBJ_DEAD;
 
+	if (m_tStatus.m_iExp >= m_tStatus.m_iMaxExp)
+		Set_LvUp();
 	Key_Input();
 	Jumping();
 	OffSet();
@@ -87,18 +91,42 @@ void CPlayer::Key_Input(void)
 	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
 	{
 		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE))
-		{			
+		{
 			m_bJump = true;
 			m_CureState = JUMP;
 			m_tInfo.fX += m_fSpeed;
 			m_framekey = L"PLAYERRIGHT";
-			
+			if (CKeyMgr::Get_Instance()->Key_Pressing(VK_CONTROL))
+			{
+				m_CureState = ATTACK1;
+				if (m_dwAttackDelay + 700 < GetTickCount())
+				{
+					if (m_framekey == L"PLAYERRIGHT")
+						CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
+					else
+						CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, m_framekey, 100, NORMAL));
+					m_dwAttackDelay = GetTickCount();
+				}
+			}
+
 		}
 		else
 		{
 			m_tInfo.fX += m_fSpeed;
 			m_framekey = L"PLAYERRIGHT";
 			m_CureState = WALK;
+			if (CKeyMgr::Get_Instance()->Key_Pressing(VK_CONTROL))
+			{
+				m_CureState = ATTACK1;
+				if (m_dwAttackDelay + 700 < GetTickCount())
+				{
+					if (m_framekey == L"PLAYERRIGHT")
+						CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
+					else
+						CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
+					m_dwAttackDelay = GetTickCount();
+				}
+			}
 		}
 	}
 	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
@@ -109,12 +137,36 @@ void CPlayer::Key_Input(void)
 			m_CureState = JUMP;
 			m_tInfo.fX -= m_fSpeed;
 			m_framekey = L"PLAYERLEFT";
+			if (CKeyMgr::Get_Instance()->Key_Pressing(VK_CONTROL))
+			{
+				m_CureState = ATTACK1;
+				if (m_dwAttackDelay + 700 < GetTickCount())
+				{
+					if (m_framekey == L"PLAYERRIGHT")
+						CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
+					else
+						CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
+					m_dwAttackDelay = GetTickCount();
+				}
+			}
 		}
 		else
 		{
 			m_tInfo.fX -= m_fSpeed;
 			m_framekey = L"PLAYERLEFT";
 			m_CureState = WALK;
+			if (CKeyMgr::Get_Instance()->Key_Pressing(VK_CONTROL))
+			{
+				m_CureState = ATTACK1;
+				if (m_dwAttackDelay + 700 < GetTickCount())
+				{
+					if (m_framekey == L"PLAYERRIGHT")
+						CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
+					else
+						CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
+					m_dwAttackDelay = GetTickCount();
+				}
+			}
 		}
 		
 	}
@@ -135,16 +187,52 @@ void CPlayer::Key_Input(void)
 	{
 		m_bJump = true;
 		m_CureState = JUMP;
+		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_CONTROL))
+		{
+			m_CureState = ATTACK1;
+			if (m_dwAttackDelay + 700 < GetTickCount())
+			{
+				if (m_framekey == L"PLAYERRIGHT")
+					CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, m_framekey, 100, NORMAL));
+				else
+					CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, m_framekey, 100, NORMAL));
+				m_dwAttackDelay = GetTickCount();
+			}
+		}
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('A'))
+	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_CONTROL))
 	{
 		m_CureState = ATTACK1;
 		if (m_dwAttackDelay + 700 < GetTickCount())
 		{
 			if (m_framekey == L"PLAYERRIGHT")
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, 100, NORMAL));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
 			else
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, 100, NORMAL));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
+			m_dwAttackDelay = GetTickCount();
+		}
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('A'))
+	{
+		m_CureState = ATTACK2;
+		if (m_dwAttackDelay + 700 < GetTickCount())
+		{
+			if (m_framekey == L"PLAYERRIGHT")
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill1>::Create(m_tInfo.fX + 100, m_tInfo.fY, m_framekey, 100,  PSKILL1));
+			else
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill1>::Create(m_tInfo.fX - 100, m_tInfo.fY, m_framekey, 100,  PSKILL1));
+			m_dwAttackDelay = GetTickCount();
+		}
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('S'))
+	{
+		m_CureState = ATTACK3;
+		if (m_dwAttackDelay + 700 < GetTickCount())
+		{
+			if (m_framekey == L"PLAYERRIGHT")
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill2>::Create(m_tInfo.fX + 100, m_tInfo.fY-100, m_framekey, 100, PSKILL2));
+			else
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill2>::Create(m_tInfo.fX - 100, m_tInfo.fY -100, m_framekey, 100, PSKILL2));
 			m_dwAttackDelay = GetTickCount();
 		}
 	}
@@ -211,7 +299,7 @@ void CPlayer::Move_Change()
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 1;
 
-			m_tFrame.dwFrameSpeed = 200;
+			m_tFrame.dwFrameSpeed = 350;
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::ATTACK3:
@@ -219,7 +307,7 @@ void CPlayer::Move_Change()
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 2;
 
-			m_tFrame.dwFrameSpeed = 200;
+			m_tFrame.dwFrameSpeed = 350;
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::UP:

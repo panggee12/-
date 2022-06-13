@@ -2,6 +2,7 @@
 #include "ObjMgr.h"
 #include "CollisionMgr.h"
 #include "LineMgr.h"
+#include "KeyMgr.h"
 CObjMgr* CObjMgr::m_pInstance = nullptr;
 CObjMgr::CObjMgr()
 {
@@ -65,6 +66,8 @@ void CObjMgr::Late_Update()
 	}
 	CCollisionMgr::Collision_Rect(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BLOCK]);
 	CCollisionMgr::Collision_Rect(m_ObjList[OBJ_PATTACK], m_ObjList[OBJ_MONSTER]);
+	
+	
 }
 
 void CObjMgr::Render(HDC hDC)

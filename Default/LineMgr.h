@@ -16,7 +16,7 @@ public:
 
 	bool		Collision_LineX(float fX,float* fY, float* pY);
 	bool		Collision_LineX_M(float fX, float* fY, float* pY,float* LX, float* RX);
-	bool		Collision_LineY(float fX, float* fY,float* pX);
+	bool		Collision_LineY(float* fX, float* fY,float* pX);
 	//bool		Collision_Block(float fX, float fY, float* pY, float* pY1);
 	void		Load_File(STAGEID _STAGEID);
 	void		Save_File(void);
@@ -44,7 +44,8 @@ public:
 private:
 	static		CLineMgr*		m_pInstance;
 	list<CLine*>				m_LineList;
-	//list<CBlock*>*				m_BlockList;
+	list<CLine*>				m_LineListY;
+	list<CBlock*>				m_BlockList;
 	LINEPOINT					m_tLinePoint[END];
 };
 

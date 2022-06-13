@@ -19,5 +19,8 @@ public:
 	STAGEID m_tStage;
 	FRAME		m_tFrame;
 	INFO		m_tInfo;
+	DWORD		m_dwRespawn;
+
+	bool		m_bFullStage;
 };
 

@@ -3,6 +3,9 @@
 #include "KeyMgr.h"
 #include "SceneMgr.h"
 #include "ObjMgr.h"
+#include "Monster.h"
+#include "AbstractFactory.h"
+#include "Effect.h"
 CCollisionMgr::CCollisionMgr()
 {
 }
@@ -22,15 +25,24 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 			float fY = 0.f;
 			if (Collision_Check(Dest, Sour, fX, fY))
 			{
-				Sour->Set_Attacked();
-				Sour->Set_Attacked(true);
-				Sour->Set_MinusHp(Dest->Get_Damage());
-				Dest->Set_Dead();
+				if (!Sour->Get_God())
+				{
+					Sour->Set_Attacked();
+					Sour->Set_Attacked(true);
+					Sour->Set_MinusHp(Dest->Get_Damage());
+				}
+				if(Dest->Get_Skill()==NORMAL)
+					Dest->Set_Dead();
+				else if(static_cast<CMonster*>(Sour)->Get_Effect_Delay()+400<GetTickCount())
+				{
+					CObj* Effect = CAbstractFactory<CEffect>::Create(Dest->Get_Skill());
+					Effect->Set_Target(Sour);
+					CObjMgr::Get_Instance()->Add_Obj(OBJ_EFFECT, Effect);
+					static_cast<CMonster*>(Sour)->Set_Effect_Delay();
+				}
 				if (Sour->Get_Status().m_iHp <= 0)
 				{
-					CObjMgr::Get_Instance()->Get_Player()->Set_ExpUp(Sour->Get_Status().m_iExp);
-					if (CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iExp >= CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iMaxExp)
-						CObjMgr::Get_Instance()->Get_Player()->Set_LvUp();
+					static_cast<CMonster*>(Sour)->Set_State(static_cast<CMonster*>(Sour)->DIE);
 				}
 				if (CKeyMgr::Get_Instance()->Key_Down(VK_UP))
 				{

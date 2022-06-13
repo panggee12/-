@@ -118,6 +118,12 @@
     <Filter Include="01. Obj\09. Icon">
       <UniqueIdentifier>{98c93322-3d08-497f-b856-276a8f8590bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\02. Attack\00. PAttack\00. PSkill1">
+      <UniqueIdentifier>{0fdfc233-0264-4098-b2f2-cdcde6bbd6b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02. Attack\00. PAttack\01. PSkill2">
+      <UniqueIdentifier>{c16c1993-2a08-4670-850e-df38111e06ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -246,6 +252,12 @@
     <ClInclude Include="Icon.h">
       <Filter>01. Obj\09. Icon</Filter>
     </ClInclude>
+    <ClInclude Include="PSkill1.h">
+      <Filter>01. Obj\02. Attack\00. PAttack\00. PSkill1</Filter>
+    </ClInclude>
+    <ClInclude Include="PSkill2.h">
+      <Filter>01. Obj\02. Attack\00. PAttack\01. PSkill2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -346,6 +358,12 @@
     </ClCompile>
     <ClCompile Include="Icon.cpp">
       <Filter>01. Obj\09. Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="PSkill1.cpp">
+      <Filter>01. Obj\02. Attack\00. PAttack\00. PSkill1</Filter>
+    </ClCompile>
+    <ClCompile Include="PSkill2.cpp">
+      <Filter>01. Obj\02. Attack\00. PAttack\01. PSkill2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

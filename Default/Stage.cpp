@@ -14,6 +14,7 @@ CStage::CStage()
 	CLineMgr::Get_Instance()->Load_File(m_tStage);
 	//CLineMgr::Get_Instance()->Load_File_Portal(m_tStage);
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(690, 400,PORTAL1));
+	
 }
 
 
@@ -40,6 +41,8 @@ int CStage::Update(void)
 	CObjMgr::Get_Instance()->Update();
 	CLineMgr::Get_Instance()->Update();
 	CScrollMgr::Get_Instance()->Scroll_Lock(800, 600);
+	
+
 	return 0;
 }
 

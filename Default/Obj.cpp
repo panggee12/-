@@ -3,7 +3,7 @@
 #include "LineMgr.h"
 #include "KeyMgr.h"
 CObj::CObj() : m_fSpeed(0.f), m_bDead(false), m_iDrawid(0), m_bJump(false), m_fJumpPower(7), m_fJumpTime(0), m_tProtal(PORTAL_END),
-m_bAttacked(false), m_pTarget(nullptr), m_iDamage(0)
+m_bAttacked(false), m_pTarget(nullptr), m_iDamage(0), m_bGod(false), m_iDeadCount(0), m_dwDeleteEffect(GetTickCount())
 {
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
@@ -42,7 +42,7 @@ void CObj::Jumping()
 	float fUnderLine = 0;
 	float fRopeX = 0;
 	bool CollisionLineX = CLineMgr::Get_Instance()->Collision_LineX(m_tInfo.fX, &m_tInfo.fY, &fOnLine);
-	bool CollisionLineY = CLineMgr::Get_Instance()->Collision_LineY(m_tInfo.fX, &m_tInfo.fY, &fRopeX);
+	bool CollisionLineY = CLineMgr::Get_Instance()->Collision_LineY(&m_tInfo.fX, &m_tInfo.fY, &fRopeX);
 	if (m_fJumpTime >= 3.5f)
 		m_fJumpTime = 3.5f;
 

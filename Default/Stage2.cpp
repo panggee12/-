@@ -20,7 +20,7 @@ CStage2::CStage2()
 
 		CObjMgr::Get_Instance()->Add_Obj(OBJ_MONSTER, m_pMonster);
 	}
-	//CLineMgr::Get_Instance()->Load_File_Portal(m_tStage);
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(560, 180, 620, 330));
 }
 
 
@@ -55,6 +55,23 @@ int CStage2::Update(void)
 	CLineMgr::Get_Instance()->Update();
 	
 	CScrollMgr::Get_Instance()->Scroll_Lock(1440,1149);
+	if (CObjMgr::Get_Instance()->Get_Monster()->size() != 10&&m_bFullStage)
+	{
+		m_dwRespawn = GetTickCount();
+		m_bFullStage = false;
+	}
+
+	if (!m_bFullStage && m_dwRespawn + 5000 < GetTickCount())
+	{
+		while (CObjMgr::Get_Instance()->Get_Monster()->size() != 10)
+		{
+
+			CObj* m_pMonster = CAbstractFactory<CMonster>::Create();
+
+			CObjMgr::Get_Instance()->Add_Obj(OBJ_MONSTER, m_pMonster);
+		}
+		m_bFullStage = true;
+	}
 	return 0;
 }
 

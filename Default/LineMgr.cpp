@@ -66,7 +66,7 @@ void CLineMgr::Update(void)
 			m_tLinePoint[RIGHT].fX = m_tLinePoint[LEFT].fX;
 			m_tLinePoint[RIGHT].fY = (float)pt.y;
 
-			m_LineList.push_back(new CLine(m_tLinePoint[LEFT], m_tLinePoint[RIGHT]));
+			m_LineListY.push_back(new CLine(m_tLinePoint[LEFT], m_tLinePoint[RIGHT]));
 
 			m_tLinePoint[LEFT].fX = 0;
 			m_tLinePoint[LEFT].fY = 0;
@@ -84,7 +84,7 @@ void CLineMgr::Update(void)
 		m_tLinePoint[RIGHT].fX = 0;
 		m_tLinePoint[RIGHT].fY = 0;
 	}
-	if (CKeyMgr::Get_Instance()->Key_Down('S'))
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_F1))
 	{
 		Save_File();
 		//Save_File_Portal();
@@ -98,14 +98,16 @@ void CLineMgr::Render(HDC hDC)
 {
 	for (auto& iter : m_LineList)
 		iter->Render(hDC);
+	for (auto& iter : m_BlockList)
+		iter->Render(hDC);
 }
 
 void CLineMgr::Release(void)
 {
 	for_each(m_LineList.begin(), m_LineList.end(), CDeleteObj());
 	m_LineList.clear();
-	/*for_each(CObjMgr::Get_Instance()->Get_Block()->begin(), CObjMgr::Get_Instance()->Get_Block()->end(), CDeleteObj());
-	CObjMgr::Get_Instance()->Get_Block()->clear();*/
+	for_each(m_BlockList.begin(), m_BlockList.end(), CDeleteObj());
+	m_BlockList.clear();
 }
 
 bool CLineMgr::Collision_LineX(float fX, float* fY,float* pY)
@@ -212,7 +214,47 @@ bool CLineMgr::Collision_LineX_M(float fX, float* fY, float* pY, float* LX, floa
 
 	return true;
 }
-bool CLineMgr::Collision_LineY(float fX, float * fY, float* pX)
+//bool CLineMgr::Collision_LineY(float* fX, float * fY, float* pX)
+//{
+//	if (m_LineList.empty())
+//		return false;
+//
+//	CLine*		pTarget = nullptr;
+//
+//	float fOnLine = 0.f;
+//	float fUpLine = 0.f;
+//	float fDownLine = 0.f;
+//	for (auto& iter : m_BlockList)
+//	{
+//		if (*fX >= iter->Get_Line().LINEL.fX &&
+//			*fX < iter->Get_Line().LINER.fX)
+//		{
+//			if (*fY<iter->Get_Rect().top&&*fY>iter->Get_Rect().bottom)
+//			{
+//				if (CKeyMgr::Get_Instance()->Key_Down(VK_UP))
+//				{
+//					*fX = iter->Get_Line().LINEL.fX + fabs(iter->Get_Line().LINEL.fX - iter->Get_Line().LINER.fX)*0.5f;
+//
+//				}
+//				if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
+//				{
+//					*fY += 2.f;
+//				}
+//			}
+//		}
+//
+//	}
+//
+//	if (!pTarget)
+//		return false;
+//
+//	// 직선의 방정식 
+//	// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
+//	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
+//	//*pX = pTarget->Get_Line().LINEL.fX;
+//	return true;
+//}
+bool CLineMgr::Collision_LineY(float* fX, float * fY, float* pX)
 {
 	if (m_LineList.empty())
 		return false;
@@ -222,25 +264,10 @@ bool CLineMgr::Collision_LineY(float fX, float * fY, float* pX)
 	float fOnLine = 0.f;
 	float fUpLine = 0.f;
 	float fDownLine = 0.f;
-	for (auto& iter : m_LineList)
+	for (auto& iter : m_LineListY)
 	{
-		if (fX >= iter->Get_Line().LINEL.fX-25 &&
-			fX < iter->Get_Line().LINER.fX+25&&
-			fabs(fX-iter->Get_Line().LINEL.fX)<=75)
-		{
-			if (iter->Get_Line().LINEL.fY > iter->Get_Line().LINER.fY)
-			{
-				fUpLine = iter->Get_Line().LINEL.fY;
-				fDownLine = iter->Get_Line().LINER.fY;
-				pTarget = iter;
-			}
-			else
-			{
-				fUpLine= iter->Get_Line().LINER.fY;
-				fDownLine = iter->Get_Line().LINEL.fY;
-				pTarget = iter;
-			}			
-		}
+		
+		
 
 	}
 
@@ -250,10 +277,9 @@ bool CLineMgr::Collision_LineY(float fX, float * fY, float* pX)
 	// 직선의 방정식 
 	// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
 	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
-	*pX = pTarget->Get_Line().LINEL.fX;
+	//*pX = pTarget->Get_Line().LINEL.fX;
 	return true;
 }
-
 void CLineMgr::Save_File(void)
 {
 	// 1. 파일 개방

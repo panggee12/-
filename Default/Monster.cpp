@@ -5,7 +5,9 @@
 #include "ObjMgr.h"
 #include "LineMgr.h"
 #include "KeyMgr.h"
-CMonster::CMonster() :m_PreState(END), m_CureState(IDLE), m_PatternTime(GetTickCount()), m_bGuide(false), m_AttackedTime(GetTickCount())
+#include "AbstractFactory.h"
+#include "Effect.h"
+CMonster::CMonster() :m_PreState(END), m_CureState(IDLE), m_PatternTime(GetTickCount()), m_bGuide(false), m_AttackedTime(GetTickCount()), m_dwEffectDelay(GetTickCount())
 {
 	m_bJump = false;
 	m_tStatus={1, 100, 100,0,0, 10, 0};
@@ -47,9 +49,14 @@ int CMonster::Update(void)
 		else
 			m_tInfo.fX += m_fSpeed;
 		m_CureState = ATTACKED;
+		m_bGod = true;
+
 	}
 	else
+	{
 		m_bAttacked = false;
+		m_bGod = false;
+	}
 	m_pTarget = CObjMgr::Get_Instance()->Get_Player();
 	float fWrith = m_tInfo.fX - m_pTarget->Get_Info().fX;
 	float fHeight = m_tInfo.fY - m_pTarget->Get_Info().fY;
@@ -203,6 +210,7 @@ void CMonster::Move_Change()
 			m_tFrame.dwFrameTime = GetTickCount();
 			m_PatternTime = GetTickCount();
 			m_bDead = true;
+			CObjMgr::Get_Instance()->Get_Player()->Set_ExpUp(m_tStatus.m_iExp);
 			break;
 		}
 		m_PreState = m_CureState;
@@ -218,7 +226,7 @@ void CMonster::Jumping_M()
 	float fLx = 0.f;
 	float fRx = 0.f;
 	bool CollisionLineX = CLineMgr::Get_Instance()->Collision_LineX_M(m_tInfo.fX, &m_tInfo.fY, &fOnLine,&fLx,&fRx);
-	bool CollisionLineY = CLineMgr::Get_Instance()->Collision_LineY(m_tInfo.fX, &m_tInfo.fY, &fRopeX);
+	bool CollisionLineY = CLineMgr::Get_Instance()->Collision_LineY(&m_tInfo.fX, &m_tInfo.fY, &fRopeX);
 	if (m_fJumpTime >= 3.5f)
 		m_fJumpTime = 3.5f;
 
@@ -232,13 +240,6 @@ void CMonster::Jumping_M()
 			m_fJumpTime = 0.f;
 			m_bJump = false;
 			m_tInfo.fY = fOnLine;
-		}
-		else if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
-		{
-			m_tInfo.fX = fRopeX;
-			m_tInfo.fY -= m_fSpeed;
-			m_fJumpTime = 0.f;
-			m_bJump = false;
 		}
 		if (m_tInfo.fX <= fLx || m_tInfo.fX >= fRx)
 			m_fSpeed *= -1.f;
@@ -261,15 +262,11 @@ void CMonster::Jumping_M()
 			m_fJumpTime = 0.f;
 			m_tInfo.fY = fOnLine;
 		}
-		else if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
-		{
-			m_tInfo.fX = fRopeX;
-			m_tInfo.fY -= m_fSpeed;
-		}
 		if (m_tInfo.fX <= fLx || m_tInfo.fX >= fRx)
 			m_fSpeed *= -1.f;
 	}
 }
+
 void CMonster::Release(void)
 {
 }

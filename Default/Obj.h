@@ -37,19 +37,25 @@ public:
 	Status		Get_Status() { return m_tStatus; }
 	int			Get_Damage() { return m_iDamage; }
 	bool		Get_Attacked() { return m_bAttacked; }
+	bool		Get_God() { return m_bGod; }
+	bool		Get_AlreadyDead() { return m_iDeadCount; }
+	bool		Get_Dead() { return m_bDead; }
+	const TCHAR* Get_FrameKey() { return m_framekey; }
 
+	void		Set_Rect(int left, int top, int right, int bottom) { m_tRect.left = left; m_tRect.top = top; m_tRect.right = right; m_tRect.bottom = bottom; }
+	void		Set_Target(CObj* Target) { m_pTarget = Target; }
 	void		Set_Attacked() { m_dwAttackedTime = GetTickCount(); }
 	void		Set_key(const TCHAR* _key) { m_framekey = _key; }
 	void		Set_DrawID(int DID) { m_iDrawid = DID; }
-	void		Set_Attacked(bool Attacked) { m_bAttacked = Attacked; }
+	void		Set_Attacked(bool Attacked) { m_bAttacked = Attacked; m_bGod = true; }
 	void		Set_Skill(SKILLID SID) { m_tSkill = SID; }
 	void		Set_MinusHp(int Damage) { m_tStatus.m_iHp -= Damage; }
 	void		Set_Damage(int Damage) { m_iDamage = Damage; }
 	void		Set_Dead() { m_bDead = true; }
 	void		Set_ExpUp(int _iExp) { m_tStatus.m_iExp += _iExp; }
 	void		Set_LvUp() { m_tStatus.m_iLv += 1; m_tStatus.m_iExp -= m_tStatus.m_iMaxExp; m_tStatus.m_iMaxExp += 100;
-								m_tStatus.m_iMaxHp *= 2; m_tStatus.m_iHp = m_tStatus.m_iMaxHp;
-								m_tStatus.m_iMaxMp *= 2; m_tStatus.m_iMp = m_tStatus.m_iMaxMp;}
+								m_tStatus.m_iMaxHp += 142; m_tStatus.m_iHp = m_tStatus.m_iMaxHp;
+								m_tStatus.m_iMaxMp += 142; m_tStatus.m_iMp = m_tStatus.m_iMaxMp;}
 public:
 	virtual		void	Initialize(void)	PURE;
 	virtual		int		Update(void)		PURE;
@@ -79,10 +85,12 @@ protected:
 	bool		m_bDead;
 	bool		m_bJump;
 	bool		m_bAttacked;
+	bool		m_bGod;
+	int			m_iDeadCount;
 	int			m_iDrawid;
-	
 	int			m_iDamage;
-	
-
+	DWORD		m_dwSkillTime;
+	DWORD		m_dwNoSkill;
+	DWORD		m_dwDeleteEffect;
 };
 
