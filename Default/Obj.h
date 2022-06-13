@@ -26,7 +26,10 @@ public:
 	{
 		m_tProtal = _pId;
 	}
-
+	void		Set_PosX_fix(float _fX)
+	{
+		m_tInfo.fX = _fX;
+	}
 	const INFO&	Get_Info() { return m_tInfo; }
 	const RECT& Get_Rect() { return m_tRect; }
 	const LINE& Get_Line() { return m_tLine; }
@@ -35,6 +38,7 @@ public:
 	SKILLID		Get_Skill() { return m_tSkill; }
 	DWORD		Get_AttackedTime() { return m_dwAttackedTime; }
 	Status		Get_Status() { return m_tStatus; }
+	ITEMID		Get_Item() { return m_tItem; }
 	int			Get_Damage() { return m_iDamage; }
 	bool		Get_Attacked() { return m_bAttacked; }
 	bool		Get_God() { return m_bGod; }
@@ -42,6 +46,7 @@ public:
 	bool		Get_Dead() { return m_bDead; }
 	const TCHAR* Get_FrameKey() { return m_framekey; }
 
+	void		Set_Item(ITEMID _ITEM) { m_tItem = _ITEM; }
 	void		Set_Rect(int left, int top, int right, int bottom) { m_tRect.left = left; m_tRect.top = top; m_tRect.right = right; m_tRect.bottom = bottom; }
 	void		Set_Target(CObj* Target) { m_pTarget = Target; }
 	void		Set_Attacked() { m_dwAttackedTime = GetTickCount(); }
@@ -79,6 +84,7 @@ protected:
 	SKILLID		m_tSkill;
 	DWORD		m_dwAttackedTime;
 	Status		m_tStatus;
+	ITEMID		m_tItem;
 	float		m_fSpeed;
 	float		m_fJumpPower;
 	float		m_fJumpTime;

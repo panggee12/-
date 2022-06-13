@@ -35,11 +35,13 @@ public:
 
 		return m_pInstance;
 	}
-	static CObj* Create(float _x, float _y, PORTALID pId=PORTAL_END)
+	static CObj* Create(float _x, float _y, PORTALID pId=PORTAL_END,ITEMID item=ITEM_END)
 	{
 		CObj* m_pInstance = new T;
 		if (pId != PORTAL_END)
 			m_pInstance->Set_Portal(pId);
+		if (item != ITEM_END)
+			m_pInstance->Set_Item(item);
 	
 		m_pInstance->Initialize();
 		m_pInstance->Set_Pos(_x, _y);

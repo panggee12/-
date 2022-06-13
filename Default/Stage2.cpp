@@ -13,6 +13,7 @@ CStage2::CStage2()
 {
 	m_tStage = STAGE_2;
 	CLineMgr::Get_Instance()->Load_File(m_tStage);
+	CLineMgr::Get_Instance()->Load_File_Rofe(m_tStage);
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(1380, 830, PORTAL2));//89 257
 	for (int i = 0; i < 10; ++i)
 	{
@@ -20,12 +21,13 @@ CStage2::CStage2()
 
 		CObjMgr::Get_Instance()->Add_Obj(OBJ_MONSTER, m_pMonster);
 	}
-	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(560, 180, 620, 330));
+
 }
 
 
 CStage2::~CStage2()
 {
+	Release();
 }
 
 void CStage2::Initialize(void)
@@ -124,5 +126,6 @@ void CStage2::Render(HDC hDC)
 void CStage2::Release(void)
 {
 	CObjMgr::Get_Instance()->Delete_Obj(OBJ_BLOCK);
+	CObjMgr::Get_Instance()->Delete_Obj(OBJ_MONSTER);
 	CLineMgr::Get_Instance()->Destroy_Instance();
 }

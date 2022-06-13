@@ -9,7 +9,7 @@
 #include "Pattack.h"
 #include "PSkill1.h"
 #include "PSkill2.h"
-CPlayer::CPlayer():m_CureState(IDLE),m_PreState(STATE_END), m_dwAttack1(GetTickCount()), m_dwAttackDelay(GetTickCount()-700)
+CPlayer::CPlayer():m_CureState(IDLE),m_PreState(STATE_END), m_dwAttack1(GetTickCount()), m_dwAttackDelay(GetTickCount()-700), m_bRofe(false), m_bFixedX(false)
 {
 	m_tStatus = { 1,142,142,142,142,0,100 };
 }
@@ -47,9 +47,13 @@ int CPlayer::Update(void)
 
 	if (m_tStatus.m_iExp >= m_tStatus.m_iMaxExp)
 		Set_LvUp();
+
+	
 	Key_Input();
 	Jumping();
 	OffSet();
+	if (m_bRofe)
+		m_CureState = ROFE;
 	Move_Change();
 	Move_Frame();
 	Update_Rect();
@@ -88,7 +92,7 @@ void CPlayer::Release(void)
 void CPlayer::Key_Input(void)
 {
 	// GetKeyState()
-	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
+	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT)&&m_bFixedX)
 	{
 		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE))
 		{
@@ -129,7 +133,7 @@ void CPlayer::Key_Input(void)
 			}
 		}
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
+	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT) && m_bFixedX)
 	{
 		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE))
 		{
@@ -170,15 +174,15 @@ void CPlayer::Key_Input(void)
 		}
 		
 	}
-	/*else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
+	/*else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP)&&m_bRofe)
 	{
 		m_tInfo.fY -= m_fSpeed;
 		m_framekey = L"PLAYERRIGHT";
 		m_CureState = UP;
 	}*/
-	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
+	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN)&&m_bRofe)
 	{
-		m_tInfo.fY += m_fSpeed;
+		
 		m_framekey = L"PLAYERRIGHT";
 		m_CureState = DOWN;
 
@@ -321,6 +325,14 @@ void CPlayer::Move_Change()
 		case CPlayer::DOWN:
 			m_tFrame.iMotion = 10;
 			m_tFrame.iFrameStart = 0;
+			m_tFrame.iFrameEnd = 1;
+
+			m_tFrame.dwFrameSpeed = 200;
+			m_tFrame.dwFrameTime = GetTickCount();
+			break;
+		case CPlayer::ROFE:
+			m_tFrame.iMotion = 10;
+			m_tFrame.iFrameStart = 1;
 			m_tFrame.iFrameEnd = 1;
 
 			m_tFrame.dwFrameSpeed = 200;

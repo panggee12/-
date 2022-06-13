@@ -4,6 +4,7 @@
 #include "Lobby.h"
 #include "Stage.h"
 #include "Stage2.h"
+#include "Stage3.h"
 class CSceneMgr
 {
 public:

@@ -20,7 +20,7 @@ void CMainGame::Initialize(void)
 {
 	m_hDC = GetDC(g_hWnd);
 
-	CSceneMgr::Get_Instance()->Scene_Change(STAGE_2);
+	CSceneMgr::Get_Instance()->Scene_Change(STAGE_3);
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image_Maple/Back.bmp", L"Back");
 	CObj* m_pMouse = CAbstractFactory<CMouse>::Create();

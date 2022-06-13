@@ -51,6 +51,11 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 						CSceneMgr::Get_Instance()->Scene_Change(STAGE_2);
 						return true;
 					}
+					else if (CSceneMgr::Get_Instance()->Get_SceneID() == STAGE_2)
+					{
+						CSceneMgr::Get_Instance()->Scene_Change(STAGE_3);
+						return true;
+					}
 				}
 				if (fX > fY) //상하 충돌
 				{

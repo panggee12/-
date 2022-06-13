@@ -151,6 +151,7 @@
     <ClInclude Include="BmpMgr.h" />
     <ClInclude Include="Buttons.h" />
     <ClInclude Include="CollisionMgr.h" />
+    <ClInclude Include="Damage.h" />
     <ClInclude Include="Default.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Effect.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="BmpMgr.cpp" />
     <ClCompile Include="Buttons.cpp" />
     <ClCompile Include="CollisionMgr.cpp" />
+    <ClCompile Include="Damage.cpp" />
     <ClCompile Include="Default.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Icon.cpp" />

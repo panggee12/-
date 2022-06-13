@@ -7,6 +7,7 @@
 #include "KeyMgr.h"
 #include "AbstractFactory.h"
 #include "Effect.h"
+#include "Item.h"
 CMonster::CMonster() :m_PreState(END), m_CureState(IDLE), m_PatternTime(GetTickCount()), m_bGuide(false), m_AttackedTime(GetTickCount()), m_dwEffectDelay(GetTickCount())
 {
 	m_bJump = false;
@@ -39,8 +40,13 @@ void CMonster::Initialize(void)
 
 int CMonster::Update(void)
 {
-	if (m_bDead&&m_PatternTime+800<GetTickCount())
+	if (m_bDead&&m_PatternTime + 800 < GetTickCount())
+	{
+		CObj* pItem = CAbstractFactory<CItem>::Create(m_tInfo.fX, m_tInfo.fY,PORTAL_END,MONEY);
+		CObjMgr::Get_Instance()->Add_Obj(OBJ_ITEM, pItem);
+
 		return OBJ_DEAD;
+	}
 	
 	if (m_bAttacked&&m_dwAttackedTime + 500 >= GetTickCount())
 	{

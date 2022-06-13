@@ -2,8 +2,10 @@
 #include "Obj.h"
 #include "LineMgr.h"
 #include "KeyMgr.h"
+#include "ObjMgr.h"
+#include "Player.h"
 CObj::CObj() : m_fSpeed(0.f), m_bDead(false), m_iDrawid(0), m_bJump(false), m_fJumpPower(7), m_fJumpTime(0), m_tProtal(PORTAL_END),
-m_bAttacked(false), m_pTarget(nullptr), m_iDamage(0), m_bGod(false), m_iDeadCount(0), m_dwDeleteEffect(GetTickCount())
+m_bAttacked(false), m_pTarget(nullptr), m_iDamage(0), m_bGod(false), m_iDeadCount(0), m_dwDeleteEffect(GetTickCount()), m_tItem(ITEM_END)
 {
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
@@ -56,35 +58,64 @@ void CObj::Jumping()
 			m_fJumpTime = 0.f;
 			m_bJump = false;
 			m_tInfo.fY = fOnLine;
+		
+			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
 		}
 		else if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
-			m_tInfo.fX = fRopeX;
-			m_tInfo.fY -= m_fSpeed;
-			m_fJumpTime = 0.f;
 			m_bJump = false;
+			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_State(7);
+			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(true);
+		}
+		else if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Up(VK_UP))
+		{
+			m_bJump = false;
+			
+			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(true);
 		}
 	}
 	else
-		if (CollisionLineX&&m_tInfo.fY < fOnLine)
-		{
-			m_fJumpTime += 0.1f;
-			m_tInfo.fY = m_tInfo.fY + 5.f * m_fJumpTime*m_fJumpTime*0.5f;
-			if (m_tInfo.fY >= fOnLine)
-			{
-				m_tInfo.fY = fOnLine;
-				m_fJumpTime = 0.f;
-			}
+	{
 
-		}
-		else if (CollisionLineX&&m_tInfo.fY >= fOnLine)
+		if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
-			m_fJumpTime = 0.f;
-			m_tInfo.fY = fOnLine;
+			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_State(7);
+			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(true);
+			return;
 		}
-		else if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
+		else if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Up(VK_UP))
+		{
+			m_bJump = false;
+			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_State(8);
+			
+		}
+		if (!CollisionLineY)
+		{
+
+			if (CollisionLineX&&m_tInfo.fY < fOnLine)
+			{
+				m_fJumpTime += 0.1f;
+				m_tInfo.fY = m_tInfo.fY + 5.f * m_fJumpTime*m_fJumpTime*0.5f;
+				if (m_tInfo.fY >= fOnLine)
+				{
+					m_tInfo.fY = fOnLine;
+					m_fJumpTime = 0.f;
+					static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
+				}
+
+			}
+			else if (CollisionLineX&&m_tInfo.fY >= fOnLine)
+			{
+				m_fJumpTime = 0.f;
+				m_tInfo.fY = fOnLine;
+				static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
+			}
+		}
+	}
+		
+		/*else if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
 			m_tInfo.fX = fRopeX;
 			m_tInfo.fY -= m_fSpeed;
-		}
+		}*/
 }

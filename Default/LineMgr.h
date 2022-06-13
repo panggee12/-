@@ -19,7 +19,9 @@ public:
 	bool		Collision_LineY(float* fX, float* fY,float* pX);
 	//bool		Collision_Block(float fX, float fY, float* pY, float* pY1);
 	void		Load_File(STAGEID _STAGEID);
+	void		Load_File_Rofe(STAGEID _STAGEID);
 	void		Save_File(void);
+	void		Save_File_Rofe(void);
 	//void		Load_File_Portal(STAGEID _STAGEID);
 	//void		Save_File_Portal(void);
 

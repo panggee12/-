@@ -1,11 +1,11 @@
 #pragma once
 #include "Obj.h"
-class CItem :
+class CDamage :
 	public CObj
 {
 public:
-	CItem();
-	virtual ~CItem();
+	CDamage();
+	virtual ~CDamage();
 
 public:
 	virtual void Initialize(void) override;
@@ -13,5 +13,8 @@ public:
 	virtual	void Late_Update(void)override;
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
+
+private:
+	int m_iDamageCount;
 };
 
