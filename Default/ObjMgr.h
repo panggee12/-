@@ -20,8 +20,11 @@ public:
 
 	list<CObj*>*	Get_Block() { return &m_ObjList[OBJ_BLOCK]; }
 	list<CObj*>*	Get_Monster() { return &m_ObjList[OBJ_MONSTER]; }
+	list<CObj*>*	Get_Buttons() { return &m_ObjList[OBJ_BUTTONS]; }
 	CObj*			Get_Player() { return m_ObjList[OBJ_PLAYER].front(); }
 	CObj*			Get_Mouse() { return m_ObjList[OBJ_MOUSE].front(); }
+	CObj*			Get_Shop() { return m_ObjList[OBJ_SHOP].front(); }
+	CObj*			Get_Ui() { return m_ObjList[OBJ_UI].front(); }
 public:
 	static CObjMgr* Get_Instance()
 	{

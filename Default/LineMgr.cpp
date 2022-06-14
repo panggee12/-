@@ -31,7 +31,7 @@ void CLineMgr::Update(void)
 
 	pt.x -= (int)CScrollMgr::Get_Instance()->Get_ScrollX();
 	pt.y -= (int)CScrollMgr::Get_Instance()->Get_ScrollY();
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+	if (CKeyMgr::Get_Instance()->Key_Pressing('X') && CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 	{
 		// 처음 마우스 피킹을 한 경우
 		if ((!m_tLinePoint[LEFT].fX) && (!m_tLinePoint[LEFT].fY))

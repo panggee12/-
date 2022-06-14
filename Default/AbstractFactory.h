@@ -26,25 +26,29 @@ public:
 		m_pInstance->Set_Rect(left, top, right, bottom);
 		return m_pInstance;
 	}
-	static CObj* Create(SKILLID skillid)
+	static CObj* Create(float _x, float _y, SKILLID skillid)
 	{
 		CObj* m_pInstance = new T;
 		m_pInstance->Set_Skill(skillid);
+		m_pInstance->Set_Pos(_x, _y);
 		m_pInstance->Initialize();
 		
 
 		return m_pInstance;
 	}
-	static CObj* Create(float _x, float _y, PORTALID pId=PORTAL_END,ITEMID item=ITEM_END)
+	static CObj* Create(float _x, float _y, PORTALID pId=PORTAL_END,ITEMID item=ITEM_END, BUTTONID _BUTTONID=BUTTON_END)
 	{
 		CObj* m_pInstance = new T;
 		if (pId != PORTAL_END)
 			m_pInstance->Set_Portal(pId);
 		if (item != ITEM_END)
 			m_pInstance->Set_Item(item);
-	
-		m_pInstance->Initialize();
+		if (_BUTTONID != BUTTON_END)
+			m_pInstance->Set_ButtonId(_BUTTONID);
+
 		m_pInstance->Set_Pos(_x, _y);
+		m_pInstance->Initialize();
+		
 		
 		return m_pInstance;
 	}

@@ -181,6 +181,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="ScrollMgr.h" />
+    <ClInclude Include="Shop.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage2.h" />
     <ClInclude Include="Stage3.h" />
@@ -221,6 +222,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneMgr.cpp" />
     <ClCompile Include="ScrollMgr.cpp" />
+    <ClCompile Include="Shop.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="Stage3.cpp" />

@@ -127,6 +127,9 @@
     <Filter Include="01. Obj\11. Damage">
       <UniqueIdentifier>{a28eac2a-0c5f-4012-867c-c7c39de83735}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\12. Shop">
+      <UniqueIdentifier>{ec3e3c1d-7c5b-4e69-aa68-dd383e9cc3a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -264,6 +267,9 @@
     <ClInclude Include="Damage.h">
       <Filter>01. Obj\11. Damage</Filter>
     </ClInclude>
+    <ClInclude Include="Shop.h">
+      <Filter>01. Obj\12. Shop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -373,6 +379,9 @@
     </ClCompile>
     <ClCompile Include="Damage.cpp">
       <Filter>01. Obj\11. Damage</Filter>
+    </ClCompile>
+    <ClCompile Include="Shop.cpp">
+      <Filter>01. Obj\12. Shop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,11 @@
 #pragma once
 #include "Obj.h"
-class CItem :
+class CShop :
 	public CObj
 {
 public:
-	CItem();
-	virtual ~CItem();
+	CShop();
+	virtual ~CShop();
 
 public:
 	virtual void Initialize(void) override;
@@ -15,8 +15,6 @@ public:
 	virtual void Release(void) override;
 
 private:
-	float		m_fDropLength;
-	float		m_fDropPos;
-	float		m_fDropSpeed;
+	void Update_Rect_Shop();
 };
 

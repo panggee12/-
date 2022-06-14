@@ -2,7 +2,11 @@
 #include "Ui.h"
 #include "BmpMgr.h"
 #include "ObjMgr.h"
-CUi::CUi()
+#include "ScrollMgr.h"
+#include "Player.h"
+#include "AbstractFactory.h"
+#include "Buttons.h"
+CUi::CUi():m_bShop(false), m_bInven(false), m_bSkillBook(false)
 {
 }
 
@@ -20,6 +24,15 @@ void CUi::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/exp.bmp", L"NowExp");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/screen_quickslot.bmp", L"Quick");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/level.bmp", L"Level");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/shopitem_0.bmp", L"Shop");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/Inven.bmp", L"Inven");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/SkillBook.bmp", L"SkillBook");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/Skill1Icon.bmp", L"Skill1Icon");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/Skill2Icon.bmp", L"Skill2Icon");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/Skill3Icon.bmp", L"Skill3Icon");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/buf.bmp", L"Skill4Icon");
+	
+
 }
 
 int CUi::Update(void)
@@ -40,7 +53,17 @@ void CUi::Render(HDC hDC)
 	HDC  NOWEXPhdc=CBmpMgr::Get_Instance()->Find_Image(L"NowExp");
 	HDC  QUICKhdc=CBmpMgr::Get_Instance()->Find_Image(L"Quick");
 	HDC  LEVELhdc = CBmpMgr::Get_Instance()->Find_Image(L"Level");
+	HDC  SHOPHDC= CBmpMgr::Get_Instance()->Find_Image(L"Shop");
+	HDC  INVENHDC = CBmpMgr::Get_Instance()->Find_Image(L"Inven");
+	HDC  SKILLBOOKHDC = CBmpMgr::Get_Instance()->Find_Image(L"SkillBook");
+	HDC  SKILL1ICONHDC=CBmpMgr::Get_Instance()->Find_Image(L"Skill1Icon");
+	HDC  SKILL2ICONHDC=CBmpMgr::Get_Instance()->Find_Image(L"Skill2Icon");
+	HDC  SKILL3ICONHDC=CBmpMgr::Get_Instance()->Find_Image(L"Skill3Icon");
+	HDC  SKILL4ICONHDC=CBmpMgr::Get_Instance()->Find_Image(L"Skill4Icon");
+	
 
+	int iScrollX = CScrollMgr::Get_Instance()->Get_ScrollX();
+	int iScrollY = CScrollMgr::Get_Instance()->Get_ScrollY();
 	GdiTransparentBlt(hDC,
 		312,
 		WINCY-80,
@@ -129,6 +152,101 @@ void CUi::Render(HDC hDC)
 		192,
 		64,
 		RGB(255, 0, 255));
+	if (m_bShop)
+	{
+		GdiTransparentBlt(hDC,
+			200,
+			50,
+			508,
+			505,
+			SHOPHDC,
+			0,
+			0,
+			508,
+			505,
+			RGB(255, 0, 255));
+		m_tRect = { 390, 90, 470, 110 };
+	}
+	if (m_bInven)
+	{
+		GdiTransparentBlt(hDC,
+			500,
+			150,
+			172,
+			335,
+			INVENHDC,
+			0,
+			0,
+			172,
+			335,
+			RGB(255, 0, 255));
+	}
+	if (m_bSkillBook)
+	{
+		GdiTransparentBlt(hDC,
+			500,
+			150,
+			174,
+			300,
+			SKILLBOOKHDC,
+			0,
+			0,
+			174,
+			300,
+			RGB(0, 255, 0));
+		GdiTransparentBlt(hDC,
+			512,
+			245,
+			32,
+			32,
+			SKILL1ICONHDC,
+			32*static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill1(),
+			0,
+			32,
+			32,
+			RGB(0, 255, 0));
+		GdiTransparentBlt(hDC,
+			512,
+			285,
+			32,
+			32,
+			SKILL2ICONHDC,
+			32 * static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill2(),
+			0,
+			32,
+			32,
+			RGB(0, 255, 0));
+		GdiTransparentBlt(hDC,
+			512,
+			325,
+			32,
+			32,
+			SKILL3ICONHDC,
+			32 * static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill3(),
+			0,
+			32,
+			32,
+			RGB(0, 255, 0));
+		GdiTransparentBlt(hDC,
+			512,
+			365,
+			32,
+			32,
+			SKILL4ICONHDC,
+			32 * static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill4(),
+			0,
+			32,
+			32,
+			RGB(0, 255, 0));
+		if (CObjMgr::Get_Instance()->Get_Player()->Get_SkillPoint() > 0)
+		{
+			CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 269, PORTAL_END, ITEM_END, SKILL_BUTTON1));
+			CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 269, PORTAL_END, ITEM_END, SKILL_BUTTON2));
+			CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 269, PORTAL_END, ITEM_END, SKILL_BUTTON3));
+			CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 269, PORTAL_END, ITEM_END, SKILL_BUTTON4));
+		}
+	}
+
 }
 
 void CUi::Release(void)

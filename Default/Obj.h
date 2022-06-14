@@ -34,18 +34,22 @@ public:
 	const RECT& Get_Rect() { return m_tRect; }
 	const LINE& Get_Line() { return m_tLine; }
 	const PORTALID& Get_Portal() { return m_tProtal; }
-	POINT		Get_Cursor() { return pt; }
+	POINT&		Get_Cursor() { return pt; }
 	SKILLID		Get_Skill() { return m_tSkill; }
 	DWORD		Get_AttackedTime() { return m_dwAttackedTime; }
 	Status		Get_Status() { return m_tStatus; }
 	ITEMID		Get_Item() { return m_tItem; }
 	int			Get_Damage() { return m_iDamage; }
+	int			Get_Money() { return m_iMoney; }
+	int			Get_SkillPoint() { return m_iSkillPoint; }
 	bool		Get_Attacked() { return m_bAttacked; }
 	bool		Get_God() { return m_bGod; }
 	bool		Get_AlreadyDead() { return m_iDeadCount; }
 	bool		Get_Dead() { return m_bDead; }
 	const TCHAR* Get_FrameKey() { return m_framekey; }
 
+	void		Set_SkillPoint() { m_iSkillPoint -= 1; }
+	void		Set_ButtonId(BUTTONID _BID) { m_tButton = _BID; }
 	void		Set_Item(ITEMID _ITEM) { m_tItem = _ITEM; }
 	void		Set_Rect(int left, int top, int right, int bottom) { m_tRect.left = left; m_tRect.top = top; m_tRect.right = right; m_tRect.bottom = bottom; }
 	void		Set_Target(CObj* Target) { m_pTarget = Target; }
@@ -58,9 +62,12 @@ public:
 	void		Set_Damage(int Damage) { m_iDamage = Damage; }
 	void		Set_Dead() { m_bDead = true; }
 	void		Set_ExpUp(int _iExp) { m_tStatus.m_iExp += _iExp; }
+	void		Set_MoneyUp(int _iMoney) { m_iMoney += _iMoney; }
 	void		Set_LvUp() { m_tStatus.m_iLv += 1; m_tStatus.m_iExp -= m_tStatus.m_iMaxExp; m_tStatus.m_iMaxExp += 100;
 								m_tStatus.m_iMaxHp += 142; m_tStatus.m_iHp = m_tStatus.m_iMaxHp;
-								m_tStatus.m_iMaxMp += 142; m_tStatus.m_iMp = m_tStatus.m_iMaxMp;}
+								m_tStatus.m_iMaxMp += 142; m_tStatus.m_iMp = m_tStatus.m_iMaxMp;
+								m_iSkillPoint += 4;
+	}
 public:
 	virtual		void	Initialize(void)	PURE;
 	virtual		int		Update(void)		PURE;
@@ -85,6 +92,7 @@ protected:
 	DWORD		m_dwAttackedTime;
 	Status		m_tStatus;
 	ITEMID		m_tItem;
+	BUTTONID    m_tButton;
 	float		m_fSpeed;
 	float		m_fJumpPower;
 	float		m_fJumpTime;
@@ -95,6 +103,8 @@ protected:
 	int			m_iDeadCount;
 	int			m_iDrawid;
 	int			m_iDamage;
+	int			m_iMoney;
+	int			m_iSkillPoint;
 	DWORD		m_dwSkillTime;
 	DWORD		m_dwNoSkill;
 	DWORD		m_dwDeleteEffect;

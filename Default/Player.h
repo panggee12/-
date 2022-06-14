@@ -22,6 +22,10 @@ public:
 	void Set_FixedX(bool fixedX) { m_bFixedX = fixedX; }
 	void Set_State(int i) { m_CureState = state(i); }
 	bool Get_Rofe() { return m_bRofe; }
+	int  Get_Skill1() { return m_iSkill1; }
+	int  Get_Skill2() { return m_iSkill2; }
+	int  Get_Skill3() { return m_iSkill3; }
+	int  Get_Skill4() { return m_iSkill4; }
 private:
 	void		Key_Input(void);
 	
@@ -33,5 +37,11 @@ private:
 
 	bool		m_bRofe;
 	bool		m_bFixedX;
+
+	int			m_iSkill1;
+	int			m_iSkill2;
+	int			m_iSkill3;
+	int			m_iSkill4;
+	
 };
 

@@ -7,12 +7,15 @@
 #include "ObjMgr.h"
 #include "Ui.h"
 #include "ScrollMgr.h"
+#include "Shop.h"
+#include "KeyMgr.h"
 CStage3::CStage3()
 {
 	m_tStage = STAGE_3;
 	CLineMgr::Get_Instance()->Load_File(m_tStage);
 	CLineMgr::Get_Instance()->Load_File_Rofe(m_tStage);
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(1830, 680, PORTAL3));
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_SHOP, CAbstractFactory<CShop>::Create(1000, 400));
 }
 
 
@@ -43,6 +46,22 @@ int CStage3::Update(void)
 {
 	CObjMgr::Get_Instance()->Update();
 	CLineMgr::Get_Instance()->Update();
+
+	int iScrollX = CScrollMgr::Get_Instance()->Get_ScrollX();
+	int iScrollY = CScrollMgr::Get_Instance()->Get_ScrollY();
+
+	POINT pt = {};
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
+	
+	if ((PtInRect(&(CObjMgr::Get_Instance()->Get_Shop()->Get_Rect()),pt))&& CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+	{
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Shop_On_Off(true);
+	}
+	else if (static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Get_Shop() &&
+		PtInRect(&(CObjMgr::Get_Instance()->Get_Ui()->Get_Rect()), pt)
+		&& CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Shop_On_Off(false);
 
 	CScrollMgr::Get_Instance()->Scroll_Lock(m_tInfo.fCX, m_tInfo.fCY);
 	return 0;

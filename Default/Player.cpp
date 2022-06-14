@@ -9,7 +9,9 @@
 #include "Pattack.h"
 #include "PSkill1.h"
 #include "PSkill2.h"
-CPlayer::CPlayer():m_CureState(IDLE),m_PreState(STATE_END), m_dwAttack1(GetTickCount()), m_dwAttackDelay(GetTickCount()-700), m_bRofe(false), m_bFixedX(false)
+#include "Ui.h"
+CPlayer::CPlayer():m_CureState(IDLE),m_PreState(STATE_END), m_dwAttack1(GetTickCount()), m_dwAttackDelay(GetTickCount()-700), m_bRofe(false), m_bFixedX(false),
+m_iSkill1(1), m_iSkill2(1), m_iSkill3(1), m_iSkill4(1)
 {
 	m_tStatus = { 1,142,142,142,142,0,100 };
 }
@@ -249,6 +251,20 @@ void CPlayer::Key_Input(void)
 		else
 			m_CureState = IDLE;
 	}
+	
+	if(static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Get_Inven()&&CKeyMgr::Get_Instance()->Key_Down('I'))
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Inven_On_Off(false);
+	else if (CKeyMgr::Get_Instance()->Key_Down('I'))
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Inven_On_Off(true);
+
+	if (static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Get_SkillBook() && CKeyMgr::Get_Instance()->Key_Down('K'))
+	{
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->SkillBook_On_Off(false);
+		if (CObjMgr::Get_Instance()->Get_Buttons()->size())
+			CObjMgr::Get_Instance()->Delete_Obj(OBJ_BUTTONS);
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Down('K'))
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->SkillBook_On_Off(true);
 }
 
 void CPlayer::Move_Change()

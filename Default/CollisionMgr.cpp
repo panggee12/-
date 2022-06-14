@@ -25,6 +25,7 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 			float fY = 0.f;
 			if (Collision_Check(Dest, Sour, fX, fY))
 			{
+				
 				if (!Sour->Get_God())
 				{
 					Sour->Set_Attacked();
@@ -33,10 +34,11 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 				}
 				if(Dest->Get_Skill()==NORMAL)
 					Dest->Set_Dead();
-				else if(static_cast<CMonster*>(Sour)->Get_Effect_Delay()+400<GetTickCount())
+				else
 				{
-					CObj* Effect = CAbstractFactory<CEffect>::Create(Dest->Get_Skill());
+					CObj* Effect = CAbstractFactory<CEffect>::Create(Sour->Get_Info().fX, Sour->Get_Info().fY, Dest->Get_Skill());
 					Effect->Set_Target(Sour);
+					
 					CObjMgr::Get_Instance()->Add_Obj(OBJ_EFFECT, Effect);
 					static_cast<CMonster*>(Sour)->Set_Effect_Delay();
 				}
@@ -89,6 +91,29 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 	}
 	return false;
 
+}
+
+bool CCollisionMgr::Collision_Item(list<CObj*> _Dest, list<CObj*> _Sour)
+{
+	for (auto& Dest : _Dest)
+	{
+		for (auto& Sour : _Sour)
+		{
+			float fX = 0.f;
+			float fY = 0.f;
+			if (Collision_Check(Dest, Sour, fX, fY))
+			{
+				if (Sour->Get_Item() == MONEY&&CKeyMgr::Get_Instance()->Key_Down('Z'))
+				{
+					Dest->Set_MoneyUp(Sour->Get_Money());
+					Sour->Set_Dead();
+					return true;
+				}
+			}
+		}
+	}
+	
+	return false;
 }
 
 

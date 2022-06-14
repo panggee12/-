@@ -21,7 +21,7 @@ void CLobby::Initialize(void)
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Button/loginBt.bmp", L"LOGINBT");
 	
-	CObj* m_pButton = CAbstractFactory<CButtons>::Create(477, 306);
+	CObj* m_pButton = CAbstractFactory<CButtons>::Create(477, 306,PORTAL_END, ITEM_END,LOBBY_BUTTON);
 	m_pButton->Set_key(L"LOGINBT");
 
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, m_pButton);

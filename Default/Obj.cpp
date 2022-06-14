@@ -5,7 +5,8 @@
 #include "ObjMgr.h"
 #include "Player.h"
 CObj::CObj() : m_fSpeed(0.f), m_bDead(false), m_iDrawid(0), m_bJump(false), m_fJumpPower(7), m_fJumpTime(0), m_tProtal(PORTAL_END),
-m_bAttacked(false), m_pTarget(nullptr), m_iDamage(0), m_bGod(false), m_iDeadCount(0), m_dwDeleteEffect(GetTickCount()), m_tItem(ITEM_END)
+m_bAttacked(false), m_pTarget(nullptr), m_iDamage(0), m_bGod(false), m_iDeadCount(0), m_dwDeleteEffect(GetTickCount()), m_tItem(ITEM_END), m_iMoney(0),
+m_iSkillPoint(1), m_tButton(BUTTON_END)
 {
 	ZeroMemory(&m_tInfo, sizeof(INFO));
 	ZeroMemory(&m_tRect, sizeof(RECT));
