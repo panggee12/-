@@ -21,7 +21,10 @@ void CLogo::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image_Maple/Logo.bmp", L"LOGO");
 
 	
-	
+	CObj* m_pMouse = CAbstractFactory<CMouse>::Create();
+	m_pMouse->Set_key(L"MOUSE");
+
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_MOUSE, m_pMouse);
 }
 
 int CLogo::Update(void)
@@ -32,9 +35,10 @@ int CLogo::Update(void)
 
 void CLogo::Late_Update(void)
 {
-	CObjMgr::Get_Instance()->Late_Update();
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+	
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_RETURN))
 	{
+		CObjMgr::Get_Instance()->Late_Update();
 		CSceneMgr::Get_Instance()->Scene_Change(STAGE_LOBBY);
 		return;
 	}

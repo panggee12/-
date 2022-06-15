@@ -19,17 +19,24 @@ public:
 
 		return m_pInstance;
 	}
-	static CObj* Create(int left, int top, int right, int bottom)
+	/*static CObj* Create(int left, int top, int right, int bottom)
 	{
 		CObj* m_pInstance = new T;
 		m_pInstance->Initialize();
 		m_pInstance->Set_Rect(left, top, right, bottom);
 		return m_pInstance;
-	}
-	static CObj* Create(float _x, float _y, SKILLID skillid)
+	}*/
+	static CObj* Create(float _x, float _y, SKILLID skillid=PSKILL_END, ITEMID itemid=ITEM_END)
 	{
 		CObj* m_pInstance = new T;
-		m_pInstance->Set_Skill(skillid);
+		if (skillid != PSKILL_END)
+			m_pInstance->Set_Skill(skillid);
+		else if(skillid == PSKILL_END)
+			m_pInstance->Set_Skill(PSKILL_END);
+		if (itemid != ITEM_END)
+			m_pInstance->Set_Item(itemid);
+		else if(itemid==ITEM_END)
+			m_pInstance->Set_Item(ITEM_END);
 		m_pInstance->Set_Pos(_x, _y);
 		m_pInstance->Initialize();
 		

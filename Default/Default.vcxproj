@@ -177,6 +177,8 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PSkill1.h" />
     <ClInclude Include="PSkill2.h" />
+    <ClInclude Include="PSkill3.h" />
+    <ClInclude Include="QuickSlot.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneMgr.h" />
@@ -219,6 +221,8 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PSkill1.cpp" />
     <ClCompile Include="PSkill2.cpp" />
+    <ClCompile Include="PSkill3.cpp" />
+    <ClCompile Include="QuickSlot.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneMgr.cpp" />
     <ClCompile Include="ScrollMgr.cpp" />

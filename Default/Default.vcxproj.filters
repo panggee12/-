@@ -130,6 +130,12 @@
     <Filter Include="01. Obj\12. Shop">
       <UniqueIdentifier>{ec3e3c1d-7c5b-4e69-aa68-dd383e9cc3a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\13. QuickSlot">
+      <UniqueIdentifier>{43ca6289-1c83-4d36-8d9c-7da82f27e68e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02. Attack\00. PAttack\02. PSkill3">
+      <UniqueIdentifier>{328c7fb3-1454-4be6-88ad-2b2dfe30a30c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -270,6 +276,12 @@
     <ClInclude Include="Shop.h">
       <Filter>01. Obj\12. Shop</Filter>
     </ClInclude>
+    <ClInclude Include="QuickSlot.h">
+      <Filter>01. Obj\13. QuickSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="PSkill3.h">
+      <Filter>01. Obj\02. Attack\00. PAttack\02. PSkill3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -382,6 +394,12 @@
     </ClCompile>
     <ClCompile Include="Shop.cpp">
       <Filter>01. Obj\12. Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="QuickSlot.cpp">
+      <Filter>01. Obj\13. QuickSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="PSkill3.cpp">
+      <Filter>01. Obj\02. Attack\00. PAttack\02. PSkill3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

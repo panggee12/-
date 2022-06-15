@@ -15,7 +15,7 @@ CStage3::CStage3()
 	CLineMgr::Get_Instance()->Load_File(m_tStage);
 	CLineMgr::Get_Instance()->Load_File_Rofe(m_tStage);
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(1830, 680, PORTAL3));
-	CObjMgr::Get_Instance()->Add_Obj(OBJ_SHOP, CAbstractFactory<CShop>::Create(1000, 400));
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_SHOP, CAbstractFactory<CShop>::Create(1000, 400,PSKILL_END,ITEM_END));
 }
 
 
@@ -35,7 +35,7 @@ void CStage3::Initialize(void)
 
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER, m_pPlayer);
 
-	CObjMgr::Get_Instance()->Get_Player()->Set_Pos(150, -100);
+	CObjMgr::Get_Instance()->Get_Player()->Set_Pos(800, 200);
 
 	CObj* m_pUi = CAbstractFactory<CUi>::Create();
 

@@ -20,9 +20,25 @@ public:
 	bool Get_Inven() { return m_bInven; }
 	void SkillBook_On_Off(bool bSkillbook) { m_bSkillBook = bSkillbook; }
 	bool Get_SkillBook() { return m_bSkillBook; }
-private:
-	bool m_bShop;
-	bool m_bInven;
+	
+	void Set_ButtonF() { m_bSkBt1 = false;  m_bSkBt2 = false; m_bSkBt3 = false; m_bSkBt4 = false; }
+private:			   
+	bool m_bShop;	   
+	bool m_bInven;	    
 	bool m_bSkillBook;
+	bool m_bSkBt1;
+	bool m_bSkBt2;
+	bool m_bSkBt3;
+	bool m_bSkBt4;
+
+	int SkillOn1;
+	int SkillOn2;
+	int SkillOn3;
+	int SkillOn4;
+	RECT m_rc1;
+	RECT m_rc2;
+	RECT m_rc3;
+	RECT m_rc4;
+	RECT m_Invenrc;
 };
 

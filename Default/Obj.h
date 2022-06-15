@@ -39,7 +39,7 @@ public:
 	DWORD		Get_AttackedTime() { return m_dwAttackedTime; }
 	Status		Get_Status() { return m_tStatus; }
 	ITEMID		Get_Item() { return m_tItem; }
-	int			Get_Damage() { return m_iDamage; }
+	int			Get_Damage() { return m_tStatus.m_iDamage; }
 	int			Get_Money() { return m_iMoney; }
 	int			Get_SkillPoint() { return m_iSkillPoint; }
 	bool		Get_Attacked() { return m_bAttacked; }
@@ -48,6 +48,7 @@ public:
 	bool		Get_Dead() { return m_bDead; }
 	const TCHAR* Get_FrameKey() { return m_framekey; }
 
+	void		Set_AttackedDir(bool Dir) { m_bAttackedDir = Dir; }
 	void		Set_SkillPoint() { m_iSkillPoint -= 1; }
 	void		Set_ButtonId(BUTTONID _BID) { m_tButton = _BID; }
 	void		Set_Item(ITEMID _ITEM) { m_tItem = _ITEM; }
@@ -59,15 +60,14 @@ public:
 	void		Set_Attacked(bool Attacked) { m_bAttacked = Attacked; m_bGod = true; }
 	void		Set_Skill(SKILLID SID) { m_tSkill = SID; }
 	void		Set_MinusHp(int Damage) { m_tStatus.m_iHp -= Damage; }
-	void		Set_Damage(int Damage) { m_iDamage = Damage; }
+	void		Set_Damage(int Damage) { m_tStatus.m_iDamage = Damage; }
 	void		Set_Dead() { m_bDead = true; }
 	void		Set_ExpUp(int _iExp) { m_tStatus.m_iExp += _iExp; }
 	void		Set_MoneyUp(int _iMoney) { m_iMoney += _iMoney; }
 	void		Set_LvUp() { m_tStatus.m_iLv += 1; m_tStatus.m_iExp -= m_tStatus.m_iMaxExp; m_tStatus.m_iMaxExp += 100;
 								m_tStatus.m_iMaxHp += 142; m_tStatus.m_iHp = m_tStatus.m_iMaxHp;
 								m_tStatus.m_iMaxMp += 142; m_tStatus.m_iMp = m_tStatus.m_iMaxMp;
-								m_iSkillPoint += 4;
-	}
+								m_iSkillPoint += 4; m_tStatus.m_iDamage += m_tStatus.m_iLv * 10;}
 public:
 	virtual		void	Initialize(void)	PURE;
 	virtual		int		Update(void)		PURE;
@@ -100,9 +100,9 @@ protected:
 	bool		m_bJump;
 	bool		m_bAttacked;
 	bool		m_bGod;
+	bool		m_bAttackedDir;
 	int			m_iDeadCount;
 	int			m_iDrawid;
-	int			m_iDamage;
 	int			m_iMoney;
 	int			m_iSkillPoint;
 	DWORD		m_dwSkillTime;

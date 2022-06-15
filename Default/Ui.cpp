@@ -6,7 +6,11 @@
 #include "Player.h"
 #include "AbstractFactory.h"
 #include "Buttons.h"
-CUi::CUi():m_bShop(false), m_bInven(false), m_bSkillBook(false)
+#include "QuickSlot.h"
+#include "KeyMgr.h"
+#include "Inventory.h"
+CUi::CUi():m_bShop(false), m_bInven(false), m_bSkillBook(false), m_bSkBt1(false), m_bSkBt2(false), m_bSkBt3(false), m_bSkBt4(false),
+SkillOn1(0), SkillOn2(0), SkillOn3(0), SkillOn4(0)
 {
 }
 
@@ -24,19 +28,21 @@ void CUi::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/exp.bmp", L"NowExp");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/screen_quickslot.bmp", L"Quick");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/level.bmp", L"Level");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/shopitem_0.bmp", L"Shop");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/shopitem_1.bmp", L"Shop");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/Inven.bmp", L"Inven");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/SkillBook.bmp", L"SkillBook");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/Skill1Icon.bmp", L"Skill1Icon");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/Skill2Icon.bmp", L"Skill2Icon");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/Skill3Icon.bmp", L"Skill3Icon");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/buf.bmp", L"Skill4Icon");
-	
-
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_QUICKSLOT, CAbstractFactory<CQuickSlot>::Create());
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_INVEN, CAbstractFactory<CInventory>::Create());
 }
 
 int CUi::Update(void)
 {
+	GetCursorPos(&pt);
+	ScreenToClient(g_hWnd, &pt);
 	return 0;
 }
 
@@ -60,6 +66,7 @@ void CUi::Render(HDC hDC)
 	HDC  SKILL2ICONHDC=CBmpMgr::Get_Instance()->Find_Image(L"Skill2Icon");
 	HDC  SKILL3ICONHDC=CBmpMgr::Get_Instance()->Find_Image(L"Skill3Icon");
 	HDC  SKILL4ICONHDC=CBmpMgr::Get_Instance()->Find_Image(L"Skill4Icon");
+
 	
 
 	int iScrollX = CScrollMgr::Get_Instance()->Get_ScrollX();
@@ -100,23 +107,23 @@ void CUi::Render(HDC hDC)
 	GdiTransparentBlt(hDC,
 		336,
 		WINCY-52,
-		142,
+		CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iHp / CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iLv,
 		13,
 		HPhdc,
 		0,
 		0,
-		CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iHp/CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iLv,
+		142,
 		13,
 		RGB(255, 0, 255));
 	GdiTransparentBlt(hDC,
 		336,
 		WINCY - 36,
-		142,
+		CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iMp / CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iLv,
 		13,
 		MPhdc,
 		0,
 		0,
-		CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iMp / CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iLv,
+		142,
 		13,
 		RGB(255, 0, 255));
 	GdiTransparentBlt(hDC,
@@ -166,6 +173,12 @@ void CUi::Render(HDC hDC)
 			505,
 			RGB(255, 0, 255));
 		m_tRect = { 390, 90, 470, 110 };
+		m_Invenrc = { 635,104,685,124 };
+		TCHAR	szText[32] = L"";
+		swprintf_s(szText, L" %d", CObjMgr::Get_Instance()->Get_Player()->Get_Money());
+		SetBkMode(hDC, TRANSPARENT);	// Text 배경 투명하게
+										//TextOut(hDC, (int)m_tInfo.fX, (int)m_tInfo.fY, szText, lstrlen(szText));
+		DrawText(hDC, szText, lstrlen(szText), &m_Invenrc, DT_CENTER);
 	}
 	if (m_bInven)
 	{
@@ -180,9 +193,35 @@ void CUi::Render(HDC hDC)
 			172,
 			335,
 			RGB(255, 0, 255));
+		m_Invenrc = { 605,436,655,456 };
+		TCHAR	szText[32] = L"";
+		swprintf_s(szText, L" %d", CObjMgr::Get_Instance()->Get_Player()->Get_Money());
+		SetBkMode(hDC, TRANSPARENT);	// Text 배경 투명하게
+										//TextOut(hDC, (int)m_tInfo.fX, (int)m_tInfo.fY, szText, lstrlen(szText));
+		DrawText(hDC, szText, lstrlen(szText), &m_Invenrc, DT_CENTER);
 	}
 	if (m_bSkillBook)
 	{
+		SkillOn1 = static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill1();
+		SkillOn2 = static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill2();
+		SkillOn3 = static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill3();
+		SkillOn4 = static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill4();
+		if (SkillOn1 >= 1)
+			SkillOn1 = 1;
+		else
+			SkillOn1 = 0;
+		if (SkillOn2 >= 1)
+			SkillOn2 = 1;
+		else
+			SkillOn2 = 0;
+		if (SkillOn3 >= 1)
+			SkillOn3 = 1;
+		else
+			SkillOn3 = 0;
+		if (SkillOn4 >= 1)
+			SkillOn4 = 1;
+		else
+			SkillOn4 = 0;
 		GdiTransparentBlt(hDC,
 			500,
 			150,
@@ -200,50 +239,97 @@ void CUi::Render(HDC hDC)
 			32,
 			32,
 			SKILL1ICONHDC,
-			32*static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill1(),
+			32* SkillOn1,
 			0,
 			32,
 			32,
 			RGB(0, 255, 0));
+		m_rc1 = { 512,245,544,277 };
 		GdiTransparentBlt(hDC,
 			512,
 			285,
 			32,
 			32,
 			SKILL2ICONHDC,
-			32 * static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill2(),
+			32 * SkillOn2,
 			0,
 			32,
 			32,
 			RGB(0, 255, 0));
+		m_rc2 = { 512,285,544,317 };
 		GdiTransparentBlt(hDC,
 			512,
 			325,
 			32,
 			32,
 			SKILL3ICONHDC,
-			32 * static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill3(),
+			32 * SkillOn3,
 			0,
 			32,
 			32,
 			RGB(0, 255, 0));
+		m_rc3 = { 512,325,544,357 };
 		GdiTransparentBlt(hDC,
 			512,
 			365,
 			32,
 			32,
 			SKILL4ICONHDC,
-			32 * static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Skill4(),
+			32 * SkillOn4,
 			0,
 			32,
 			32,
 			RGB(0, 255, 0));
+		m_rc4 = { 512,365,544,397 };
+		if (PtInRect(&(m_rc1), pt)&&CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON)&&SkillOn1)
+		{
+			static_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Set_Grab(true);
+			CObjMgr::Get_Instance()->Get_Mouse()->Set_Skill(PSKILL1);
+		}
+		else if (PtInRect(&(m_rc2), pt)&&CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON) && SkillOn2)
+		{
+			static_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Set_Grab(true);
+			CObjMgr::Get_Instance()->Get_Mouse()->Set_Skill(PSKILL2);
+		}
+		else if (PtInRect(&(m_rc3), pt)&&CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON) && SkillOn3)
+		{
+			static_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Set_Grab(true);
+			CObjMgr::Get_Instance()->Get_Mouse()->Set_Skill(PSKILL3);
+		}
+		else if (PtInRect(&(m_rc4), pt)&&CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON) && SkillOn4)
+		{
+			static_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Set_Grab(true);
+			CObjMgr::Get_Instance()->Get_Mouse()->Set_Skill(PSKILL4);
+		}
+
+		m_tRect = { 632,405,652,425 };
+		TCHAR	szText[32] = L"";
+		swprintf_s(szText, L" %d", CObjMgr::Get_Instance()->Get_Player()->Get_SkillPoint());
+		SetBkMode(hDC, TRANSPARENT);	// Text 배경 투명하게
+										//TextOut(hDC, (int)m_tInfo.fX, (int)m_tInfo.fY, szText, lstrlen(szText));
+		DrawText(hDC, szText, lstrlen(szText), &m_tRect, DT_CENTER);
 		if (CObjMgr::Get_Instance()->Get_Player()->Get_SkillPoint() > 0)
 		{
-			CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 269, PORTAL_END, ITEM_END, SKILL_BUTTON1));
-			CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 269, PORTAL_END, ITEM_END, SKILL_BUTTON2));
-			CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 269, PORTAL_END, ITEM_END, SKILL_BUTTON3));
-			CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 269, PORTAL_END, ITEM_END, SKILL_BUTTON4));
+			if (!m_bSkBt1)
+			{
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 269, PORTAL_END, ITEM_END, SKILL_BUTTON1));
+				m_bSkBt1 = true;
+			}
+			if (!m_bSkBt2)
+			{
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 309, PORTAL_END, ITEM_END, SKILL_BUTTON2));
+				m_bSkBt2 = true;
+			}
+			if (!m_bSkBt3)
+			{
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 349, PORTAL_END, ITEM_END, SKILL_BUTTON3));
+				m_bSkBt3 = true;
+			}
+			if (!m_bSkBt4)
+			{
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(643, 389, PORTAL_END, ITEM_END, SKILL_BUTTON4));
+				m_bSkBt4 = true;
+			}
 		}
 	}
 
@@ -251,4 +337,5 @@ void CUi::Render(HDC hDC)
 
 void CUi::Release(void)
 {
+	CObjMgr::Get_Instance()->Delete_Obj(OBJ_BUTTONS);
 }

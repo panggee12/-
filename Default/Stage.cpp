@@ -31,9 +31,7 @@ void CStage::Initialize(void)
 	
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER,m_pPlayer);
 
-	CObj* m_pUi = CAbstractFactory<CUi>::Create();
-
-	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER, m_pUi);
+	
 }
 
 int CStage::Update(void)

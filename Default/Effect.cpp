@@ -27,7 +27,8 @@ void CEffect::Initialize(void)
 
 		m_tFrame.dwFrameSpeed = 100;
 		m_tFrame.dwFrameTime = GetTickCount();
-		CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Effect/Annihilationhit_250300_5.bmp", L"Effect");
+		CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Effect/Annihilationhit_250300_5.bmp", L"Effect1");
+		m_framekey = L"Effect1";
 	}
 	else if (m_tSkill == PSKILL2)
 	{
@@ -40,7 +41,8 @@ void CEffect::Initialize(void)
 
 		m_tFrame.dwFrameSpeed = 100;
 		m_tFrame.dwFrameTime = GetTickCount();
-		CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Effect/ascend_hit.bmp", L"Effect");	
+		CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Effect/ascend_hit.bmp", L"Effect2");	
+		m_framekey = L"Effect2";
 	}
 }
 
@@ -67,7 +69,7 @@ void CEffect::Late_Update(void)
 
 void CEffect::Render(HDC hDC)
 {
-	HDC EFFECTHDC = CBmpMgr::Get_Instance()->Find_Image(L"Effect");
+	HDC EFFECTHDC = CBmpMgr::Get_Instance()->Find_Image(m_framekey);
 
 	int iScrollX = CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = CScrollMgr::Get_Instance()->Get_ScrollY();

@@ -3,7 +3,7 @@
 #include "ScrollMgr.h"
 #include "BmpMgr.h"
 #include "KeyMgr.h"
-CMouse::CMouse():m_iDrawID(0)
+CMouse::CMouse():m_iDrawID(0),m_bGrab(false)
 {
 }
 
@@ -18,10 +18,23 @@ void CMouse::Initialize(void)
 	m_tInfo.fCY = 32.f;
 	
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Mouse/cursor.bmp", L"MOUSE");
+	/*CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/ann.bmp", L"Skill1");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/ascend.bmp", L"Skill2");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/bolt.bmp", L"Skill3");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/buf.bmp", L"Skill4");*/
+	
 }
 
 int CMouse::Update(void)
 {
+	if (m_tSkill == PSKILL1)
+		m_framekey = L"Skill1";
+	else if (m_tSkill == PSKILL2)
+		m_framekey = L"Skill2";
+	else if (m_tSkill == PSKILL3)
+		m_framekey = L"Skill3";
+	else if (m_tSkill == PSKILL4)
+		m_framekey = L"Skill4";
 	pt = {};
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
@@ -48,6 +61,21 @@ void CMouse::Render(HDC hDC)
 	int iScrollY = CScrollMgr::Get_Instance()->Get_ScrollY();
 
 	HDC MOUSEHDC=CBmpMgr::Get_Instance()->Find_Image(L"MOUSE");
+	HDC ICONHDC = CBmpMgr::Get_Instance()->Find_Image(m_framekey);
+	if (m_bGrab)
+	{
+		GdiTransparentBlt(hDC,
+			pt.x,
+			pt.y,
+			32,
+			32,
+			ICONHDC,
+			0,
+			0,
+			32,
+			32,
+			RGB(255, 0, 255));
+	}
 
 	GdiTransparentBlt(hDC,
 		pt.x ,

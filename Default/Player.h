@@ -26,14 +26,19 @@ public:
 	int  Get_Skill2() { return m_iSkill2; }
 	int  Get_Skill3() { return m_iSkill3; }
 	int  Get_Skill4() { return m_iSkill4; }
+	void Set_SkillLvup(int S1, int S2, int S3, int S4) { m_iSkill1 += S1; m_iSkill2 += S2; m_iSkill3 += S3; m_iSkill4 += S4;}
+
+	void Key_Input();
+	void known_Key(int KeyNum);
+	void Normal_Attack();
 private:
-	void		Key_Input(void);
 	
 	state		m_PreState;
 	state		m_CureState;
 
 	DWORD		m_dwAttack1;
 	DWORD		m_dwAttackDelay;
+	DWORD		m_AttackedTime;
 
 	bool		m_bRofe;
 	bool		m_bFixedX;
@@ -43,5 +48,6 @@ private:
 	int			m_iSkill3;
 	int			m_iSkill4;
 	
+	float		m_fPull;
 };
 

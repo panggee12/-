@@ -76,7 +76,7 @@ void CLineMgr::Update(void)
 		}
 	}
 	if (CKeyMgr::Get_Instance()->Key_Down('P'))
-		CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(pt.x, pt.y));
+		CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(pt.x, pt.y,PORTAL1));
 
 	if (CKeyMgr::Get_Instance()->Key_Down('Q'))
 	{
@@ -88,7 +88,7 @@ void CLineMgr::Update(void)
 	if (CKeyMgr::Get_Instance()->Key_Down(VK_F1))
 	{
 		Save_File();
-		Save_File_Rofe();
+		//Save_File_Rofe();
 		//Save_File_Portal();
 	}
 
@@ -275,7 +275,7 @@ bool CLineMgr::Collision_LineY(float* fX, float * fY, float* pX)
 void CLineMgr::Save_File(void)
 {
 	// 1. 파일 개방
-	HANDLE	hFile = CreateFile(L"../Save/Line_Stage3.dat",	// 파일 경로와 이름을 명시하는 매개변수
+	HANDLE	hFile = CreateFile(L"../Save/Line_Stage1.dat",	// 파일 경로와 이름을 명시하는 매개변수
 		GENERIC_WRITE,		// 모드 지정, GENERIC_WRITE(쓰기), GENERIC_READ(읽기)
 		NULL,				// 공유 방식, 파일이 열려 있는 상태에서 다른 프로세스가 오픈할 때 허용을 할 것인가, NULL로 지정 시 공유하지 않음
 		NULL,				// 보안 속성, NULL인 경우 기본 값으로 설정

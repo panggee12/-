@@ -31,6 +31,10 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 					Sour->Set_Attacked();
 					Sour->Set_Attacked(true);
 					Sour->Set_MinusHp(Dest->Get_Damage());
+					if (Sour->Get_Info().fX < Dest->Get_Info().fX)
+						Sour->Set_AttackedDir(false);
+					else
+						Sour->Set_AttackedDir(true);
 				}
 				if(Dest->Get_Skill()==NORMAL)
 					Dest->Set_Dead();
@@ -46,46 +50,34 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 				{
 					static_cast<CMonster*>(Sour)->Set_State(static_cast<CMonster*>(Sour)->DIE);
 				}
-				if (CKeyMgr::Get_Instance()->Key_Down(VK_UP))
-				{
-					if (CSceneMgr::Get_Instance()->Get_SceneID() == STAGE_1)
-					{
-						CSceneMgr::Get_Instance()->Scene_Change(STAGE_2);
-						return true;
-					}
-					else if (CSceneMgr::Get_Instance()->Get_SceneID() == STAGE_2)
-					{
-						CSceneMgr::Get_Instance()->Scene_Change(STAGE_3);
-						return true;
-					}
-				}
-				if (fX > fY) //»óÇÏ Ãæµ¹
-				{
-					if (Dest->Get_Info().fY < Sour->Get_Info().fY)// Dest°¡ ¶³¾îÁö´Â ±âÁØ Sour À§·Î ¶³¾îÁü
-					{
-						//Dest->Set_PosY(-fY);
-						return true;
-					}
-					else //Dest°¡ ¾Æ·¡¿¡¼­ À§·Î
-					{
-						//Dest->Set_PosY(fY);
-						return true;
-					}
-				}
-				else if (fX < fY)
-				{
-					if (Dest->Get_Info().fX < Sour->Get_Info().fX) //Dest°¡ Sour¿ÞÂÊÀ¸·Î ºÎµúÈû
-					{
-						//Dest->Set_PosX(-fX);
-						return true;
-					}
-					else
-					{
-						//Dest->Set_PosX(fX);
-						return true;
-					}
+				return true;
+				//if (fX > fY) //»óÇÏ Ãæµ¹
+				//{
+				//	if (Dest->Get_Info().fY < Sour->Get_Info().fY)// Dest°¡ ¶³¾îÁö´Â ±âÁØ Sour À§·Î ¶³¾îÁü
+				//	{
+				//		//Dest->Set_PosY(-fY);
+				//		return true;
+				//	}
+				//	else //Dest°¡ ¾Æ·¡¿¡¼­ À§·Î
+				//	{
+				//		//Dest->Set_PosY(fY);
+				//		return true;
+				//	}
+				//}
+				//else if (fX < fY)
+				//{
+				//	if (Dest->Get_Info().fX < Sour->Get_Info().fX) //Dest°¡ Sour¿ÞÂÊÀ¸·Î ºÎµúÈû
+				//	{
+				//		//Dest->Set_PosX(-fX);
+				//		return true;
+				//	}
+				//	else
+				//	{
+				//		//Dest->Set_PosX(fX);
+				//		return true;
+				//	}
 
-				}
+				//}
 			}
 		}
 	}
@@ -108,6 +100,41 @@ bool CCollisionMgr::Collision_Item(list<CObj*> _Dest, list<CObj*> _Sour)
 					Dest->Set_MoneyUp(Sour->Get_Money());
 					Sour->Set_Dead();
 					return true;
+				}
+			}
+		}
+	}
+	
+	return false;
+}
+
+bool CCollisionMgr::Collision_Portal(list<CObj*> _Dest, list<CObj*> _Sour)
+{
+	for (auto& Dest : _Dest)
+	{
+		for (auto& Sour : _Sour)
+		{
+			float fX = 0.f;
+			float fY = 0.f;
+			if (Collision_Check(Dest, Sour, fX, fY))
+			{
+				if (CKeyMgr::Get_Instance()->Key_Down(VK_UP))
+				{
+					if (CSceneMgr::Get_Instance()->Get_SceneID() == STAGE_1)
+					{
+						CSceneMgr::Get_Instance()->Scene_Change(STAGE_2);
+						return true;
+					}
+					else if (CSceneMgr::Get_Instance()->Get_SceneID() == STAGE_2)
+					{
+						CSceneMgr::Get_Instance()->Scene_Change(STAGE_3);
+						return true;
+					}
+					else if (CSceneMgr::Get_Instance()->Get_SceneID() == STAGE_3)
+					{
+						CSceneMgr::Get_Instance()->Scene_Change(STAGE_4);
+						return true;
+					}
 				}
 			}
 		}

@@ -64,10 +64,10 @@ void CObjMgr::Late_Update()
 				break;
 		}
 	}
-	CCollisionMgr::Collision_Rect(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BLOCK]);
 	CCollisionMgr::Collision_Item(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_ITEM]);
 	CCollisionMgr::Collision_Rect(m_ObjList[OBJ_PATTACK], m_ObjList[OBJ_MONSTER]);
-	
+	CCollisionMgr::Collision_Rect(m_ObjList[OBJ_MONSTER], m_ObjList[OBJ_PLAYER]);
+	CCollisionMgr::Collision_Portal(m_ObjList[OBJ_PLAYER], m_ObjList[OBJ_BLOCK]);
 	
 }
 

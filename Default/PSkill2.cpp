@@ -38,7 +38,6 @@ int CPSkill2::Update(void)
 	Update_Rect();
 	Move_Frame();
 	return OBJ_NOEVENT;
-	return 0;
 }
 
 void CPSkill2::Late_Update(void)

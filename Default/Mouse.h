@@ -14,9 +14,11 @@ public:
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
 
-	
+	void	Set_Grab(bool bgrab) { m_bGrab = bgrab; }
+	bool	Get_Grab() { return m_bGrab; }
 private:
 	int		m_iDrawID;
+	bool	m_bGrab;
 	POINT	pt;
 };
 

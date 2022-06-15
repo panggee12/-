@@ -67,7 +67,8 @@ int CStage2::Update(void)
 	{
 		while (CObjMgr::Get_Instance()->Get_Monster()->size() != 10)
 		{
-
+			if (CObjMgr::Get_Instance()->Get_Monster()->size() >= 10)
+				break;
 			CObj* m_pMonster = CAbstractFactory<CMonster>::Create();
 
 			CObjMgr::Get_Instance()->Add_Obj(OBJ_MONSTER, m_pMonster);
