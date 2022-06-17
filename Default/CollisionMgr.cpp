@@ -106,7 +106,7 @@ bool CCollisionMgr::Collision_Item(list<CObj*> _Dest, list<CObj*> _Sour)
 			float fY = 0.f;
 			if (Collision_Check(Dest, Sour, fX, fY))
 			{
-				if (Sour->Get_Item() == MONEY&&CKeyMgr::Get_Instance()->Key_Down('Z'))
+				if (Sour->Get_Item() == MONEY&&CKeyMgr::Get_Instance()->Key_Down('E'))
 				{
 					Dest->Set_MoneyUp(Sour->Get_Money());
 					Sour->Set_Dead();

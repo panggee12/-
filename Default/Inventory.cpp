@@ -110,7 +110,7 @@ void CInventory::Picking_Item()
 						dynamic_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Set_Grab(true);
 						CObjMgr::Get_Instance()->Get_Mouse()->Set_Item(m_vecItem[iIndex]->Get_Item());
 						CObjMgr::Get_Instance()->Get_Mouse()->Set_PortionCount_fix(m_vecItem[iIndex]->Get_PortionCount());
-						if(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() !=HP&& CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() != MP)
+						//if(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() !=HP&& CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() != MP)
 							m_vecItem[iIndex]->Set_Item(ITEM_END);
 						break;
 					}

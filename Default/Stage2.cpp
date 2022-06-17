@@ -131,5 +131,6 @@ void CStage2::Release(void)
 {
 	CObjMgr::Get_Instance()->Delete_Obj(OBJ_BLOCK);
 	CObjMgr::Get_Instance()->Delete_Obj(OBJ_MONSTER);
+	CObjMgr::Get_Instance()->Delete_Obj(OBJ_ITEM);
 	CLineMgr::Get_Instance()->Destroy_Instance();
 }

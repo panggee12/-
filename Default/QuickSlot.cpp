@@ -5,6 +5,7 @@
 #include "Mouse.h"
 #include "ObjMgr.h"
 #include "KeyMgr.h"
+#include "inventory.h"
 CQuickSlot::CQuickSlot()
 {
 }
@@ -55,10 +56,23 @@ int CQuickSlot::Update(void)
 			if (pt.x > 624 || pt.y > 538)
 			{
 				int iIndex = iArrayy * 6 + iArrayx;
-				
+				//퀵슬롯에 물약 아이템을 놓으면 인벤토리에서 없어지지 않아야한다 
+				//인벤토리 벡터 이터를 돌면서 빈자리에 마우스가 가진 정보를 돌려준다
+
 				m_vecSlot[iIndex]->Set_Skill(CObjMgr::Get_Instance()->Get_Mouse()->Get_Skill());
-				if(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item()==HP|| (CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() == MP))
-					m_vecSlot[iIndex]->Set_Item(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item());
+				if (CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() == HP || (CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() == MP))
+				{
+					m_vecSlot[iIndex]->Set_Item(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item()); 
+					for (auto& iter = dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->begin();
+						iter != dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->end(); ++iter)
+					{
+						if ((*iter)->Get_Item() == ITEM_END)
+						{
+							(*iter)->Set_Item(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item());
+							break;
+						}
+					}
+				}
 				static_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Set_Grab(false);
 				CObjMgr::Get_Instance()->Get_Mouse()->Set_Item(ITEM_END);
 				CObjMgr::Get_Instance()->Get_Mouse()->Set_Skill(PSKILL_END);
