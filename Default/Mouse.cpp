@@ -35,6 +35,33 @@ int CMouse::Update(void)
 		m_framekey = L"Skill3";
 	else if (m_tSkill == PSKILL4)
 		m_framekey = L"Skill4";
+
+	if (m_tItem == HP)
+	{
+		m_iMoney = 10;
+		m_framekey = L"Hpportion";
+	}
+	else if (m_tItem == MP)
+	{
+		m_iMoney = 10;
+		m_framekey = L"Mpportion";
+	}
+	else if (m_tItem == WEAPON)
+	{
+		m_iMoney = 100;
+		m_framekey = L"Weapon";
+	}
+	else if (m_tItem == WEAR)
+	{
+		m_iMoney = 100;
+		m_framekey = L"Wear";
+	}
+	else if (m_tItem == GLOVE)
+	{
+		m_iMoney = 100;
+		m_framekey = L"Glove";
+	}
+	
 	pt = {};
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
@@ -45,6 +72,8 @@ int CMouse::Update(void)
 	{
 		m_iDrawID = 1;
 	}
+	else if(m_bGrab)
+		m_iDrawID = 2;
 	else
 		m_iDrawID = 0;
 	Update_Rect();
@@ -67,15 +96,17 @@ void CMouse::Render(HDC hDC)
 		GdiTransparentBlt(hDC,
 			pt.x,
 			pt.y,
-			32,
-			32,
+			int(m_tInfo.fCX),
+			int(m_tInfo.fCX),
 			ICONHDC,
 			0,
 			0,
-			32,
-			32,
-			RGB(255, 0, 255));
+			int(m_tInfo.fCX),
+			int(m_tInfo.fCX),
+			RGB(255, 255, 255));
+		this;
 	}
+
 
 	GdiTransparentBlt(hDC,
 		pt.x ,

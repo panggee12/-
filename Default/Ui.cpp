@@ -9,8 +9,9 @@
 #include "QuickSlot.h"
 #include "KeyMgr.h"
 #include "Inventory.h"
+#include "Shop.h"
 CUi::CUi():m_bShop(false), m_bInven(false), m_bSkillBook(false), m_bSkBt1(false), m_bSkBt2(false), m_bSkBt3(false), m_bSkBt4(false),
-SkillOn1(0), SkillOn2(0), SkillOn3(0), SkillOn4(0)
+SkillOn1(0), SkillOn2(0), SkillOn3(0), SkillOn4(0), m_bItemCreate(false)
 {
 }
 
@@ -28,7 +29,7 @@ void CUi::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/exp.bmp", L"NowExp");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/screen_quickslot.bmp", L"Quick");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/level.bmp", L"Level");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/shopitem_1.bmp", L"Shop");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/store4.bmp", L"Shop");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/Inven.bmp", L"Inven");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/SkillBook.bmp", L"SkillBook");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/Skill1Icon.bmp", L"Skill1Icon");
@@ -164,21 +165,31 @@ void CUi::Render(HDC hDC)
 		GdiTransparentBlt(hDC,
 			200,
 			50,
-			508,
+			276,
 			505,
 			SHOPHDC,
 			0,
 			0,
-			508,
+			276,
 			505,
 			RGB(255, 0, 255));
 		m_tRect = { 390, 90, 470, 110 };
-		m_Invenrc = { 635,104,685,124 };
-		TCHAR	szText[32] = L"";
-		swprintf_s(szText, L" %d", CObjMgr::Get_Instance()->Get_Player()->Get_Money());
-		SetBkMode(hDC, TRANSPARENT);	// Text 배경 투명하게
-										//TextOut(hDC, (int)m_tInfo.fX, (int)m_tInfo.fY, szText, lstrlen(szText));
-		DrawText(hDC, szText, lstrlen(szText), &m_Invenrc, DT_CENTER);
+		m_Exitrc = { 390, 120, 470, 140 };
+		//m_Invenrc = { 635,104,685,124 };
+		//TCHAR	szText[32] = L"";
+		//swprintf_s(szText, L" %d", CObjMgr::Get_Instance()->Get_Player()->Get_Money());
+		//SetBkMode(hDC, TRANSPARENT);	// Text 배경 투명하게
+		//								//TextOut(hDC, (int)m_tInfo.fX, (int)m_tInfo.fY, szText, lstrlen(szText));
+		//DrawText(hDC, szText, lstrlen(szText), &m_Invenrc, DT_CENTER);
+		if (!m_bItemCreate)
+		{
+			CObjMgr::Get_Instance()->Add_Obj(OBJ_SHOP, CAbstractFactory<CShop>::Create(335, 195, PSKILL_END, HP));
+			CObjMgr::Get_Instance()->Add_Obj(OBJ_SHOP, CAbstractFactory<CShop>::Create(335, 235, PSKILL_END, MP));
+			CObjMgr::Get_Instance()->Add_Obj(OBJ_SHOP, CAbstractFactory<CShop>::Create(335, 275, PSKILL_END, WEAPON));
+			CObjMgr::Get_Instance()->Add_Obj(OBJ_SHOP, CAbstractFactory<CShop>::Create(335, 315, PSKILL_END, WEAR));
+			CObjMgr::Get_Instance()->Add_Obj(OBJ_SHOP, CAbstractFactory<CShop>::Create(335, 355, PSKILL_END, GLOVE));
+			m_bItemCreate = true;
+		}
 	}
 	if (m_bInven)
 	{

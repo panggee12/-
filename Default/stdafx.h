@@ -24,7 +24,16 @@
 #include <map>
 #include <algorithm>
 #include <ctime>
+#include <iostream>
 
+#include <Vfw.h>
+#pragma comment(lib, "vfw32.lib")
+
+#include <io.h>
+
+#include "fmod.h"
+#include "fmod.hpp"
+#pragma comment(lib, "fmodex_vc.lib")	
 
 #ifdef _DEBUG
 

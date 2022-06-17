@@ -171,10 +171,12 @@
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="MyBmp.h" />
+    <ClInclude Include="Npc.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="ObjMgr.h" />
     <ClInclude Include="Pattack.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PSkill4.h" />
     <ClInclude Include="PSkill1.h" />
     <ClInclude Include="PSkill2.h" />
     <ClInclude Include="PSkill3.h" />
@@ -184,6 +186,7 @@
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="ScrollMgr.h" />
     <ClInclude Include="Shop.h" />
+    <ClInclude Include="SoundMgr.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage2.h" />
     <ClInclude Include="Stage3.h" />
@@ -215,10 +218,12 @@
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="MyBmp.cpp" />
+    <ClCompile Include="Npc.cpp" />
     <ClCompile Include="Obj.cpp" />
     <ClCompile Include="ObjMgr.cpp" />
     <ClCompile Include="Pattack.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PSkill4.cpp" />
     <ClCompile Include="PSkill1.cpp" />
     <ClCompile Include="PSkill2.cpp" />
     <ClCompile Include="PSkill3.cpp" />
@@ -227,6 +232,7 @@
     <ClCompile Include="SceneMgr.cpp" />
     <ClCompile Include="ScrollMgr.cpp" />
     <ClCompile Include="Shop.cpp" />
+    <ClCompile Include="SoundMgr.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="Stage3.cpp" />

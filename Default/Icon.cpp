@@ -20,11 +20,8 @@ void CIcon::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/ascend.bmp", L"Skill2");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/bolt.bmp", L"Skill3");
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Icon/bufOnly.bmp", L"Skill4");	
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Item/hp.bmp", L"Hp");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Item/mp.bmp", L"Mp");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Item/weapon1.bmp", L"Weapon");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Item/wear1.bmp", L"Wear");
-	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Item/glove.bmp", L"Glove");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Item/hptest2.bmp", L"Hpportion");
+	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Item/mptest.bmp", L"Mpportion");
 }
 
 int CIcon::Update(void)
@@ -38,18 +35,12 @@ int CIcon::Update(void)
 		m_framekey = L"Skill3";
 	else if (m_tSkill == PSKILL4)
 		m_framekey = L"Skill4";
-	
-
-	if (m_tItem == HP)
-		m_framekey = L"Hp";
+	else if (m_tItem == HP)
+		m_framekey = L"Hpportion";
 	else if (m_tItem == MP)
-		m_framekey = L"Mp";
-	else if (m_tItem == WEAPON)
-		m_framekey = L"Weapon";
-	else if (m_tItem == WEAR)
-		m_framekey = L"Wear";
-	else if (m_tItem == GLOVE)
-		m_framekey = L"Glove";
+		m_framekey = L"Mpportion";
+
+	
 	
 	Update_Rect();
 	return 0;
@@ -72,7 +63,7 @@ void CIcon::Render(HDC hDC)
 		0,
 		m_tInfo.fCX,
 		m_tInfo.fCY,
-		RGB(255, 255, 250));
+		RGB(255, 255, 255));
 }
 
 void CIcon::Release(void)

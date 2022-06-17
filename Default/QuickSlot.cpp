@@ -55,11 +55,13 @@ int CQuickSlot::Update(void)
 			if (pt.x > 624 || pt.y > 538)
 			{
 				int iIndex = iArrayy * 6 + iArrayx;
-				if (static_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Get_Skill() != PSKILL_END)
-				{
-					m_vecSlot[iIndex]->Set_Skill(CObjMgr::Get_Instance()->Get_Mouse()->Get_Skill());
-					static_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Set_Grab(false);
-				}
+				
+				m_vecSlot[iIndex]->Set_Skill(CObjMgr::Get_Instance()->Get_Mouse()->Get_Skill());
+				if(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item()==HP|| (CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() == MP))
+					m_vecSlot[iIndex]->Set_Item(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item());
+				static_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Set_Grab(false);
+				CObjMgr::Get_Instance()->Get_Mouse()->Set_Item(ITEM_END);
+				CObjMgr::Get_Instance()->Get_Mouse()->Set_Skill(PSKILL_END);
 			}
 		}
 	}

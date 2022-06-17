@@ -42,8 +42,7 @@ int CMonster::Update(void)
 {
 	if (m_bDead&&m_PatternTime + 800 < GetTickCount())
 	{
-		CObj* pItem = CAbstractFactory<CItem>::Create(m_tInfo.fX, m_tInfo.fY,PORTAL_END,MONEY);
-		CObjMgr::Get_Instance()->Add_Obj(OBJ_ITEM, pItem);
+		Drop_Item();
 
 		return OBJ_DEAD;
 	}
@@ -271,6 +270,15 @@ void CMonster::Jumping_M()
 		if (m_tInfo.fX <= fLx || m_tInfo.fX >= fRx)
 			m_fSpeed *= -1.f;
 	}
+}
+
+CObj * CMonster::Drop_Item()
+{
+	CObj* pItem = CAbstractFactory<CItem>::Create();
+	pItem->Set_Pos(m_tInfo.fX, m_tInfo.fY);
+	dynamic_cast<CItem*>(pItem)->Set_Drop();
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_ITEM, pItem);
+	return nullptr;
 }
 
 void CMonster::Release(void)

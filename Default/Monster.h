@@ -19,6 +19,7 @@ public:
 	void Jumping_M();
 	void Set_State(state _State) { m_CureState = _State; }
 	void Set_Effect_Delay() { m_dwEffectDelay = GetTickCount(); }
+	CObj* Drop_Item();
 
 	DWORD Get_Effect_Delay() { return m_dwEffectDelay; }
 	DWORD Get_PatternTime() { return m_PatternTime; }

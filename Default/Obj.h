@@ -64,6 +64,7 @@ public:
 	void		Set_Dead() { m_bDead = true; }
 	void		Set_ExpUp(int _iExp) { m_tStatus.m_iExp += _iExp; }
 	void		Set_MoneyUp(int _iMoney) { m_iMoney += _iMoney; }
+	void		Set_Price(int _iMoney) { m_iMoney = _iMoney; }
 	void		Set_LvUp() { m_tStatus.m_iLv += 1; m_tStatus.m_iExp -= m_tStatus.m_iMaxExp; m_tStatus.m_iMaxExp += 100;
 								m_tStatus.m_iMaxHp += 142; m_tStatus.m_iHp = m_tStatus.m_iMaxHp;
 								m_tStatus.m_iMaxMp += 142; m_tStatus.m_iMp = m_tStatus.m_iMaxMp;

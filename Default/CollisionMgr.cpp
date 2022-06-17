@@ -6,6 +6,8 @@
 #include "Monster.h"
 #include "AbstractFactory.h"
 #include "Effect.h"
+#include "Damage.h"
+#include "Player.h"
 CCollisionMgr::CCollisionMgr()
 {
 }
@@ -26,26 +28,34 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 			if (Collision_Check(Dest, Sour, fX, fY))
 			{
 				
-				if (!Sour->Get_God())
+				if (!Sour->Get_God()&& Dest->Get_Skill() != PSKILL4)
 				{
 					Sour->Set_Attacked();
 					Sour->Set_Attacked(true);
 					Sour->Set_MinusHp(Dest->Get_Damage());
+					dynamic_cast<CPlayer*>(Sour)->Set_Blink();
 					if (Sour->Get_Info().fX < Dest->Get_Info().fX)
 						Sour->Set_AttackedDir(false);
 					else
 						Sour->Set_AttackedDir(true);
+					if (static_cast<CMonster*>(Sour)->Get_Effect_Delay() + 1000 < GetTickCount()&&Dest->Get_Skill()!=PSKILL4)
+					{
+						CObj* Effect = CAbstractFactory<CEffect>::Create(Sour->Get_Info().fX, Sour->Get_Info().fY, Dest->Get_Skill());
+						Effect->Set_Target(Sour);
+
+						CObjMgr::Get_Instance()->Add_Obj(OBJ_EFFECT, Effect);
+
+						CObj* Damage = CAbstractFactory<CDamage>::Create(Sour->Get_Info().fX, Sour->Get_Info().fY - Sour->Get_Info().fCY*0.7f, Dest->Get_Damage());
+						Damage->Set_Target(Sour);
+
+						CObjMgr::Get_Instance()->Add_Obj(OBJ_DAMAGE, Damage);
+						static_cast<CMonster*>(Sour)->Set_Effect_Delay();
+					}
+	
 				}
 				if(Dest->Get_Skill()==NORMAL)
 					Dest->Set_Dead();
-				else
-				{
-					CObj* Effect = CAbstractFactory<CEffect>::Create(Sour->Get_Info().fX, Sour->Get_Info().fY, Dest->Get_Skill());
-					Effect->Set_Target(Sour);
-					
-					CObjMgr::Get_Instance()->Add_Obj(OBJ_EFFECT, Effect);
-					static_cast<CMonster*>(Sour)->Set_Effect_Delay();
-				}
+				
 				if (Sour->Get_Status().m_iHp <= 0)
 				{
 					static_cast<CMonster*>(Sour)->Set_State(static_cast<CMonster*>(Sour)->DIE);
@@ -108,7 +118,7 @@ bool CCollisionMgr::Collision_Item(list<CObj*> _Dest, list<CObj*> _Sour)
 	return false;
 }
 
-bool CCollisionMgr::Collision_Portal(list<CObj*> _Dest, list<CObj*> _Sour)
+bool CCollisionMgr::Collision_Portal(list<CObj*> _Dest, list<CObj*> _Sour)//dest p sour b
 {
 	for (auto& Dest : _Dest)
 	{
@@ -120,19 +130,29 @@ bool CCollisionMgr::Collision_Portal(list<CObj*> _Dest, list<CObj*> _Sour)
 			{
 				if (CKeyMgr::Get_Instance()->Key_Down(VK_UP))
 				{
-					if (CSceneMgr::Get_Instance()->Get_SceneID() == STAGE_1)
+					if (Sour->Get_Portal()==PORTAL1)
 					{
 						CSceneMgr::Get_Instance()->Scene_Change(STAGE_2);
 						return true;
 					}
-					else if (CSceneMgr::Get_Instance()->Get_SceneID() == STAGE_2)
+					else if (Sour->Get_Portal() == PORTAL2)
 					{
 						CSceneMgr::Get_Instance()->Scene_Change(STAGE_3);
 						return true;
 					}
-					else if (CSceneMgr::Get_Instance()->Get_SceneID() == STAGE_3)
+					else if (Sour->Get_Portal() == PORTAL3)
 					{
 						CSceneMgr::Get_Instance()->Scene_Change(STAGE_4);
+						return true;
+					}
+					else if (Sour->Get_Portal() == PORTAL2_1)
+					{
+						CSceneMgr::Get_Instance()->Scene_Change(STAGE_1);
+						return true;
+					}
+					else if (Sour->Get_Portal() == PORTAL3_2)
+					{
+						CSceneMgr::Get_Instance()->Scene_Change(STAGE_2);
 						return true;
 					}
 				}

@@ -16,9 +16,12 @@ public:
 
 	void	Set_Grab(bool bgrab) { m_bGrab = bgrab; }
 	bool	Get_Grab() { return m_bGrab; }
+	void	Set_Buy(bool bbuy) { m_bBuy = bbuy; }
+	bool	Get_Buy() { return m_bBuy; }
 private:
 	int		m_iDrawID;
 	bool	m_bGrab;
+	bool	m_bBuy;
 	POINT	pt;
 };
 

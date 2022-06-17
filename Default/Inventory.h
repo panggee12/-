@@ -14,7 +14,13 @@ public:
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
 
+	void Picking_Item();
+	void Change_Item_pos();
+	void Use_Item(ITEMID _portion);
+	bool Portion_Check(ITEMID _portion);
+	vector<CObj*>* Get_vecItem() { return &m_vecItem; }
 private:
 	vector<CObj*> m_vecItem;
+	
 };
 

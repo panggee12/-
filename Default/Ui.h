@@ -14,6 +14,7 @@ public:
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
 
+	void Delete_Shop(){ m_bItemCreate = false; }
 	void Shop_On_Off(bool bShop) { m_bShop = bShop; }
 	bool Get_Shop() { return m_bShop; }
 	void Inven_On_Off(bool bInven) { m_bInven = bInven; }
@@ -22,8 +23,11 @@ public:
 	bool Get_SkillBook() { return m_bSkillBook; }
 	
 	void Set_ButtonF() { m_bSkBt1 = false;  m_bSkBt2 = false; m_bSkBt3 = false; m_bSkBt4 = false; }
+
+	RECT Get_ExitBt() { return m_Exitrc; }
 private:			   
-	bool m_bShop;	   
+	bool m_bShop;
+	bool m_bItemCreate;
 	bool m_bInven;	    
 	bool m_bSkillBook;
 	bool m_bSkBt1;
@@ -40,5 +44,6 @@ private:
 	RECT m_rc3;
 	RECT m_rc4;
 	RECT m_Invenrc;
+	RECT m_Exitrc;
 };
 

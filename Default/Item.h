@@ -14,9 +14,14 @@ public:
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
 
+	void Set_Drop() { m_bDrop = true; }
+	void Set_PortionCount(int _iCount) { m_iPortionCount += _iCount; }
+	int  Get_PortionCount() { return m_iPortionCount; }
 private:
-	float		m_fDropLength;
-	float		m_fDropPos;
-	float		m_fDropSpeed;
+	bool		m_bDrop;
+	bool		m_ItemCheck;
+	DWORD		m_dwUPDOWN;
+	int			m_iRand;
+	int m_iPortionCount;
 };
 

@@ -15,6 +15,7 @@ CStage2::CStage2()
 	CLineMgr::Get_Instance()->Load_File(m_tStage);
 	CLineMgr::Get_Instance()->Load_File_Rofe(m_tStage);
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(1380, 830, PORTAL2));//89 257
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(50, 830, PORTAL2_1));
 	for (int i = 0; i < 10; ++i)
 	{
 		CObj* m_pMonster = CAbstractFactory<CMonster>::Create();
@@ -40,13 +41,15 @@ void CStage2::Initialize(void)
 	m_tFrame.iMotion = 1;
 	m_tInfo.fCX = 1440;
 	m_tInfo.fCY = 1149;
-	CObj* m_pPlayer = CAbstractFactory<CPlayer>::Create();
+	/*CObj* m_pPlayer = CAbstractFactory<CPlayer>::Create();
 
-	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER, m_pPlayer);
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER, m_pPlayer);*/
 
-	CObj* m_pUi = CAbstractFactory<CUi>::Create();
+	CObjMgr::Get_Instance()->Get_Player()->Set_Pos(1380, 830);
 
-	CObjMgr::Get_Instance()->Add_Obj(OBJ_UI, m_pUi);
+	/*CObj* m_pUi = CAbstractFactory<CUi>::Create();
+
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_UI, m_pUi);*/
 
 	
 }

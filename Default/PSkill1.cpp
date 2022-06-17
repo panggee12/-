@@ -35,9 +35,9 @@ int CPSkill1::Update(void)
 	if (m_bDead)
 		return OBJ_DEAD;
 	if (m_framekey == L"PLAYERRIGHT")
-		m_tInfo.fX += 5.f;
+		m_tInfo.fX += 1.f;
 	else
-		m_tInfo.fX -= 5.f;
+		m_tInfo.fX -= 1.f;
 	Update_Rect();
 	Move_Frame();
 	return OBJ_NOEVENT;

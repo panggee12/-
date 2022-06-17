@@ -7,7 +7,7 @@
 #include "ObjMgr.h"
 #include "Ui.h"
 #include "ScrollMgr.h"
-#include "Shop.h"
+#include "Npc.h"
 #include "KeyMgr.h"
 CStage3::CStage3()
 {
@@ -15,7 +15,8 @@ CStage3::CStage3()
 	CLineMgr::Get_Instance()->Load_File(m_tStage);
 	CLineMgr::Get_Instance()->Load_File_Rofe(m_tStage);
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(1830, 680, PORTAL3));
-	CObjMgr::Get_Instance()->Add_Obj(OBJ_SHOP, CAbstractFactory<CShop>::Create(1000, 400,PSKILL_END,ITEM_END));
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_BLOCK, CAbstractFactory<CBlock>::Create(50, 680, PORTAL3_2));
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_NPC, CAbstractFactory<CNpc>::Create(1000, 400,PSKILL_END,ITEM_END));
 }
 
 
@@ -31,15 +32,15 @@ void CStage3::Initialize(void)
 	m_tInfo.fCX = 1949;
 	m_tInfo.fCY = 940;
 
-	CObj* m_pPlayer = CAbstractFactory<CPlayer>::Create();
+	/*CObj* m_pPlayer = CAbstractFactory<CPlayer>::Create();
 
-	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER, m_pPlayer);
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER, m_pPlayer);*/
 
 	CObjMgr::Get_Instance()->Get_Player()->Set_Pos(800, 200);
 
-	CObj* m_pUi = CAbstractFactory<CUi>::Create();
+	/*CObj* m_pUi = CAbstractFactory<CUi>::Create();
 
-	CObjMgr::Get_Instance()->Add_Obj(OBJ_UI, m_pUi);
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_UI, m_pUi);*/
 }
 
 int CStage3::Update(void)
@@ -54,14 +55,17 @@ int CStage3::Update(void)
 	GetCursorPos(&pt);
 	ScreenToClient(g_hWnd, &pt);
 	
-	if ((PtInRect(&(CObjMgr::Get_Instance()->Get_Shop()->Get_Rect()),pt))&& CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+	if ((PtInRect(&(CObjMgr::Get_Instance()->Get_Npc()->Get_Rect()),pt))&& CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
 	{
 		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Shop_On_Off(true);
 	}
 	else if (static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Get_Shop() &&
 		PtInRect(&(CObjMgr::Get_Instance()->Get_Ui()->Get_Rect()), pt)
 		&& CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON))
+	{
 		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Shop_On_Off(false);
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Delete_Shop();
+	}
 
 	CScrollMgr::Get_Instance()->Scroll_Lock(m_tInfo.fCX, m_tInfo.fCY);
 	return 0;

@@ -13,6 +13,7 @@ public:
 	int  Get_ScrollY() { return m_iScrollY; }
 
 	void Scroll_Lock(int _iX, int _iY);
+	void Move_Lock(int _iX, int _iY);
 public:
 	static		CScrollMgr*		Get_Instance(void)
 	{

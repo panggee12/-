@@ -27,7 +27,7 @@ public:
 	int  Get_Skill3() { return m_iSkill3; }
 	int  Get_Skill4() { return m_iSkill4; }
 	void Set_SkillLvup(int S1, int S2, int S3, int S4) { m_iSkill1 += S1; m_iSkill2 += S2; m_iSkill3 += S3; m_iSkill4 += S4;}
-
+	void Set_Blink() { m_dwBlink = GetTickCount(); }
 	void Key_Input();
 	void known_Key(int KeyNum);
 	void Normal_Attack();
@@ -39,7 +39,11 @@ private:
 	DWORD		m_dwAttack1;
 	DWORD		m_dwAttackDelay;
 	DWORD		m_AttackedTime;
-
+	DWORD		m_dwBlink;
+	DWORD		m_dwSkill4Cool;
+	DWORD		m_dwSkill4Con;
+	bool		m_bSkill4On;
+	bool		m_bSkill4Status;
 	bool		m_bRofe;
 	bool		m_bFixedX;
 

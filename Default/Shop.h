@@ -14,7 +14,5 @@ public:
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
 
-private:
-	void Update_Rect_Shop();
 };
 

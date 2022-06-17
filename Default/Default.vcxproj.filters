@@ -136,6 +136,15 @@
     <Filter Include="01. Obj\02. Attack\00. PAttack\02. PSkill3">
       <UniqueIdentifier>{328c7fb3-1454-4be6-88ad-2b2dfe30a30c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\14. NPC">
+      <UniqueIdentifier>{6c04d014-6ab9-4559-a510-0c883e4dd0e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Obj\02. Attack\00. PAttack\03. PSkill4">
+      <UniqueIdentifier>{af0e51ea-cd48-4b9f-a4ea-9996769ad4dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98. Design\SoundMgr">
+      <UniqueIdentifier>{d86a1473-3f30-463e-9d7c-f972e9968fe6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -282,6 +291,15 @@
     <ClInclude Include="PSkill3.h">
       <Filter>01. Obj\02. Attack\00. PAttack\02. PSkill3</Filter>
     </ClInclude>
+    <ClInclude Include="Npc.h">
+      <Filter>01. Obj\14. NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="PSkill4.h">
+      <Filter>01. Obj\02. Attack\00. PAttack\03. PSkill4</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundMgr.h">
+      <Filter>98. Design\SoundMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -400,6 +418,15 @@
     </ClCompile>
     <ClCompile Include="PSkill3.cpp">
       <Filter>01. Obj\02. Attack\00. PAttack\02. PSkill3</Filter>
+    </ClCompile>
+    <ClCompile Include="Npc.cpp">
+      <Filter>01. Obj\14. NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="PSkill4.cpp">
+      <Filter>01. Obj\02. Attack\00. PAttack\03. PSkill4</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundMgr.cpp">
+      <Filter>98. Design\SoundMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

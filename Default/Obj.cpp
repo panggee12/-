@@ -12,6 +12,7 @@ m_iSkillPoint(4), m_tButton(BUTTON_END), m_bAttackedDir(false)
 	ZeroMemory(&m_tRect, sizeof(RECT));
 	m_framekey = 0;
 	ZeroMemory(&m_tStatus, sizeof(Status));
+	ZeroMemory(&m_tFrame, sizeof(FRAME));
 }
 
 CObj::~CObj()

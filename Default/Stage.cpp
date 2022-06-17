@@ -29,7 +29,10 @@ void CStage::Initialize(void)
 
 	CObj* m_pPlayer = CAbstractFactory<CPlayer>::Create();
 	
-	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER,m_pPlayer);
+	if (CObjMgr::Get_Instance()->Get_Player_List()->empty())
+		CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER, m_pPlayer);
+	else
+		CObjMgr::Get_Instance()->Get_Player()->Set_Pos(400, 400);
 
 	
 }

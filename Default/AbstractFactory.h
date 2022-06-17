@@ -19,13 +19,14 @@ public:
 
 		return m_pInstance;
 	}
-	/*static CObj* Create(int left, int top, int right, int bottom)
+	static CObj* Create(float _x, float _y, int AttackDamage)
 	{
 		CObj* m_pInstance = new T;
 		m_pInstance->Initialize();
-		m_pInstance->Set_Rect(left, top, right, bottom);
+		m_pInstance->Set_Pos(_x, _y);
+		m_pInstance->Set_Damage(AttackDamage);
 		return m_pInstance;
-	}*/
+	}
 	static CObj* Create(float _x, float _y, SKILLID skillid=PSKILL_END, ITEMID itemid=ITEM_END)
 	{
 		CObj* m_pInstance = new T;

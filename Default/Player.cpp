@@ -10,12 +10,17 @@
 #include "PSkill1.h"
 #include "PSkill2.h"
 #include "PSkill3.h"
+#include "PSkill4.h"
 #include "Ui.h"
 #include "QuickSlot.h"
-CPlayer::CPlayer():m_CureState(IDLE),m_PreState(STATE_END), m_dwAttack1(GetTickCount()), m_dwAttackDelay(GetTickCount()-700), m_bRofe(false), m_bFixedX(false),
-m_iSkill1(0), m_iSkill2(0), m_iSkill3(0), m_iSkill4(0), m_AttackedTime(GetTickCount()), m_fPull(10.f)
+#include "Effect.h"
+#include "Inventory.h"
+CPlayer::CPlayer() :m_CureState(IDLE), m_PreState(STATE_END), m_dwAttack1(GetTickCount()), m_dwAttackDelay(GetTickCount() - 700), m_bRofe(false), m_bFixedX(false),
+m_iSkill1(0), m_iSkill2(0), m_iSkill3(0), m_iSkill4(0), m_AttackedTime(GetTickCount()), m_fPull(10.f), m_dwSkill4Cool(GetTickCount()), m_bSkill4On(false), m_bSkill4Status(false),
+m_dwBlink(GetTickCount())
 {
-	m_tStatus = { 1,142,142,142,142,0,100 ,10};
+	m_tStatus = { 1,1,142,142,142,0,100 ,100};
+	m_iMoney = 10000;
 }
 
 
@@ -51,6 +56,12 @@ int CPlayer::Update(void)
 	if (m_bDead)
 		return OBJ_DEAD;
 
+	
+	if (m_dwSkill4Con + 10000 < GetTickCount() && m_bSkill4On)
+	{
+		m_bSkill4On = false;
+		m_tStatus.m_iDamage /= 2;
+	}
 	if (m_tStatus.m_iExp >= m_tStatus.m_iMaxExp)
 		Set_LvUp();
 	/*if (m_bAttacked&&m_dwAttackedTime + 500 >= GetTickCount())
@@ -109,21 +120,54 @@ void CPlayer::Late_Update(void)
 void CPlayer::Render(HDC hDC)
 {
 	HDC PLAYERHDC=CBmpMgr::Get_Instance()->Find_Image(m_framekey);
-
+	HDC SKILL4HDC = CBmpMgr::Get_Instance()->Find_Image(L"Skill4");
 	int iScrollX = CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = CScrollMgr::Get_Instance()->Get_ScrollY();
 
-	GdiTransparentBlt(hDC,
-		int(m_tRect.left)+ iScrollX,
-		int(m_tRect.top)-30+ iScrollY,
-		int(m_tInfo.fCX),
-		int(m_tInfo.fCY),
-		PLAYERHDC,
-		m_tFrame.iFrameStart*m_tInfo.fCX,
-		m_tFrame.iMotion*m_tInfo.fCY,
-		(int)m_tInfo.fCX,
-		(int)m_tInfo.fCY,
-		RGB(255, 0, 255));
+	if (m_bAttacked)
+	{
+		if (m_dwBlink + 50 < GetTickCount())
+		{
+			m_dwBlink = GetTickCount();
+			GdiTransparentBlt(hDC,
+				int(m_tRect.left) + iScrollX,
+				int(m_tRect.top) - 30 + iScrollY,
+				int(m_tInfo.fCX),
+				int(m_tInfo.fCY),
+				PLAYERHDC,
+				m_tFrame.iFrameStart*m_tInfo.fCX,
+				m_tFrame.iMotion*m_tInfo.fCY,
+				(int)m_tInfo.fCX,
+				(int)m_tInfo.fCY,
+				RGB(255, 0, 255));
+		}
+	}
+	else
+		GdiTransparentBlt(hDC,
+			int(m_tRect.left) + iScrollX,
+			int(m_tRect.top) - 30 + iScrollY,
+			int(m_tInfo.fCX),
+			int(m_tInfo.fCY),
+			PLAYERHDC,
+			m_tFrame.iFrameStart*m_tInfo.fCX,
+			m_tFrame.iMotion*m_tInfo.fCY,
+			(int)m_tInfo.fCX,
+			(int)m_tInfo.fCY,
+			RGB(255, 0, 255));
+	
+
+	if(m_bSkill4On)
+		GdiTransparentBlt(hDC,
+			768,
+			0,
+			32,
+			32,
+			SKILL4HDC,
+			0,
+			0,
+			32,
+			32,
+			RGB(255, 0, 255));
 }
 
 void CPlayer::Release(void)
@@ -196,9 +240,9 @@ void CPlayer::Key_Input(void)
 		if (m_dwAttackDelay + 700 < GetTickCount())
 		{
 			if (m_framekey == L"PLAYERRIGHT")
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, m_framekey, m_tStatus.m_iDamage,  NORMAL));
 			else
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, m_framekey, 100,  NORMAL));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, m_framekey, m_tStatus.m_iDamage,  NORMAL));
 			m_dwAttackDelay = GetTickCount();
 		}
 	}
@@ -213,6 +257,42 @@ void CPlayer::Key_Input(void)
 	else if (CKeyMgr::Get_Instance()->Key_Pressing('D'))
 	{
 		known_Key(2);
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('1'))
+	{
+		known_Key(3);
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('2'))
+	{
+		known_Key(4);
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('3'))
+	{
+		known_Key(5);
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+	{
+		known_Key(6);
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('X'))
+	{
+		known_Key(7);
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('C'))
+	{
+		known_Key(8);
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('4'))
+	{
+		known_Key(9);
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('5'))
+	{
+		known_Key(10);
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing('6'))
+	{
+		known_Key(11);
 	}
 	else
 	{
@@ -368,9 +448,9 @@ void CPlayer::known_Key(int KeyNum)
 		if (m_dwAttackDelay + 700 < GetTickCount())
 		{
 			if (m_framekey == L"PLAYERRIGHT")
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill1>::Create(m_tInfo.fX + 100, m_tInfo.fY, m_framekey, 100, PSKILL1));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill1>::Create(m_tInfo.fX + 100, m_tInfo.fY, m_framekey, m_tStatus.m_iDamage*3+ rand()% (m_tStatus.m_iDamage/2), PSKILL1));
 			else
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill1>::Create(m_tInfo.fX - 100, m_tInfo.fY, m_framekey, 100, PSKILL1));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill1>::Create(m_tInfo.fX - 100, m_tInfo.fY, m_framekey, m_tStatus.m_iDamage * 3 + rand() % (m_tStatus.m_iDamage / 2), PSKILL1));
 			m_dwAttackDelay = GetTickCount();
 		}
 	}
@@ -380,9 +460,9 @@ void CPlayer::known_Key(int KeyNum)
 		if (m_dwAttackDelay + 700 < GetTickCount())
 		{
 			if (m_framekey == L"PLAYERRIGHT")
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill2>::Create(m_tInfo.fX + 100, m_tInfo.fY - 100, m_framekey, 100, PSKILL2));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill2>::Create(m_tInfo.fX + 100, m_tInfo.fY - 100, m_framekey, m_tStatus.m_iDamage*2 + rand() % (m_tStatus.m_iDamage / 2), PSKILL2));
 			else
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill2>::Create(m_tInfo.fX - 100, m_tInfo.fY - 100, m_framekey, 100, PSKILL2));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill2>::Create(m_tInfo.fX - 100, m_tInfo.fY - 100, m_framekey, m_tStatus.m_iDamage*2 + rand() % (m_tStatus.m_iDamage / 2), PSKILL2));
 			m_dwAttackDelay = GetTickCount();
 		}
 	}
@@ -392,11 +472,38 @@ void CPlayer::known_Key(int KeyNum)
 		if (m_dwAttackDelay + 700 < GetTickCount())
 		{
 			if (m_framekey == L"PLAYERRIGHT")
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill3>::Create(m_tInfo.fX + 100, m_tInfo.fY - 100, m_framekey, 100, PSKILL3));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill3>::Create(m_tInfo.fX + 100, m_tInfo.fY - 100, m_framekey, m_tStatus.m_iDamage*4 + rand() % (m_tStatus.m_iDamage / 2), PSKILL3));
 			else
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill3>::Create(m_tInfo.fX - 100, m_tInfo.fY - 100, m_framekey, 100, PSKILL3));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill3>::Create(m_tInfo.fX - 100, m_tInfo.fY - 100, m_framekey, m_tStatus.m_iDamage*4 + rand() % (m_tStatus.m_iDamage / 2), PSKILL3));
 			m_dwAttackDelay = GetTickCount();
 		}
+	}
+	else if (dynamic_cast<CQuickSlot*>(CObjMgr::Get_Instance()->Get_Slot())->Get_VecSlot()[KeyNum]->Get_Skill() == PSKILL4&&m_dwSkill4Cool+2000<GetTickCount())
+	{
+		m_CureState = IDLE;
+		CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill4>::Create(m_tInfo.fX + 100, m_tInfo.fY - 150,PSKILL4,ITEM_END));
+		m_dwSkill4Con = GetTickCount();
+		m_dwSkill4Cool = GetTickCount();
+		m_bSkill4On = true;
+		m_tStatus.m_iDamage *= 2;
+	}
+	else if (dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Portion_Check(HP)&&
+		dynamic_cast<CQuickSlot*>(CObjMgr::Get_Instance()->Get_Slot())->Get_VecSlot()[KeyNum]->Get_Item() == HP)
+	{
+		m_tStatus.m_iHp += 50;
+		if (m_tStatus.m_iHp >= m_tStatus.m_iMaxHp)
+			m_tStatus.m_iHp = m_tStatus.m_iMaxHp;
+		dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Use_Item(HP);
+		
+	}
+	else if (dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Portion_Check(MP) &&
+		dynamic_cast<CQuickSlot*>(CObjMgr::Get_Instance()->Get_Slot())->Get_VecSlot()[KeyNum]->Get_Item() == MP)
+	{
+		m_tStatus.m_iMp += 50;
+		if (m_tStatus.m_iMp >= m_tStatus.m_iMaxMp)
+			m_tStatus.m_iMp = m_tStatus.m_iMaxMp;
+		dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Use_Item(MP);
+
 	}
 }
 
@@ -408,9 +515,9 @@ void CPlayer::Normal_Attack()
 		if (m_dwAttackDelay + 700 < GetTickCount())
 		{
 			if (m_framekey == L"PLAYERRIGHT")
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, m_framekey, 100, NORMAL));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX + 20, m_tInfo.fY, m_framekey, m_tStatus.m_iDamage + rand() % (m_tStatus.m_iDamage / 2), NORMAL));
 			else
-				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, m_framekey, 100, NORMAL));
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPattack>::Create(m_tInfo.fX - 20, m_tInfo.fY, m_framekey, m_tStatus.m_iDamage + rand() % (m_tStatus.m_iDamage / 2), NORMAL));
 			m_dwAttackDelay = GetTickCount();
 		}
 	}

@@ -16,5 +16,7 @@ public:
 
 private:
 	int m_iDamageCount;
+	list<int> m_DamageList;
+	bool m_bAlreadyPrint;
 };
 
