@@ -11,7 +11,7 @@
 CMonster::CMonster() :m_PreState(END), m_CureState(IDLE), m_PatternTime(GetTickCount()), m_bGuide(false), m_AttackedTime(GetTickCount()), m_dwEffectDelay(GetTickCount())
 {
 	m_bJump = false;
-	m_tStatus={1, 100, 100,0,0, 10, 0,30};
+	m_tStatus={1, 100, 100,0,0, 10, 0,10};
 }
 
 

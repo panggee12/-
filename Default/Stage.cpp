@@ -67,7 +67,7 @@ void CStage::Render(HDC hDC)
 		SRCCOPY);
 
 	CObjMgr::Get_Instance()->Render(hDC);
-	CLineMgr::Get_Instance()->Render(hDC);
+	//CLineMgr::Get_Instance()->Render(hDC);
 }
 
 void CStage::Release(void)

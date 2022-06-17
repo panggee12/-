@@ -86,6 +86,7 @@ void CInventory::Picking_Item()
 						CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON) && CObjMgr::Get_Instance()->Get_Mouse()->Get_Item()!=ITEM_END)
 					{
 						m_vecItem[iIndex]->Set_Item(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item());
+						m_vecItem[iIndex]->Set_PortionCount_fix(CObjMgr::Get_Instance()->Get_Mouse()->Get_PortionCount());
 						dynamic_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Set_Grab(false);
 						CObjMgr::Get_Instance()->Get_Mouse()->Set_Item(ITEM_END);
 						break;
@@ -94,16 +95,23 @@ void CInventory::Picking_Item()
 						CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON) && CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() != ITEM_END)
 					{
 						ITEMID m_itemid;
+						int KeepCount = 0;
 						m_itemid = m_vecItem[iIndex]->Get_Item(); //인벤토리 아이템 종류 임시 저장
+						KeepCount = m_vecItem[iIndex]->Get_PortionCount();
 						m_vecItem[iIndex]->Set_Item(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item()); //인벤토리 아이템 종류에 마우스가 가진 아이템 종류 입력
+						m_vecItem[iIndex]->Set_PortionCount_fix(CObjMgr::Get_Instance()->Get_Mouse()->Get_PortionCount());
 						CObjMgr::Get_Instance()->Get_Mouse()->Set_Item(m_itemid);  //마우스 아이템 종류에 임시로 저장해줬던 인벤토리 아이템 종류 저장
+						CObjMgr::Get_Instance()->Get_Mouse()->Set_PortionCount_fix(KeepCount);
 						break; //마우스 그랩은 그대로 트루인 상태 
 					}
-					else if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON)&& !dynamic_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Get_Grab())
+					else if (CKeyMgr::Get_Instance()->Key_Down(VK_LBUTTON)&& !dynamic_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Get_Grab()&&
+						m_vecItem[iIndex]->Get_Item() != ITEM_END)
 					{
 						dynamic_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Set_Grab(true);
 						CObjMgr::Get_Instance()->Get_Mouse()->Set_Item(m_vecItem[iIndex]->Get_Item());
-						m_vecItem[iIndex]->Set_Item(ITEM_END);
+						CObjMgr::Get_Instance()->Get_Mouse()->Set_PortionCount_fix(m_vecItem[iIndex]->Get_PortionCount());
+						if(CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() !=HP&& CObjMgr::Get_Instance()->Get_Mouse()->Get_Item() != MP)
+							m_vecItem[iIndex]->Set_Item(ITEM_END);
 						break;
 					}
 				}

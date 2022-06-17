@@ -38,6 +38,7 @@ private:
 
 	DWORD		m_dwAttack1;
 	DWORD		m_dwAttackDelay;
+	DWORD		m_dwAttackDelay2;
 	DWORD		m_AttackedTime;
 	DWORD		m_dwBlink;
 	DWORD		m_dwSkill4Cool;

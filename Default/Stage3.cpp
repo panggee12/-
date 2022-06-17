@@ -36,7 +36,7 @@ void CStage3::Initialize(void)
 
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER, m_pPlayer);*/
 
-	CObjMgr::Get_Instance()->Get_Player()->Set_Pos(800, 200);
+	CObjMgr::Get_Instance()->Get_Player()->Set_Pos(50, 200);
 
 	/*CObj* m_pUi = CAbstractFactory<CUi>::Create();
 
@@ -107,7 +107,7 @@ void CStage3::Render(HDC hDC)
 		RGB(255, 0, 255));
 
 	CObjMgr::Get_Instance()->Render(hDC);
-	CLineMgr::Get_Instance()->Render(hDC);
+	//CLineMgr::Get_Instance()->Render(hDC);
 }
 
 void CStage3::Release(void)

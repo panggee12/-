@@ -404,9 +404,9 @@ void CLineMgr::Load_File(STAGEID _STAGEID)
 	CloseHandle(hFile);
 
 
-#ifdef _DEBUG
-	MessageBox(g_hWnd, L"Load 己傍", L"己傍", MB_OK);
-#endif // _DEBUG
+//#ifdef _DEBUG
+//	MessageBox(g_hWnd, L"Load 己傍", L"己傍", MB_OK);
+//#endif // _DEBUG
 
 }
 void CLineMgr::Load_File_Rofe(STAGEID _STAGEID)
@@ -464,9 +464,9 @@ void CLineMgr::Load_File_Rofe(STAGEID _STAGEID)
 	CloseHandle(hFile);
 
 
-#ifdef _DEBUG
-	MessageBox(g_hWnd, L"Load 己傍", L"己傍", MB_OK);
-#endif // _DEBUG
+//#ifdef _DEBUG
+//	MessageBox(g_hWnd, L"Load 己傍", L"己傍", MB_OK);
+//#endif // _DEBUG
 
 }
 

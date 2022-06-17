@@ -33,7 +33,8 @@ bool CCollisionMgr::Collision_Rect(list<CObj*> _Dest, list<CObj*> _Sour)
 					Sour->Set_Attacked();
 					Sour->Set_Attacked(true);
 					Sour->Set_MinusHp(Dest->Get_Damage());
-					dynamic_cast<CPlayer*>(Sour)->Set_Blink();
+					if(Sour==CObjMgr::Get_Instance()->Get_Player())
+						dynamic_cast<CPlayer*>(Sour)->Set_Blink();
 					if (Sour->Get_Info().fX < Dest->Get_Info().fX)
 						Sour->Set_AttackedDir(false);
 					else

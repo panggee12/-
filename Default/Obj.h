@@ -47,7 +47,9 @@ public:
 	bool		Get_AlreadyDead() { return m_iDeadCount; }
 	bool		Get_Dead() { return m_bDead; }
 	const TCHAR* Get_FrameKey() { return m_framekey; }
-
+	void		Set_PortionCount(int _iCount) { m_iPortionCount += _iCount; }
+	void		Set_PortionCount_fix(int iCount) { m_iPortionCount = iCount; }
+	int			Get_PortionCount() { return m_iPortionCount; }
 	void		Set_AttackedDir(bool Dir) { m_bAttackedDir = Dir; }
 	void		Set_SkillPoint() { m_iSkillPoint -= 1; }
 	void		Set_ButtonId(BUTTONID _BID) { m_tButton = _BID; }
@@ -106,6 +108,7 @@ protected:
 	int			m_iDrawid;
 	int			m_iMoney;
 	int			m_iSkillPoint;
+	int			m_iPortionCount;
 	DWORD		m_dwSkillTime;
 	DWORD		m_dwNoSkill;
 	DWORD		m_dwDeleteEffect;

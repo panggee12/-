@@ -2,7 +2,7 @@
 #include "Item.h"
 #include "BmpMgr.h"
 #include "ScrollMgr.h"
-CItem::CItem() : m_dwUPDOWN(GetTickCount()), m_bDrop(false), m_ItemCheck(false), m_iRand(0), m_iPortionCount(0)
+CItem::CItem() : m_dwUPDOWN(GetTickCount()), m_bDrop(false), m_ItemCheck(false), m_iRand(0)
 {
 }
 

@@ -7,6 +7,7 @@
 #include "KeyMgr.h"
 #include "LineMgr.h"
 #include "AbstractFactory.h"
+#include "SoundMgr.h"
 CMainGame::CMainGame():m_dwTime(GetTickCount()),m_iFPS(0)
 {
 }
@@ -23,12 +24,13 @@ void CMainGame::Initialize(void)
 	CSceneMgr::Get_Instance()->Scene_Change(STAGE_LOGO);
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image_Maple/Back.bmp", L"Back");
-	
+	//CSoundMgr::Get_Instance()->Initialize();
 }
 
 void CMainGame::Update(void)
 {
 	CSceneMgr::Get_Instance()->Update();
+	//CSoundMgr::Get_Instance()->PlayBGM(L"viliage.wav", 10);
 }
 
 void CMainGame::Late_Update(void)
@@ -75,5 +77,6 @@ void CMainGame::Release(void)
 	CScrollMgr::Get_Instance()->Destroy_Instance();
 	CKeyMgr::Get_Instance()->Destroy_Instance();
 	CLineMgr::Get_Instance()->Destroy_Instance();
+	CSoundMgr::Get_Instance()->Destroy_Instance();
 	ReleaseDC(g_hWnd, m_hDC);
 }

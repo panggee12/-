@@ -15,11 +15,12 @@
 #include "QuickSlot.h"
 #include "Effect.h"
 #include "Inventory.h"
-CPlayer::CPlayer() :m_CureState(IDLE), m_PreState(STATE_END), m_dwAttack1(GetTickCount()), m_dwAttackDelay(GetTickCount() - 700), m_bRofe(false), m_bFixedX(false),
-m_iSkill1(0), m_iSkill2(0), m_iSkill3(0), m_iSkill4(0), m_AttackedTime(GetTickCount()), m_fPull(10.f), m_dwSkill4Cool(GetTickCount()), m_bSkill4On(false), m_bSkill4Status(false),
+CPlayer::CPlayer() :m_CureState(IDLE), m_PreState(STATE_END), m_dwAttack1(GetTickCount()), m_dwAttackDelay(GetTickCount() - 700), 
+m_dwAttackDelay2(GetTickCount() - 1200),m_bRofe(false), m_bFixedX(false), m_iSkill1(0), m_iSkill2(0), m_iSkill3(0), m_iSkill4(0), 
+m_AttackedTime(GetTickCount()), m_fPull(10.f), m_dwSkill4Cool(GetTickCount()), m_bSkill4On(false), m_bSkill4Status(false),
 m_dwBlink(GetTickCount())
 {
-	m_tStatus = { 1,1,142,142,142,0,100 ,100};
+	m_tStatus = { 1,142,142,142,142,0,100 ,100};
 	m_iMoney = 10000;
 }
 
@@ -382,7 +383,7 @@ void CPlayer::Move_Change()
 			m_tFrame.iFrameStart = 0;
 			m_tFrame.iFrameEnd = 2;
 
-			m_tFrame.dwFrameSpeed = 350;
+			m_tFrame.dwFrameSpeed = 400;
 			m_tFrame.dwFrameTime = GetTickCount();
 			break;
 		case CPlayer::UP:
@@ -469,13 +470,13 @@ void CPlayer::known_Key(int KeyNum)
 	else if (dynamic_cast<CQuickSlot*>(CObjMgr::Get_Instance()->Get_Slot())->Get_VecSlot()[KeyNum]->Get_Skill() == PSKILL3)
 	{
 		m_CureState = ATTACK3;
-		if (m_dwAttackDelay + 700 < GetTickCount())
+		if (m_dwAttackDelay2 + 1200 < GetTickCount())
 		{
 			if (m_framekey == L"PLAYERRIGHT")
 				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill3>::Create(m_tInfo.fX + 100, m_tInfo.fY - 100, m_framekey, m_tStatus.m_iDamage*4 + rand() % (m_tStatus.m_iDamage / 2), PSKILL3));
 			else
 				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill3>::Create(m_tInfo.fX - 100, m_tInfo.fY - 100, m_framekey, m_tStatus.m_iDamage*4 + rand() % (m_tStatus.m_iDamage / 2), PSKILL3));
-			m_dwAttackDelay = GetTickCount();
+			m_dwAttackDelay2 = GetTickCount();
 		}
 	}
 	else if (dynamic_cast<CQuickSlot*>(CObjMgr::Get_Instance()->Get_Slot())->Get_VecSlot()[KeyNum]->Get_Skill() == PSKILL4&&m_dwSkill4Cool+2000<GetTickCount())
