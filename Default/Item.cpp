@@ -36,7 +36,7 @@ int CItem::Update(void)
 	}*/
 	if (m_bDrop)
 	{
-		m_tInfo.fY -= m_fSpeed;
+		m_tInfo	.fY -= m_fSpeed;
 		if (m_dwUPDOWN + 1000 < GetTickCount())
 		{
 			m_fSpeed *= -1.f;
@@ -47,6 +47,7 @@ int CItem::Update(void)
 		if (!m_ItemCheck)
 		{
 			m_tItem = ITEMID(m_iRand);
+
 			if (m_tItem == MONEY)
 			{
 				m_tInfo.fCX = 30.f;
@@ -62,7 +63,7 @@ int CItem::Update(void)
 
 				m_iMoney = rand() % 100 + 1000;
 				m_framekey = L"Money";
-				m_ItemCheck = true;
+				
 			}
 		}
 
@@ -77,6 +78,8 @@ int CItem::Update(void)
 		m_framekey = L"Wear";
 	else if (m_tItem == GLOVE)
 		m_framekey = L"Glove";
+	else if (m_tItem == MONEY)
+		m_framekey = L"Money";
 	else
 		m_framekey = L"";
 	Update_Rect();
@@ -94,18 +97,19 @@ void CItem::Render(HDC hDC)
 
 	int iScrollX = CScrollMgr::Get_Instance()->Get_ScrollX();
 	int iScrollY = CScrollMgr::Get_Instance()->Get_ScrollY();
-	if(m_tItem==MONEY)
-	GdiTransparentBlt(hDC,
-		int(m_tRect.left) + iScrollX,
-		int(m_tRect.top) -10+ iScrollY,
-		int(m_tInfo.fCX),
-		int(m_tInfo.fCY),
-		ITEMHDC,
-		m_tFrame.iFrameStart*m_tInfo.fCX,
-		m_tFrame.iMotion*m_tInfo.fCY,
-		(int)m_tInfo.fCX,
-		(int)m_tInfo.fCY,
-		RGB(255, 0, 255));
+	this;
+	if (m_bDrop&&m_tItem == MONEY)
+		GdiTransparentBlt(hDC,
+			int(m_tRect.left) + iScrollX,
+			int(m_tRect.top) - 10 + iScrollY,
+			int(m_tInfo.fCX),
+			int(m_tInfo.fCY),
+			ITEMHDC,
+			m_tFrame.iFrameStart*m_tInfo.fCX,
+			m_tFrame.iMotion*m_tInfo.fCY,
+			(int)m_tInfo.fCX,
+			(int)m_tInfo.fCY,
+			RGB(255, 0, 255));
 	else if(m_bDrop&&m_tItem != MONEY)
 		GdiTransparentBlt(hDC,
 			int(m_tRect.left) + iScrollX,

@@ -8,7 +8,7 @@ public:
 	CPlayer();
 	virtual ~CPlayer();
 public:
-	enum state { IDLE, WALK, JUMP, SIT, ATTACK1, ATTACK2, ATTACK3, UP, DOWN, ROFE,STATE_END };
+	enum state { IDLE, WALK, JUMP, SIT, ATTACK1, ATTACK2, ATTACK3, CROUCH, UP, DOWN, ROFE,STATE_END };
 public:
 	virtual void Initialize(void) override;
 	virtual int	 Update(void) override;
@@ -18,9 +18,11 @@ public:
 
 	void Move_Change();
 	void OffSet();
+	void Rofing();
 	void Set_Rofe(bool rofe) { m_bRofe = rofe; }
 	void Set_FixedX(bool fixedX) { m_bFixedX = fixedX; }
 	void Set_State(int i) { m_CureState = state(i); }
+	state Get_State() { return m_CureState; }
 	bool Get_Rofe() { return m_bRofe; }
 	int  Get_Skill1() { return m_iSkill1; }
 	int  Get_Skill2() { return m_iSkill2; }

@@ -4,7 +4,7 @@
 #include "ObjMgr.h"
 #include "AbstractFactory.h"
 #include "Buttons.h"
-#include "SoundMgr.h"
+
 CLobby::CLobby()
 {
 	m_tStage = STAGE_LOBBY;
@@ -21,18 +21,17 @@ void CLobby::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Title/title2.bmp", L"LOBBY");
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Button/loginBt.bmp", L"LOGINBT");
-	
-	CObj* m_pButton = CAbstractFactory<CButtons>::Create(477, 306,PORTAL_END, ITEM_END,LOBBY_BUTTON);
+
+	CObj* m_pButton = CAbstractFactory<CButtons>::Create(477, 306, PORTAL_END, ITEM_END, LOBBY_BUTTON);
 	m_pButton->Set_key(L"LOGINBT");
 
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, m_pButton);
-	//CSoundMgr::Get_Instance()->Initialize();
-}
 
+}
 int CLobby::Update(void)
 {
 	CObjMgr::Get_Instance()->Update();
-	//CSoundMgr::Get_Instance()->PlayBGM(L"viliage.wav", 10);
+	
 	return 0;
 }
 

@@ -8,6 +8,7 @@
 #include "LineMgr.h"
 #include "ScrollMgr.h"
 #include "Ui.h"
+#include "SoundMgr.h"
 CStage::CStage()
 {
 	m_tStage = STAGE_1;
@@ -33,8 +34,9 @@ void CStage::Initialize(void)
 		CObjMgr::Get_Instance()->Add_Obj(OBJ_PLAYER, m_pPlayer);
 	else
 		CObjMgr::Get_Instance()->Get_Player()->Set_Pos(400, 400);
-
 	
+
+
 }
 
 int CStage::Update(void)
@@ -43,7 +45,7 @@ int CStage::Update(void)
 	CLineMgr::Get_Instance()->Update();
 	CScrollMgr::Get_Instance()->Scroll_Lock(800, 600);
 	
-
+	//CSoundMgr::Get_Instance()->PlaySound(L"viliage.wav", SOUND_BGM, g_fSound);
 	return 0;
 }
 

@@ -236,22 +236,8 @@ bool CLineMgr::Collision_LineY(float* fX, float * fY, float* pX)
 				*fY <= iter->Get_Line().LINER.fY)
 			{
 				pTarget = iter;
-				static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(true);
-				if (CKeyMgr::Get_Instance()->Key_Down(VK_UP))
-				{
-					static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_PosX_fix(float(iter->Get_Line().LINEL.fX));
-					static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_FixedX(true);
-				}
-				if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
-				{
-					static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_PosX_fix(float(iter->Get_Line().LINEL.fX));
-					static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_PosY(-2.f);
-				}
-				else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
-				{
-					static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_PosX_fix(float(iter->Get_Line().LINEL.fX));
-					static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_PosY(2.f);
-				}
+				*pX = pTarget->Get_Line().LINEL.fX;
+				return true;
 			}
 		}
 		
@@ -260,16 +246,17 @@ bool CLineMgr::Collision_LineY(float* fX, float * fY, float* pX)
 
 	if (!pTarget)
 	{
-		static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
 
-		static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_FixedX(true);
+		/*static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
+
+		static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_FixedX(false);*/
 		return false;
 	}
 
 	// 직선의 방정식 
 	// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
 	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
-	//*pX = pTarget->Get_Line().LINEL.fX;
+	
 	return true;
 }
 void CLineMgr::Save_File(void)

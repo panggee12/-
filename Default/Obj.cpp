@@ -34,7 +34,9 @@ void CObj::Move_Frame()
 		++m_tFrame.iFrameStart;
 
 		if (m_tFrame.iFrameStart > m_tFrame.iFrameEnd)
-			m_tFrame.iFrameStart = 0;
+		{
+			m_tFrame.iFrameStart = 0;		
+		}
 
 		m_tFrame.dwFrameTime = GetTickCount();
 	}
@@ -46,7 +48,7 @@ void CObj::Jumping()
 	float fUnderLine = 0;
 	float fRopeX = 0;
 	bool CollisionLineX = CLineMgr::Get_Instance()->Collision_LineX(m_tInfo.fX, &m_tInfo.fY, &fOnLine);
-	bool CollisionLineY = CLineMgr::Get_Instance()->Collision_LineY(&m_tInfo.fX, &m_tInfo.fY, &fRopeX);
+	//bool CollisionLineY = CLineMgr::Get_Instance()->Collision_LineY(&m_tInfo.fX, &m_tInfo.fY, &fRopeX);
 	if (m_fJumpTime >= 3.5f)
 		m_fJumpTime = 3.5f;
 
@@ -63,7 +65,7 @@ void CObj::Jumping()
 		
 			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
 		}
-		else if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
+		/*else if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
 			m_bJump = false;
 			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_State(7);
@@ -74,12 +76,12 @@ void CObj::Jumping()
 			m_bJump = false;
 			
 			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(true);
-		}
+		}*/
 	}
 	else
 	{
 
-		if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
+		/*if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
 			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_State(7);
 			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(true);
@@ -89,12 +91,14 @@ void CObj::Jumping()
 		{
 			m_bJump = false;
 			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_State(8);
-			
-		}
-		if (!CollisionLineY)
-		{
 
-			if (CollisionLineX&&m_tInfo.fY < fOnLine)
+		}
+		else if (CollisionLineY)
+			static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_State(10);*/
+		/*else if (!CollisionLineY)
+		{
+*/
+			if (CollisionLineX&&m_tInfo.fY < fOnLine&&!static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Rofe())
 			{
 				m_fJumpTime += 0.1f;
 				m_tInfo.fY = m_tInfo.fY + 5.f * m_fJumpTime*m_fJumpTime*0.5f;
@@ -112,7 +116,7 @@ void CObj::Jumping()
 				m_tInfo.fY = fOnLine;
 				static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
 			}
-		}
+		//}
 	}
 		
 		/*else if (CollisionLineY&&CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
