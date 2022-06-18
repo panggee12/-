@@ -22,6 +22,7 @@ CStage3::CStage3()
 
 CStage3::~CStage3()
 {
+	Release();
 }
 
 void CStage3::Initialize(void)
@@ -113,5 +114,6 @@ void CStage3::Render(HDC hDC)
 void CStage3::Release(void)
 {
 	CObjMgr::Get_Instance()->Delete_Obj(OBJ_BLOCK);
+	CObjMgr::Get_Instance()->Delete_Obj(OBJ_NPC);
 	CLineMgr::Get_Instance()->Destroy_Instance();
 }

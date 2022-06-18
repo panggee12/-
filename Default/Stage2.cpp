@@ -21,8 +21,8 @@ CStage2::CStage2()
 		CObj* m_pMonster = CAbstractFactory<CMonster>::Create();
 
 		CObjMgr::Get_Instance()->Add_Obj(OBJ_MONSTER, m_pMonster);
-	}*/
-
+	}
+*/
 }
 
 

@@ -8,6 +8,8 @@
 #include "Effect.h"
 #include "Damage.h"
 #include "Player.h"
+#include "Inventory.h"
+#include "Item.h"
 CCollisionMgr::CCollisionMgr()
 {
 }
@@ -106,19 +108,108 @@ bool CCollisionMgr::Collision_Item(list<CObj*> _Dest, list<CObj*> _Sour)
 			float fY = 0.f;
 			if (Collision_Check(Dest, Sour, fX, fY))
 			{
-				if (Sour->Get_Item() == MONEY&&CKeyMgr::Get_Instance()->Key_Down('E'))
+
+				if (Sour->Get_Item() == MONEY)
 				{
-					Dest->Set_MoneyUp(Sour->Get_Money());
-					Sour->Set_Dead();
-					return true;
+					if (CKeyMgr::Get_Instance()->Key_Down('V'))
+					{
+
+						Dest->Set_MoneyUp(Sour->Get_Money());
+						Sour->Set_Dead();
+						return true;
+					}
 				}
+				else if (Sour->Get_Item() == HP)
+				{
+					if (CKeyMgr::Get_Instance()->Key_Down('V'))
+					{
+						if (dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Portion_Check(HP))
+						{
+							for (auto& iter = dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->begin();
+								iter != dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->end();)
+							{
+								if ((*iter)->Get_Item() == HP)
+								{
+									dynamic_cast<CItem*>(*iter)->Set_PortionCount(1);
+									break;
+								}
+								else
+									++iter;
+							}
+							Sour->Set_Dead();
+						}
+						else
+						{
+							for (auto& iter = dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->begin();
+								iter != dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->end();)
+							{
+								if ((*iter)->Get_Item() == ITEM_END)
+								{
+									(*iter)->Set_Item(HP);
+									dynamic_cast<CItem*>(*iter)->Set_PortionCount(1);
+									break;
+								}
+								else
+									++iter;
+							}
+						}
+					}
+				}
+				else if (Sour->Get_Item() == MP)
+				{
+					if (Sour->Get_Item() == MP&&CKeyMgr::Get_Instance()->Key_Down('V'))
+					{
+						if (dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Portion_Check(MP))
+						{
+							for (auto& iter = dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->begin();
+								iter != dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->end();)
+							{
+								if ((*iter)->Get_Item() == MP)
+								{
+									dynamic_cast<CItem*>(*iter)->Set_PortionCount(1);
+									break;
+								}
+								else
+									++iter;
+							}
+							Sour->Set_Dead();
+						}
+						else
+						{
+							for (auto& iter = dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->begin();
+								iter != dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->end();)
+							{
+								if ((*iter)->Get_Item() == ITEM_END)
+								{
+									(*iter)->Set_Item(MP);
+									dynamic_cast<CItem*>(*iter)->Set_PortionCount(1);
+									break;
+								}
+								else
+									++iter;
+							}
+						}
+					}
+				}	
+				/*else
+				{
+					for (auto& iter = dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->begin();
+						iter != dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Get_vecItem()->end();)
+					{
+						if ((*iter)->Get_Item() == ITEM_END)
+						{
+							(*iter)->Set_Item(Sour->Get_Item());
+							dynamic_cast<CItem*>(*iter)->Set_PortionCount(1);						
+							break;
+						}
+					}
+				}*/
 			}
 		}
-	}
-	
-	return false;
-}
 
+		return false;
+	}
+}
 bool CCollisionMgr::Collision_Portal(list<CObj*> _Dest, list<CObj*> _Sour)//dest p sour b
 {
 	for (auto& Dest : _Dest)

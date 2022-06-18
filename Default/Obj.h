@@ -101,6 +101,8 @@ protected:
 	float		m_fJumpTime;
 	bool		m_bDead;
 	bool		m_bJump;
+	bool		m_bCrouchJump;
+	bool		m_bSaveLine;
 	bool		m_bAttacked;
 	bool		m_bGod;
 	bool		m_bAttackedDir;

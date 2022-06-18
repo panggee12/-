@@ -182,8 +182,9 @@ void CPlayer::Key_Input(void)
 	// GetKeyState()
 	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT)&&!m_bFixedX)
 	{
-		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE))
+		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE)&& !m_bCrouchJump)
 		{
+			
 			m_bJump = true;
 			m_CureState = JUMP;
 			m_tInfo.fX += m_fSpeed;
@@ -191,7 +192,14 @@ void CPlayer::Key_Input(void)
 			Normal_Attack();
 
 		}
-		else
+		else if (m_bJump&&CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
+		{
+			m_CureState = JUMP;
+			m_tInfo.fX += m_fSpeed;
+			m_framekey = L"PLAYERRIGHT";
+			Normal_Attack();
+		}
+		else if(!m_bJump&&CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
 		{
 			m_tInfo.fX += m_fSpeed;
 			m_framekey = L"PLAYERRIGHT";
@@ -201,7 +209,7 @@ void CPlayer::Key_Input(void)
 	}
 	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT) && !m_bFixedX)
 	{
-		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE))
+		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE)&&!m_bCrouchJump)
 		{
 			m_bJump = true;
 			m_CureState = JUMP;
@@ -209,7 +217,14 @@ void CPlayer::Key_Input(void)
 			m_framekey = L"PLAYERLEFT";
 			
 		}
-		else
+		else if (m_bJump&&CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
+		{
+			m_CureState = JUMP;
+			m_tInfo.fX -= m_fSpeed;
+			m_framekey = L"PLAYERLEFT";
+			Normal_Attack();
+		}
+		else if (!m_bJump&&CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
 		{
 			m_tInfo.fX -= m_fSpeed;
 			m_framekey = L"PLAYERLEFT";
@@ -217,6 +232,27 @@ void CPlayer::Key_Input(void)
 			Normal_Attack();
 		}
 		
+	}
+	else if (m_bFixedX)
+	{
+		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT) && CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE) && !m_bCrouchJump)
+		{
+			m_bRofe = false;
+			m_bJump = true;
+			m_CureState = JUMP;
+			m_tInfo.fX += m_fSpeed;
+			m_framekey = L"PLAYERRIGHT";
+			Normal_Attack();
+		}
+		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT) && CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE) && !m_bCrouchJump)
+		{
+			m_bRofe = false;
+			m_bJump = true;
+			m_CureState = JUMP;
+			m_tInfo.fX += m_fSpeed;
+			m_framekey = L"PLAYERRIGHT";
+			Normal_Attack();
+		}
 	}
 	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP) && m_bRofe)
 	{
@@ -232,19 +268,27 @@ void CPlayer::Key_Input(void)
 		m_CureState = DOWN;
 
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN) && !m_bRofe)
+	else if (!m_bCrouchJump&&
+		CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN) &&
+		CKeyMgr::Get_Instance()->Key_Down(VK_SPACE) &&
+		!m_bJump)
+	{
+		m_bCrouchJump = true;
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN) && !m_bRofe&&!m_bCrouchJump)
 	{
 
 		m_framekey = L"PLAYERRIGHT";
 		m_CureState = SIT;
-
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE))
+	
+	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE) && !m_bCrouchJump)
 	{
 		m_bJump = true;
 		m_CureState = JUMP;
 		Normal_Attack();
 	}
+	
 	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_CONTROL))
 	{
 		m_CureState = ATTACK1;
@@ -313,14 +357,26 @@ void CPlayer::Key_Input(void)
 		}
 		else if (m_bRofe)
 			m_CureState = ROFE;
+		else if (m_bCrouchJump)
+			m_CureState = JUMP;
+		else if (m_bJump)
+			m_CureState = JUMP;
 		else
+		{
 			m_CureState = IDLE;
+		}
 	}
+	
 	this;
 	if(static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Get_Inven()&&CKeyMgr::Get_Instance()->Key_Down('I'))
 		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Inven_On_Off(false);
 	else if (CKeyMgr::Get_Instance()->Key_Down('I'))
 		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Inven_On_Off(true);
+
+	if (static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Get_Equip() && CKeyMgr::Get_Instance()->Key_Down('E'))
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Equip_On_Off(false);
+	else if (CKeyMgr::Get_Instance()->Key_Down('E'))
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Equip_On_Off(true);
 
 	if (static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Get_SkillBook() && CKeyMgr::Get_Instance()->Key_Down('K'))
 	{
@@ -330,9 +386,22 @@ void CPlayer::Key_Input(void)
 			CObjMgr::Get_Instance()->Delete_Obj(OBJ_BUTTONS);
 			static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Set_ButtonF();
 		}
-	}\
+	}
 	else if (CKeyMgr::Get_Instance()->Key_Down('K'))
 		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->SkillBook_On_Off(true);
+
+	if (static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Get_Status() && CKeyMgr::Get_Instance()->Key_Down('L'))
+	{
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Status_On_Off(false);
+		if (CObjMgr::Get_Instance()->Get_Buttons()->size())
+		{
+			CObjMgr::Get_Instance()->Delete_Obj(OBJ_BUTTONS);
+			static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Set_ButtonF();
+		}
+	}
+	else if (CKeyMgr::Get_Instance()->Key_Down('L'))
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Status_On_Off(true);
+	
 }
 
 void CPlayer::Move_Change()
@@ -472,6 +541,7 @@ void CPlayer::Rofing()
 			m_tInfo.fX=py;
 			m_bFixedX=true;
 			m_bRofe=true;
+			m_CureState = ROFE;
 			if (m_bJump)
 			{
 				m_bJump = false;
@@ -484,6 +554,12 @@ void CPlayer::Rofing()
 			m_bFixedX = true;
 			Set_PosY(-2.f);
 			m_bRofe = true;
+			m_CureState = UP;
+			if (m_bJump)
+			{
+				m_bJump = false;
+				m_fJumpTime = 0.f;
+			}
 		}
 		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
 		{
@@ -491,12 +567,23 @@ void CPlayer::Rofing()
 			m_bFixedX = true;
 			Set_PosY(2.f);
 			m_bRofe = true;
+			m_CureState = DOWN;
+			if (m_bJump)
+			{
+				m_bJump = false;
+				m_fJumpTime = 0.f;
+			}
 		}
 		else if (m_bRofe)
 		{
 			m_tInfo.fX = py;
 			m_bFixedX = true;
 			m_CureState = ROFE;
+			if (m_bJump)
+			{
+				m_bJump = false;
+				m_fJumpTime = 0.f;
+			}
 		}
 
 		//else

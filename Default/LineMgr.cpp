@@ -112,13 +112,15 @@ void CLineMgr::Release(void)
 	m_LineListY.clear();
 }
 
-bool CLineMgr::Collision_LineX(float fX, float* fY,float* pY)
+bool CLineMgr::Collision_LineX(float fX, float* fY,float* pY, float* pY2)
 {
 	if (m_LineList.empty())
 		return false;
 
 	CLine*		pTarget = nullptr;
+	CLine*		pTarget2 = nullptr;
 	float fOnLine = 0.f;
+	float fOnLine2 = 0.f;
 	for (auto& iter : m_LineList)
 	{
 		if (fX >= iter->Get_Line().LINEL.fX &&
@@ -126,7 +128,7 @@ bool CLineMgr::Collision_LineX(float fX, float* fY,float* pY)
 		{
 			float	x1 = iter->Get_Line().LINEL.fX;
 			float	x2 = iter->Get_Line().LINER.fX;
-
+			
 			float	y1 = iter->Get_Line().LINEL.fY;
 			float	y2 = iter->Get_Line().LINER.fY;
 
@@ -145,6 +147,32 @@ bool CLineMgr::Collision_LineX(float fX, float* fY,float* pY)
 		}
 			
 	}
+	for (auto& iter : m_LineList)
+	{
+		if (fX >= iter->Get_Line().LINEL.fX &&
+			fX < iter->Get_Line().LINER.fX)
+		{
+			float	x1 = iter->Get_Line().LINEL.fX;
+			float	x2 = iter->Get_Line().LINER.fX;
+
+			float	y1 = iter->Get_Line().LINEL.fY;
+			float	y2 = iter->Get_Line().LINER.fY;
+
+			float fiterLine = ((y2 - y1) / (x2 - x1)) * (fX - x1) + y1;
+
+			if (!pTarget2&&fiterLine >= *fY&&fiterLine> fOnLine)
+			{
+				pTarget2 = iter;
+				fOnLine2 = fiterLine;
+			}
+			else if (fiterLine >= *fY&&fiterLine> fOnLine&&fiterLine<fOnLine2)
+			{
+				pTarget2 = iter;
+				fOnLine2 = fiterLine;
+			}
+		}
+
+	}
 
 	if (!pTarget)
 		return false;
@@ -153,14 +181,8 @@ bool CLineMgr::Collision_LineX(float fX, float* fY,float* pY)
 	// Y - y1 = ((y2 - y1) / (x2 - x1)) * (X - x1)
 	// Y = ((y2 - y1) / (x2 - x1)) * (X - x1) + y1
 
-	float	x1 = pTarget->Get_Line().LINEL.fX;
-	float	x2 = pTarget->Get_Line().LINER.fX;
-
-	float	y1 = pTarget->Get_Line().LINEL.fY;
-	float	y2 = pTarget->Get_Line().LINER.fY;
-
 	*pY = fOnLine;
-	
+	*pY2 = fOnLine2;
 	return true;
 }
 bool CLineMgr::Collision_LineX_M(float fX, float* fY, float* pY, float* LX, float* RX)

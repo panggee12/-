@@ -34,25 +34,25 @@ int CItem::Update(void)
 		if (m_iPortionCount < 0)
 			m_tItem = ITEM_END;
 	}*/
+	
 	if (m_bDrop)
 	{
-		m_tInfo	.fY -= m_fSpeed;
-		if (m_dwUPDOWN + 1000 < GetTickCount())
+		m_tInfo.fY -= m_fSpeed;		
+		if (m_dwUPDOWN + 1200 < GetTickCount())
 		{
 			m_fSpeed *= -1.f;
 			m_dwUPDOWN = GetTickCount();
 		}
-
 		Move_Frame();	
 		if (!m_ItemCheck)
 		{
 			m_tItem = ITEMID(m_iRand);
-
+			m_fSpeed = 0.3f;
 			if (m_tItem == MONEY)
 			{
 				m_tInfo.fCX = 30.f;
-				m_tInfo.fCY = 29.f;
-				m_fSpeed = 0.3f;
+				m_tInfo.fCY = 29.f; 
+				
 
 				m_tFrame.iMotion = 0;
 				m_tFrame.iFrameStart = 0;
