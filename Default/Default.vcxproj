@@ -160,6 +160,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Enum.h" />
+    <ClInclude Include="Equip.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="Icon.h" />
     <ClInclude Include="Include.h" />
@@ -209,6 +210,7 @@
     <ClCompile Include="Damage.cpp" />
     <ClCompile Include="Default.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Equip.cpp" />
     <ClCompile Include="Icon.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />

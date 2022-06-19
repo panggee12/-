@@ -22,6 +22,17 @@ public:
 	list<CObj*>*	Get_Monster() { return &m_ObjList[OBJ_MONSTER]; }
 	list<CObj*>*	Get_Buttons() { return &m_ObjList[OBJ_BUTTONS]; }
 	list<CObj*>*	Get_Player_List() { return &m_ObjList[OBJ_PLAYER]; }
+	CObj*			Get_Equip_Iter(int i) 
+	{
+		int iReturn = 0; 
+		for (auto& iter : m_ObjList[OBJ_EQUIP])
+		{
+			if (i == iReturn)
+				return iter;
+			++iReturn;
+		}
+	}
+	CObj*			Get_Equip() { return m_ObjList[OBJ_EQUIP].front(); }
 	CObj*			Get_Inven() { return m_ObjList[OBJ_INVEN].front(); }
 	CObj*			Get_Slot() { return m_ObjList[OBJ_QUICKSLOT].front(); }
 	CObj*			Get_Player() { return m_ObjList[OBJ_PLAYER].front(); }

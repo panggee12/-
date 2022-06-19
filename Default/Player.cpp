@@ -20,7 +20,7 @@ m_dwAttackDelay2(GetTickCount() - 1200),m_bRofe(false), m_bFixedX(false), m_iSki
 m_AttackedTime(GetTickCount()), m_fPull(10.f), m_dwSkill4Cool(GetTickCount()), m_bSkill4On(false), m_bSkill4Status(false),
 m_dwBlink(GetTickCount())
 {
-	m_tStatus = { 1,142,142,142,142,0,100 ,100};
+	m_tStatus = { 1,142,142,142,142,0,100 ,100,5,4,4,4,4};
 	m_iMoney = 10000;
 }
 
@@ -57,7 +57,7 @@ int CPlayer::Update(void)
 	if (m_bDead)
 		return OBJ_DEAD;
 
-	
+	m_tStatus.m_iDamage =40+ m_tStatus.m_iSTR * 10 + (m_tStatus.m_iDEX + m_tStatus.m_iLUK + m_tStatus.m_iINT) * 2;
 	if (m_dwSkill4Con + 10000 < GetTickCount() && m_bSkill4On)
 	{
 		m_bSkill4On = false;
@@ -103,7 +103,7 @@ int CPlayer::Update(void)
 	}
 
 	Key_Input();
-	Jumping();
+	JumpingP();
 	Rofing();
 	OffSet();
 	/*if (m_bRofe)
@@ -182,7 +182,7 @@ void CPlayer::Key_Input(void)
 	// GetKeyState()
 	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT)&&!m_bFixedX)
 	{
-		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE)&& !m_bCrouchJump)
+ 		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE)&& !m_bCrouchJump)
 		{
 			
 			m_bJump = true;
@@ -209,7 +209,7 @@ void CPlayer::Key_Input(void)
 	}
 	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT) && !m_bFixedX)
 	{
-		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE)&&!m_bCrouchJump)
+ 		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE)&&!m_bCrouchJump)
 		{
 			m_bJump = true;
 			m_CureState = JUMP;
@@ -243,20 +243,30 @@ void CPlayer::Key_Input(void)
 			m_tInfo.fX += m_fSpeed;
 			m_framekey = L"PLAYERRIGHT";
 			Normal_Attack();
+			m_framekey = L"PLAYERRIGHT";
+			m_CureState = UP;
 		}
-		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT) && CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE) && !m_bCrouchJump)
+		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT) && CKeyMgr::Get_Instance()->Key_Pressing(VK_SPACE) && !m_bCrouchJump)
 		{
 			m_bRofe = false;
 			m_bJump = true;
 			m_CureState = JUMP;
-			m_tInfo.fX += m_fSpeed;
+			m_tInfo.fX -= m_fSpeed;
 			m_framekey = L"PLAYERRIGHT";
 			Normal_Attack();
+			m_framekey = L"PLAYERRIGHT";
+			m_CureState = UP;
+		}
+		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP) && !m_bCrouchJump)
+		{
+			m_framekey = L"PLAYERRIGHT";
+			m_CureState = UP;
+			m_bJump = false;
+			m_bRofe = true;
 		}
 	}
 	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP) && m_bRofe)
 	{
-
 		m_framekey = L"PLAYERRIGHT";
 		m_CureState = UP;
 
@@ -301,51 +311,51 @@ void CPlayer::Key_Input(void)
 			m_dwAttackDelay = GetTickCount();
 		}
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('A'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('A'))
 	{	
 		known_Key(0);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('S'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('S'))
 	{
 		known_Key(1);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('D'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('D'))
 	{
 		known_Key(2);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('1'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('1'))
 	{
 		known_Key(3);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('2'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('2'))
 	{
 		known_Key(4);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('3'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('3'))
 	{
 		known_Key(5);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('Z'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('Z'))
 	{
 		known_Key(6);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('X'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('X'))
 	{
 		known_Key(7);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('C'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('C'))
 	{
 		known_Key(8);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('4'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('4'))
 	{
 		known_Key(9);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('5'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('5'))
 	{
 		known_Key(10);
 	}
-	else if (CKeyMgr::Get_Instance()->Key_Pressing('6'))
+	else if (CKeyMgr::Get_Instance()->Key_Down('6'))
 	{
 		known_Key(11);
 	}
@@ -381,11 +391,7 @@ void CPlayer::Key_Input(void)
 	if (static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Get_SkillBook() && CKeyMgr::Get_Instance()->Key_Down('K'))
 	{
 		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->SkillBook_On_Off(false);
-		if (CObjMgr::Get_Instance()->Get_Buttons()->size())
-		{
-			CObjMgr::Get_Instance()->Delete_Obj(OBJ_BUTTONS);
-			static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Set_ButtonF();
-		}
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Set_ButtonSkF();
 	}
 	else if (CKeyMgr::Get_Instance()->Key_Down('K'))
 		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->SkillBook_On_Off(true);
@@ -393,11 +399,7 @@ void CPlayer::Key_Input(void)
 	if (static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Get_Status() && CKeyMgr::Get_Instance()->Key_Down('L'))
 	{
 		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Status_On_Off(false);
-		if (CObjMgr::Get_Instance()->Get_Buttons()->size())
-		{
-			CObjMgr::Get_Instance()->Delete_Obj(OBJ_BUTTONS);
-			static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Set_ButtonF();
-		}
+		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Set_ButtonStF();		
 	}
 	else if (CKeyMgr::Get_Instance()->Key_Down('L'))
 		static_cast<CUi*>(CObjMgr::Get_Instance()->Get_Ui())->Status_On_Off(true);
@@ -532,13 +534,13 @@ void CPlayer::OffSet()
 
 void CPlayer::Rofing()
 {
-	float py=0;
-	bool CollisionY = CLineMgr::Get_Instance()->Collision_LineY(&m_tInfo.fX, &m_tInfo.fY, &py);
+	float px=0;
+	bool CollisionY = CLineMgr::Get_Instance()->Collision_LineY(&m_tInfo.fX, &m_tInfo.fY, &px);
 	if (CollisionY)
 	{
 		if (CKeyMgr::Get_Instance()->Key_Down(VK_UP))
 		{
-			m_tInfo.fX=py;
+			m_tInfo.fX=px;
 			m_bFixedX=true;
 			m_bRofe=true;
 			m_CureState = ROFE;
@@ -550,7 +552,7 @@ void CPlayer::Rofing()
 		}
 		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
-			m_tInfo.fX = py;
+			m_tInfo.fX = px;
 			m_bFixedX = true;
 			Set_PosY(-2.f);
 			m_bRofe = true;
@@ -563,7 +565,7 @@ void CPlayer::Rofing()
 		}
 		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
 		{
-			m_tInfo.fX = py;
+			m_tInfo.fX = px;
 			m_bFixedX = true;
 			Set_PosY(2.f);
 			m_bRofe = true;
@@ -576,7 +578,7 @@ void CPlayer::Rofing()
 		}
 		else if (m_bRofe)
 		{
-			m_tInfo.fX = py;
+			m_tInfo.fX = px;
 			m_bFixedX = true;
 			m_CureState = ROFE;
 			if (m_bJump)
@@ -610,6 +612,8 @@ void CPlayer::known_Key(int KeyNum)
 			else
 				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill1>::Create(m_tInfo.fX - 100, m_tInfo.fY, m_framekey, m_tStatus.m_iDamage * 3 + rand() % (m_tStatus.m_iDamage / 2), PSKILL1));
 			m_dwAttackDelay = GetTickCount();
+
+			m_tStatus.m_iMp -= 10;
 		}
 	}
 	else if (dynamic_cast<CQuickSlot*>(CObjMgr::Get_Instance()->Get_Slot())->Get_VecSlot()[KeyNum]->Get_Skill() == PSKILL2)
@@ -622,6 +626,7 @@ void CPlayer::known_Key(int KeyNum)
 			else
 				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill2>::Create(m_tInfo.fX - 100, m_tInfo.fY - 100, m_framekey, m_tStatus.m_iDamage*2 + rand() % (m_tStatus.m_iDamage / 2), PSKILL2));
 			m_dwAttackDelay = GetTickCount();
+			m_tStatus.m_iMp -= 10;
 		}
 	}
 	else if (dynamic_cast<CQuickSlot*>(CObjMgr::Get_Instance()->Get_Slot())->Get_VecSlot()[KeyNum]->Get_Skill() == PSKILL3)
@@ -634,6 +639,7 @@ void CPlayer::known_Key(int KeyNum)
 			else
 				CObjMgr::Get_Instance()->Add_Obj(OBJ_PATTACK, CAbstractFactory<CPSkill3>::Create(m_tInfo.fX - 100, m_tInfo.fY - 100, m_framekey, m_tStatus.m_iDamage*4 + rand() % (m_tStatus.m_iDamage / 2), PSKILL3));
 			m_dwAttackDelay2 = GetTickCount();
+			m_tStatus.m_iMp -= 20;
 		}
 	}
 	else if (dynamic_cast<CQuickSlot*>(CObjMgr::Get_Instance()->Get_Slot())->Get_VecSlot()[KeyNum]->Get_Skill() == PSKILL4&&m_dwSkill4Cool+2000<GetTickCount())
@@ -644,11 +650,12 @@ void CPlayer::known_Key(int KeyNum)
 		m_dwSkill4Cool = GetTickCount();
 		m_bSkill4On = true;
 		m_tStatus.m_iDamage *= 2;
+		m_tStatus.m_iMp -= 25;
 	}
 	else if (dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Portion_Check(HP)&&
 		dynamic_cast<CQuickSlot*>(CObjMgr::Get_Instance()->Get_Slot())->Get_VecSlot()[KeyNum]->Get_Item() == HP)
 	{
-		m_tStatus.m_iHp += 50;
+		m_tStatus.m_iHp += 100;
 		if (m_tStatus.m_iHp >= m_tStatus.m_iMaxHp)
 			m_tStatus.m_iHp = m_tStatus.m_iMaxHp;
 		dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Use_Item(HP);
@@ -657,7 +664,7 @@ void CPlayer::known_Key(int KeyNum)
 	else if (dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Portion_Check(MP) &&
 		dynamic_cast<CQuickSlot*>(CObjMgr::Get_Instance()->Get_Slot())->Get_VecSlot()[KeyNum]->Get_Item() == MP)
 	{
-		m_tStatus.m_iMp += 50;
+		m_tStatus.m_iMp += 100;
 		if (m_tStatus.m_iMp >= m_tStatus.m_iMaxMp)
 			m_tStatus.m_iMp = m_tStatus.m_iMaxMp;
 		dynamic_cast<CInventory*>(CObjMgr::Get_Instance()->Get_Inven())->Use_Item(MP);
@@ -679,4 +686,87 @@ void CPlayer::Normal_Attack()
 			m_dwAttackDelay = GetTickCount();
 		}
 	}
+}
+void CPlayer::JumpingP()
+{
+	float fOnLine = 0;
+	float fOverLine = 0;
+	float fUnderLine = 0;
+	float fRopeX = 0;
+	bool CollisionLineX = CLineMgr::Get_Instance()->Collision_LineX(m_tInfo.fX, &m_tInfo.fY, &fOnLine, &fUnderLine);
+	//bool CollisionLineY = CLineMgr::Get_Instance()->Collision_LineY(&m_tInfo.fX, &m_tInfo.fY, &fRopeX);
+	/*if (m_bCrouchJump && !m_bSaveLine)
+	{
+	fOverLine = fUnderLine;
+	fRopeX = fOnLine;
+	m_bSaveLine = true;
+	}*/
+	if (m_fJumpTime >= 3.5f)
+		m_fJumpTime = 3.5f;
+	if (m_bJump && !dynamic_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Rofe())
+	{
+		m_fJumpTime += 0.1f;
+		m_tInfo.fY = m_tInfo.fY - m_fJumpPower*m_fJumpTime + 5.f * m_fJumpTime*m_fJumpTime*0.5f;
+
+		if (CollisionLineX&&m_tInfo.fY > fOnLine)
+		{
+			if (m_bFixedX)
+				m_bRofe = true;
+			m_fJumpTime = 0.f;
+			m_bJump = false;
+			m_tInfo.fY = fOnLine;
+ 
+ 			//static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
+		}
+
+	}
+	else if (m_bCrouchJump)
+	{
+		m_fJumpTime += 0.1f;
+		m_tInfo.fY = m_tInfo.fY - m_fJumpPower*m_fJumpTime*0.7f + 5.f * m_fJumpTime*m_fJumpTime*0.5f;
+
+		if (CollisionLineX&&m_tInfo.fY > fOnLine)
+		{
+			if (!m_bSaveLine)
+				m_bSaveLine = true;
+			else if (m_bSaveLine)
+			{
+				m_fJumpTime = 0.f;
+				m_bCrouchJump = false;
+				m_bSaveLine = false;
+				m_tInfo.fY = fOnLine;
+
+				//static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
+			}
+		}
+	}
+	else
+	{
+		if (CollisionLineX&&m_tInfo.fY < fOnLine && !static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Get_Rofe())
+		{
+			
+			m_fJumpTime += 0.1f;
+			m_tInfo.fY = m_tInfo.fY + 5.f * m_fJumpTime*m_fJumpTime*0.5f;
+			if (m_tInfo.fY >= fOnLine)
+			{
+				if (m_bFixedX)
+					m_bRofe = true;
+				m_tInfo.fY = fOnLine;
+				m_fJumpTime = 0.f;
+				//static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
+			}
+
+		}
+		else if (CollisionLineX&&m_tInfo.fY >= fOnLine)
+		{
+			m_fJumpTime = 0.f;
+			m_tInfo.fY = fOnLine;
+			//static_cast<CPlayer*>(CObjMgr::Get_Instance()->Get_Player())->Set_Rofe(false);
+		}
+
+	}
+
+}
+void CPlayer::Equip_Check()
+{
 }

@@ -10,10 +10,12 @@
 #include "KeyMgr.h"
 #include "Inventory.h"
 #include "Shop.h"
+#include "Equip.h"
 CUi::CUi():m_bShop(false), m_bInven(false), m_bSkillBook(false), m_bSkBt1(false), m_bSkBt2(false), m_bSkBt3(false), m_bSkBt4(false),
-SkillOn1(0), SkillOn2(0), SkillOn3(0), SkillOn4(0), m_bItemCreate(false), m_bEquip(false),m_bStatus(false)
-{
-}
+SkillOn1(0), SkillOn2(0), SkillOn3(0), SkillOn4(0), m_bItemCreate(false), m_bEquip(false),m_bStatus(false), m_bStBt1(false), m_bStBt2(false),
+m_bStBt3(false), m_bStBt4(false), m_bStBt5(false)
+{																										  
+}																										  
 
 
 CUi::~CUi()
@@ -40,6 +42,7 @@ void CUi::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Maple/Ui/stat.bmp", L"StatusUI");
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_QUICKSLOT, CAbstractFactory<CQuickSlot>::Create());
 	CObjMgr::Get_Instance()->Add_Obj(OBJ_INVEN, CAbstractFactory<CInventory>::Create());
+	CObjMgr::Get_Instance()->Add_Obj(OBJ_EQUIP, CAbstractFactory<CEquip>::Create());
 }
 
 int CUi::Update(void)
@@ -117,6 +120,75 @@ void CUi::Render(HDC hDC)
 	if (m_bStatus)
 	{
 		GdiTransparentBlt(hDC, 50, 150, 212, 318, STATUSHDC, 0, 0, 212, 318, RGB(255, 0, 255));
+		RECT rcPoint = { 114,329,140,345 };
+		TCHAR	szText1[32] = L"";
+		swprintf_s(szText1, L" %d", CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iAbPoint);
+		SetBkMode(hDC, TRANSPARENT);	
+		DrawText(hDC, szText1, lstrlen(szText1), &rcPoint, DT_CENTER);
+		RECT rcMp = { 134,287,200,303 };
+		TCHAR	szText2[32] = L"";
+		swprintf_s(szText2, L" %d / %d", CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iMp, CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iMaxMp);
+		SetBkMode(hDC, TRANSPARENT);
+		DrawText(hDC, szText2, lstrlen(szText2), &rcMp, DT_CENTER);
+		RECT rcHp = { 134,269,200,285 };
+		TCHAR	szText3[32] = L"";
+		swprintf_s(szText3, L" %d / %d", CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iHp, CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iMaxHp);
+		SetBkMode(hDC, TRANSPARENT);
+		DrawText(hDC, szText3, lstrlen(szText3), &rcHp, DT_CENTER);
+		RECT rcAttack = { 134,251,200,267 };
+		TCHAR	szText4[32] = L"";
+		swprintf_s(szText4, L" %d ", CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iDamage);
+		SetBkMode(hDC, TRANSPARENT);
+		DrawText(hDC, szText4, lstrlen(szText4), &rcAttack, DT_CENTER);
+		RECT rcSTR = { 114,356,180,372 };
+		TCHAR	szText5[32] = L"";
+		swprintf_s(szText5, L" %d ", CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iSTR);
+		SetBkMode(hDC, TRANSPARENT);
+		DrawText(hDC, szText5, lstrlen(szText5), &rcSTR, DT_CENTER);
+		RECT rcDEX = { 114,374,180,390 };
+		TCHAR	szText6[32] = L"";
+		swprintf_s(szText6, L" %d ", CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iDEX);
+		SetBkMode(hDC, TRANSPARENT);
+		DrawText(hDC, szText6, lstrlen(szText6), &rcDEX, DT_CENTER);
+		RECT rcINT = { 114,392,180,408 };
+		TCHAR	szText7[32] = L"";
+		swprintf_s(szText7, L" %d ", CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iINT);
+		SetBkMode(hDC, TRANSPARENT);
+		DrawText(hDC, szText7, lstrlen(szText7), &rcINT, DT_CENTER);
+		RECT rcLUK = { 114,410,180,426 };
+		TCHAR	szText8[32] = L"";
+		swprintf_s(szText8, L" %d ", CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iLUK);
+		SetBkMode(hDC, TRANSPARENT);
+		DrawText(hDC, szText8, lstrlen(szText8), &rcLUK, DT_CENTER);
+
+		if (CObjMgr::Get_Instance()->Get_Player()->Get_Status().m_iAbPoint > 0)
+		{
+			if (!m_bStBt1)
+			{
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(244, 364, PORTAL_END, ITEM_END, STATUS_BUTTON1));
+				m_bStBt1 = true;
+			}
+			if (!m_bStBt2)
+			{
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(244, 382, PORTAL_END, ITEM_END, STATUS_BUTTON2));
+				m_bStBt2 = true;
+			}
+			if (!m_bStBt3)
+			{
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(244, 400, PORTAL_END, ITEM_END, STATUS_BUTTON3));
+				m_bStBt3 = true;
+			}
+			if (!m_bStBt4)
+			{
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(244, 418, PORTAL_END, ITEM_END, STATUS_BUTTON4));
+				m_bStBt4 = true;
+			}
+			if (!m_bStBt5)
+			{
+				CObjMgr::Get_Instance()->Add_Obj(OBJ_BUTTONS, CAbstractFactory<CButtons>::Create(210, 330, PORTAL_END, ITEM_END, STATUS_AUTO));
+				m_bStBt5 = true;
+			}
+		}	
 	}
 	if (m_bSkillBook)
 	{

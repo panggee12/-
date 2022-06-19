@@ -145,6 +145,9 @@
     <Filter Include="98. Design\SoundMgr">
       <UniqueIdentifier>{d86a1473-3f30-463e-9d7c-f972e9968fe6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Obj\15. Equip">
+      <UniqueIdentifier>{2d4c0763-e6ce-4801-9824-bfe38eb0369f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -300,6 +303,9 @@
     <ClInclude Include="SoundMgr.h">
       <Filter>98. Design\SoundMgr</Filter>
     </ClInclude>
+    <ClInclude Include="Equip.h">
+      <Filter>01. Obj\15. Equip</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -427,6 +433,9 @@
     </ClCompile>
     <ClCompile Include="SoundMgr.cpp">
       <Filter>98. Design\SoundMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Equip.cpp">
+      <Filter>01. Obj\15. Equip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

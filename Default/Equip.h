@@ -1,12 +1,11 @@
 #pragma once
 #include "Obj.h"
-#include "Mouse.h"
-class CButtons :
+class CEquip :
 	public CObj
 {
 public:
-	CButtons();
-	virtual ~CButtons();
+	CEquip();
+	virtual ~CEquip();
 
 public:
 	virtual void Initialize(void) override;
@@ -15,5 +14,11 @@ public:
 	virtual void Render(HDC hDC) override;
 	virtual void Release(void) override;
 
+	vector<CObj*>* Get_vecItem() { return &m_vecItem; }
+	CObj*          Get_vecItem_Iter(int i) { return m_vecItem[i]; }
+
+	void UnEquip_Item();
+private:
+	vector<CObj*> m_vecItem;
 };
 

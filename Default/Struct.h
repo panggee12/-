@@ -10,6 +10,11 @@ struct Status
 	int			m_iExp;
 	int			m_iMaxExp;
 	int			m_iDamage;
+	int			m_iAbPoint;
+	int			m_iSTR;
+	int			m_iDEX;
+	int			m_iINT;
+	int			m_iLUK;
 };
 
 typedef struct tagInfo

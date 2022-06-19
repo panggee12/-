@@ -28,11 +28,13 @@ public:
 	int  Get_Skill2() { return m_iSkill2; }
 	int  Get_Skill3() { return m_iSkill3; }
 	int  Get_Skill4() { return m_iSkill4; }
-	void Set_SkillLvup(int S1, int S2, int S3, int S4) { m_iSkill1 += S1; m_iSkill2 += S2; m_iSkill3 += S3; m_iSkill4 += S4;}
+	void Set_SkillLvup(int S1, int S2, int S3, int S4) { m_iSkill1 += S1; m_iSkill2 += S2; m_iSkill3 += S3; m_iSkill4 += S4; m_iSkillPoint -= 1; }
 	void Set_Blink() { m_dwBlink = GetTickCount(); }
 	void Key_Input();
 	void known_Key(int KeyNum);
 	void Normal_Attack();
+	void JumpingP();
+	void Equip_Check();
 private:
 	
 	state		m_PreState;

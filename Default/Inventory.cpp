@@ -6,6 +6,7 @@
 #include "Ui.h"
 #include "Mouse.h"
 #include "KeyMgr.h"
+#include "Equip.h"
 CInventory::CInventory()
 {
 }
@@ -114,6 +115,25 @@ void CInventory::Picking_Item()
 							m_vecItem[iIndex]->Set_Item(ITEM_END);
 						break;
 					}
+					else if (CKeyMgr::Get_Instance()->Key_Down(VK_RBUTTON) && !dynamic_cast<CMouse*>(CObjMgr::Get_Instance()->Get_Mouse())->Get_Grab() &&
+						m_vecItem[iIndex]->Get_Item() >= WEAPON&&m_vecItem[iIndex]->Get_Item() <= WEAR)
+					{
+						
+						if (m_vecItem[iIndex]->Get_Item() == WEAPON)
+						{
+							dynamic_cast<CEquip*>(CObjMgr::Get_Instance()->Get_Equip())->Get_vecItem_Iter(0)->Set_Item(WEAPON);					
+						}
+						else if (m_vecItem[iIndex]->Get_Item() ==GLOVE)
+						{
+							dynamic_cast<CEquip*>(CObjMgr::Get_Instance()->Get_Equip())->Get_vecItem_Iter(1)->Set_Item(GLOVE);
+						}
+						else
+						{
+							dynamic_cast<CEquip*>(CObjMgr::Get_Instance()->Get_Equip())->Get_vecItem_Iter(2)->Set_Item(WEAR);							
+						}
+						CObjMgr::Get_Instance()->Get_Player()->Set_StatusUp(m_vecItem[iIndex]->Get_Status().m_iSTR, 0, 0, 0, 0);
+						m_vecItem[iIndex]->Set_Item(ITEM_END);
+					}
 				}
 				++iIndex;
 				
@@ -170,4 +190,18 @@ bool CInventory::Portion_Check(ITEMID _portion)
 		}
 	}
 	return false;
+}
+
+void CInventory::UnEquip(ITEMID _ITEM)
+{
+	for (auto& iter : m_vecItem)
+	{
+		if (iter->Get_Item() == ITEM_END)
+		{
+			iter->Set_Item(_ITEM);
+			break;
+		}
+
+	}
+
 }

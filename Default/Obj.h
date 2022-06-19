@@ -67,10 +67,13 @@ public:
 	void		Set_ExpUp(int _iExp) { m_tStatus.m_iExp += _iExp; }
 	void		Set_MoneyUp(int _iMoney) { m_iMoney += _iMoney; }
 	void		Set_Price(int _iMoney) { m_iMoney = _iMoney; }
+	void		Set_StatusUp(int STR, int DEX, int INT, int LUK, int Point) { m_tStatus.m_iSTR += STR;  m_tStatus.m_iDEX += DEX;
+																	m_tStatus.m_iINT += INT; m_tStatus.m_iLUK += LUK; m_tStatus.m_iAbPoint -= Point;}
 	void		Set_LvUp() { m_tStatus.m_iLv += 1; m_tStatus.m_iExp -= m_tStatus.m_iMaxExp; m_tStatus.m_iMaxExp += 100;
 								m_tStatus.m_iMaxHp += 142; m_tStatus.m_iHp = m_tStatus.m_iMaxHp;
 								m_tStatus.m_iMaxMp += 142; m_tStatus.m_iMp = m_tStatus.m_iMaxMp;
-								m_iSkillPoint += 4; m_tStatus.m_iDamage += m_tStatus.m_iLv * 10;}
+								m_iSkillPoint += 4; m_tStatus.m_iDamage += m_tStatus.m_iLv * 10;
+								m_tStatus.m_iAbPoint += 5;}
 public:
 	virtual		void	Initialize(void)	PURE;
 	virtual		int		Update(void)		PURE;

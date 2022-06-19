@@ -18,6 +18,7 @@ public:
 	void Change_Item_pos();
 	void Use_Item(ITEMID _portion);
 	bool Portion_Check(ITEMID _portion);
+	void UnEquip(ITEMID _ITEM);
 	vector<CObj*>* Get_vecItem() { return &m_vecItem; }
 private:
 	vector<CObj*> m_vecItem;

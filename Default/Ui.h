@@ -26,7 +26,8 @@ public:
 	void Status_On_Off(bool bStatus) { m_bStatus = bStatus; }
 	bool Get_Status() { return m_bStatus; }
 	
-	void Set_ButtonF() { m_bSkBt1 = false;  m_bSkBt2 = false; m_bSkBt3 = false; m_bSkBt4 = false; }
+	void Set_ButtonSkF() { m_bSkBt1 = false; m_bSkBt2 = false; m_bSkBt3 = false; m_bSkBt4 = false; }
+	void Set_ButtonStF() { m_bStBt1 = false; m_bStBt2 = false; m_bStBt3 = false; m_bStBt4 = false; m_bStBt5 = false; }
 
 	RECT Get_ExitBt() { return m_Exitrc; }
 private:			   
@@ -38,6 +39,11 @@ private:
 	bool m_bSkBt2;
 	bool m_bSkBt3;
 	bool m_bSkBt4;
+	bool m_bStBt1;
+	bool m_bStBt2;
+	bool m_bStBt3;
+	bool m_bStBt4;
+	bool m_bStBt5;
 	bool m_bEquip;
 	bool m_bStatus;
 

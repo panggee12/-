@@ -38,7 +38,7 @@ int CItem::Update(void)
 	if (m_bDrop)
 	{
 		m_tInfo.fY -= m_fSpeed;		
-		if (m_dwUPDOWN + 1200 < GetTickCount())
+		if (m_dwUPDOWN + 800 < GetTickCount())
 		{
 			m_fSpeed *= -1.f;
 			m_dwUPDOWN = GetTickCount();
@@ -48,6 +48,8 @@ int CItem::Update(void)
 		{
 			m_tItem = ITEMID(m_iRand);
 			m_fSpeed = 0.3f;
+			m_ItemCheck = true;
+			m_bJump = true;
 			if (m_tItem == MONEY)
 			{
 				m_tInfo.fCX = 30.f;
@@ -63,7 +65,7 @@ int CItem::Update(void)
 
 				m_iMoney = rand() % 100 + 1000;
 				m_framekey = L"Money";
-				
+			
 			}
 		}
 
@@ -73,15 +75,25 @@ int CItem::Update(void)
 	else if (m_tItem == MP)
 		m_framekey = L"Mpportion";
 	else if (m_tItem == WEAPON)
+	{
+		m_tStatus.m_iSTR = 1000;
 		m_framekey = L"Weapon";
+	}
 	else if (m_tItem == WEAR)
+	{
+		m_tStatus.m_iSTR = 500;
 		m_framekey = L"Wear";
+	}
 	else if (m_tItem == GLOVE)
+	{
+		m_tStatus.m_iSTR = 500;
 		m_framekey = L"Glove";
+	}
 	else if (m_tItem == MONEY)
 		m_framekey = L"Money";
 	else
 		m_framekey = L"";
+	Jumping();
 	Update_Rect();
 	return OBJ_NOEVENT;
 }
@@ -156,7 +168,7 @@ void CItem::Render(HDC hDC)
 			0,
 			(int)m_tInfo.fCX,
 			(int)m_tInfo.fCY,
-			RGB(255, 0, 255));
+			RGB(255, 255, 250));
 	
 	
 }
